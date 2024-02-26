@@ -3,12 +3,12 @@ import { CacheType, ChatInputCommandInteraction, TextChannel } from "discord.js"
 import DefaultCommandHandler from "../DefaultCommandHandler";
 import ICommand from "../ICommand";
 import Command from "../Command";
-import PalworldBotDataManager from "../PalworldBotDataManager";
+import BotDataManager from "../BotDataManager";
 
 class GetLogs extends Command implements ICommand {
     CommandName = BotCommandsEnum.GetLogs;
     CommandDescription = "Returns the Log File";
-    CommandFunction = (interaction: ChatInputCommandInteraction<CacheType>, dataManager: PalworldBotDataManager) => {
+    CommandFunction = (interaction: ChatInputCommandInteraction<CacheType>, dataManager: BotDataManager) => {
 
         let logChannel = interaction.client.channels.cache.get(`${dataManager.LOG_CHANNEL_ID}`) as TextChannel
         

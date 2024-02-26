@@ -1,5 +1,3 @@
-import * as dotenv from "dotenv";
-dotenv.config();
 import * as fs from "fs";
 import * as path from "path";
 import ICommand from "./ICommand";
@@ -45,7 +43,6 @@ class FileSearch {
 
     return AllFiles;
   }
-
 
   /**
    * Gets all the Command Instances from the Provided Directory

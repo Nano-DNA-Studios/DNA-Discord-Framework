@@ -1,6 +1,4 @@
-import dotenv from "dotenv";
-dotenv.config();
-import CommandHandler = require("./CommandHandler");
+import CommandHandler from "./CommandHandler";
 import CommandRegisterer from "./CommandRegisterer";
 import BotData from "./BotData";
 import { Client, IntentsBitField } from "discord.js";

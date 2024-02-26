@@ -23,8 +23,6 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const dotenv = __importStar(require("dotenv"));
-dotenv.config();
 const fs = __importStar(require("fs"));
 const path = __importStar(require("path"));
 /**

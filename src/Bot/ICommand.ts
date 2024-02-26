@@ -1,5 +1,5 @@
 import IDiscordCommand = require("./IDiscordCommand");
-import BotDataManager from "./PalworldBotDataManager";
+import BotDataManager from "./BotDataManager";
 import { CacheType, ChatInputCommandInteraction, Client} from 'discord.js';
 import ICommandHandler = require("./ICommandHandler");
 

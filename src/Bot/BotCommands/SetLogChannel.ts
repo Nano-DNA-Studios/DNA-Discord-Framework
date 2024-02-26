@@ -39,4 +39,4 @@ class SetLogChannel extends Command implements ICommand {
     CommandHandler = DefaultCommandHandler.Instance();
 }
 
-export default SetLogChannel;
+export = SetLogChannel;

@@ -12,13 +12,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const dotenv_1 = __importDefault(require("dotenv"));
-dotenv_1.default.config();
-const CommandHandler = require("./CommandHandler");
+const CommandHandler_1 = __importDefault(require("./CommandHandler"));
 const CommandRegisterer_1 = __importDefault(require("./CommandRegisterer"));
 const BotData_1 = __importDefault(require("./BotData"));
 const discord_js_1 = require("discord.js");
 const FileSearch_1 = __importDefault(require("./FileSearch"));
+/**
+ * Represents an instance of a Discord Bot, has default functionality for a Discord Bot but can be extended and add custom functionality with minimal effort
+ */
 class DiscordBot {
     constructor(dataManager) {
         this.DataManager = BotData_1.default.Instance(dataManager);
@@ -37,7 +38,7 @@ class DiscordBot {
             if (!interaction.isChatInputCommand())
                 return;
             console.log(interaction.commandName);
-            new CommandHandler().HandleCommand(interaction, this.BotInstance, this.DataManager);
+            new CommandHandler_1.default().HandleCommand(interaction, this.BotInstance, this.DataManager);
         }));
     }
     RegisterCommands() {

@@ -2,9 +2,10 @@
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
+Object.defineProperty(exports, "__esModule", { value: true });
 const BotCommandsEnum_1 = __importDefault(require("./BotCommandsEnum"));
-const DefaultCommandHandler_1 = __importDefault(require("../DefaultCommandHandler"));
-const Command_1 = __importDefault(require("../Command"));
+const DefaultCommandHandler_1 = __importDefault(require("../Bot/DefaultCommandHandler"));
+const Command_1 = __importDefault(require("../Bot/Command"));
 class GetLogs extends Command_1.default {
     constructor() {
         super(...arguments);
@@ -26,4 +27,4 @@ class GetLogs extends Command_1.default {
         this.CommandHandler = DefaultCommandHandler_1.default.Instance();
     }
 }
-module.exports = GetLogs;
+exports.default = GetLogs;
