@@ -8,10 +8,14 @@
     "build": "tsc",
     "start": "cls && npm run build && node index.js"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": ["Discord", "Bot", "TypeScript", "JavaScript", "Node.js", "Framework", "Library", "Module", "Package", "NPM", "Node", "Module", "Package", "Manager", "Discord.js"],
+  "author": "Mr DNA",
   "license": "ISC",
   "dependencies": {
     "discord.js": "^14.14.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Nano-DNA-Studios/Discord-Bot-Kit.git"
   }
 }
