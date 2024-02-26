@@ -1,0 +1,17 @@
+{
+  "name": "discord-bot-kit",
+  "version": "1.0.0",
+  "description": "A node module that contains a Framework for building complex Discord Bots with ease and low barrier of entry",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc",
+    "start": "node src/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "discord.js": "^14.14.1"
+  }
+}
