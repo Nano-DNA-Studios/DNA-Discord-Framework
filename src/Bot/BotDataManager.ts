@@ -42,6 +42,7 @@ class BotDataManager implements IBotDataManager {
         if (this.FileExists()) {
             await this.LoadDataFromFile();
         } else {
+            fs.mkdirSync(this.DATA_SAVE_PATH, { recursive: true });
             await this.RegisterServerController();
             fs.writeFileSync(this.LOG_FILE_PATH, '');
             this.LoadDataFromFile();
@@ -77,10 +78,8 @@ class BotDataManager implements IBotDataManager {
 
         // Dynamically assign values from JSON to class properties
         for (const key in data) {
-            if (data.hasOwnProperty(key) && this.hasOwnProperty(key)) {
-
-                (this as any)[key] = data[key];
-            }
+            if (data.hasOwnProperty(key) && this.hasOwnProperty(key)) 
+                (this as any)[key] = data[key];   
         }
     }
 

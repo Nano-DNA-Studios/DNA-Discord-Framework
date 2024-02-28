@@ -41,6 +41,7 @@ class BotDataManager {
                 yield this.LoadDataFromFile();
             }
             else {
+                fs_1.default.mkdirSync(this.DATA_SAVE_PATH, { recursive: true });
                 yield this.RegisterServerController();
                 fs_1.default.writeFileSync(this.LOG_FILE_PATH, '');
                 this.LoadDataFromFile();
@@ -73,9 +74,8 @@ class BotDataManager {
         let data = JSON.parse(dataJSON);
         // Dynamically assign values from JSON to class properties
         for (const key in data) {
-            if (data.hasOwnProperty(key) && this.hasOwnProperty(key)) {
+            if (data.hasOwnProperty(key) && this.hasOwnProperty(key))
                 this[key] = data[key];
-            }
         }
     }
     /**
