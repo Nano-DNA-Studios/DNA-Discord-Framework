@@ -1,0 +1,78 @@
+name: Release package
+
+on:
+    workflow_dispatch:
+      inputs:
+        release-type:
+          description: 'Release type (one of): patch, minor, major, prepatch, preminor, premajor, prerelease'
+          required: true
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout project repository
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      # Setup Node.js environment
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          registry-url: https://registry.npmjs.org/
+          node-version: '14'
+
+      # Install dependencies (required by Run tests step)
+      #- name: Install dependencies
+      #  run: yarn install
+
+      # Tests
+      #- name: Run tests
+      #  run: yarn test
+
+      # Configure Git
+      - name: Git configuration
+        run: |
+          git config --global user.email "93613553+MrDNAlex@users.noreply.github.com"
+          git config --global user.name "MrDNAlex"
+
+      # Bump package version
+      # Use tag latest
+      - name: Bump release version
+        if: startsWith(github.event.inputs.release-type, 'pre') != true
+        run: |
+          echo "NEW_VERSION=$(npm --no-git-tag-version version $RELEASE_TYPE)" >> $GITHUB_ENV
+          echo "RELEASE_TAG=latest" >> $GITHUB_ENV
+        env:
+          RELEASE_TYPE: ${{ github.event.inputs.release-type }}
+
+      # Update changelog unreleased section with new version
+      - name: Update changelog
+        uses: superfaceai/release-changelog-action@v1
+        with:
+          path-to-changelog: CHANGELOG.md
+          version: ${{ env.NEW_VERSION }}
+          operation: release
+
+      # Commit changes
+      - name: Commit CHANGELOG.md and package.json changes and create tag
+        run: |
+          git add "package.json"
+          git add "CHANGELOG.md"
+          git commit -m "chore: release ${{ env.NEW_VERSION }}"
+          git tag ${{ env.NEW_VERSION }}
+
+      # Publish version to public repository
+      - name: Publish
+        run: yarn publish --verbose --access public --tag ${{ env.RELEASE_TAG }}
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      # Read version changelog
+      - id: get-changelog
+        name: Get version changelog
+        uses: superfaceai/release-changelog-action@v1
+        with:
+          path-to-changelog: CHANGELOG.md
+          version: ${{ env.NEW_VERSION }}
+          operation: read
