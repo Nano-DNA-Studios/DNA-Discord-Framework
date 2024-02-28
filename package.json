@@ -1,5 +1,5 @@
 {
-  "name": "discord-bot-kit",
+  "name": "dna-discord-framework",
   "version": "1.0.0",
   "description": "A node module that contains a Framework for building complex Discord Bots with ease and low barrier of entry",
   "main": "index.js",
@@ -8,7 +8,25 @@
     "build": "tsc",
     "start": "cls && npm run build && node index.js"
   },
-  "keywords": ["Discord", "Bot", "TypeScript", "JavaScript", "Node.js", "Framework", "Library", "Module", "Package", "NPM", "Node", "Module", "Package", "Manager", "Discord.js"],
+  "keywords": [
+    "Discord",
+    "Bot",
+    "TypeScript",
+    "JavaScript",
+    "Node.js",
+    "Framework",
+    "Library",
+    "Module",
+    "Package",
+    "NPM",
+    "Node",
+    "Module",
+    "Package",
+    "Manager",
+    "Discord.js",
+    "DNA",
+    "NanoDNA"
+  ],
   "author": "Mr DNA",
   "license": "ISC",
   "dependencies": {
@@ -16,6 +34,6 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Nano-DNA-Studios/Discord-Bot-Kit.git"
+    "url": "git+https://github.com/Nano-DNA-Studios/DNA-Discord-Framework"
   }
 }
