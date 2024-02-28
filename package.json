@@ -35,5 +35,8 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Nano-DNA-Studios/DNA-Discord-Framework.git"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/@MrDNAlex"
   }
 }
