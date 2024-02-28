@@ -68,13 +68,6 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
-      # Push repository changes
-      - name: Push changes to repository
-        env:
-          GITHUB_TOKEN: ${{ secrets.PERSONAL_TOKEN }}
-        run: |
-          git push origin && git push --tags
-
       # Read version changelog
       - id: get-changelog
         name: Get version changelog
