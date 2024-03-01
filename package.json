@@ -35,5 +35,10 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Nano-DNA-Studios/DNA-Discord-Framework.git"
+  },
+  "exports":
+  {
+    ".": "./index.js",
+    "./src/*": "./src/*"
   }
 }

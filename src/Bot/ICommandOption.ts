@@ -1,4 +1,4 @@
-import OptionTypes from "./CommandOptionTypes";
+import OptionTypes from "./OptionTypes";
 import ICommandOptionChoice from "./ICommandOptionChoice";
 
 /**
