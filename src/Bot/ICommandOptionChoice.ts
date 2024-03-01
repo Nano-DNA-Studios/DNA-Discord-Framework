@@ -11,3 +11,5 @@ interface ICommandOptionChoice
      */
     value: Number | string;
 }
+
+export default ICommandOptionChoice;
