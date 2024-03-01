@@ -8,7 +8,8 @@ Bot.StartBot();
 
 
 //Exports
-//export {default as BotDataManager} from "./src/Bot/BotDataManager";
+/*
+export {default as BotDataManager} from "./src/Bot/BotDataManager";
 export {default as Command} from "./src/Bot/Command";
 export {default as CommandHandler} from "./src/Bot/CommandHandler";
 export {default as BotCommandLog} from "./src/Bot/BotCommandLog";
@@ -32,4 +33,5 @@ export {default as ILogMessage} from "./src/Bot/ILogMessage";
 export {default as BotCommandsEnum} from "./src/BotCommands/BotCommandsEnum";
 export {default as GetLogs} from "./src/BotCommands/GetLogs";
 export {default as SetLogChannel} from "./src/BotCommands/SetLogChannel";
+*/
 
