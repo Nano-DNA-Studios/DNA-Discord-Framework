@@ -1,6 +1,6 @@
 {
   "name": "dna-discord-framework",
-  "version": "1.0.24",
+  "version": "1.0.25",
   "description": "A node module that contains a Framework for building complex Discord Bots with ease and low barrier of entry",
   "main": "index.js",
   "scripts": {
@@ -35,10 +35,6 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Nano-DNA-Studios/DNA-Discord-Framework.git"
-  },
-  "exports":
-  {
-    ".": "./index.js",
-    "./src/*": "./src/*"
   }
+ 
 }
