@@ -1,6 +1,6 @@
 import * as fs from "fs";
 import * as path from "path";
-import ICommand from "./ICommand";
+import ICommand from "./Bot/ICommand";
 
 /**
  * Utility Class for Searching Files
@@ -13,11 +13,22 @@ class FileSearch {
   private _directoryPath: string = process.cwd() + "\\src";
 
   /**
+   * Path this Module is Located
+   */
+  private _modulePath: string = __dirname + "\\BotCommands";
+
+  /**
   * Gets all the files with JavaScript endings in the Bot Directory
   * @returns An Array of Java Script File Paths within the Bot Directory
   */
   public GetAllJSFiles(): string[] {
-    return this.GetFiles(this._directoryPath, ".js");
+    let AllFiles: string[] = [];
+
+    console.log(this._modulePath);
+    AllFiles.push(...this.GetFiles(this._directoryPath, ".js")); 
+    AllFiles.push(...this.GetFiles(this._modulePath, ".js"));
+
+    return AllFiles
   }
 
   /**

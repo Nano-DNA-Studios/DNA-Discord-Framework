@@ -4,7 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const BotCommandsEnum_1 = __importDefault(require("./BotCommandsEnum"));
-const CommandOptionTypes_1 = __importDefault(require("../Bot/CommandOptionTypes"));
+const OptionTypes_1 = __importDefault(require("../Bot/OptionTypes"));
 const discord_js_1 = require("discord.js");
 const DefaultCommandHandler_1 = __importDefault(require("../Bot/DefaultCommandHandler"));
 const Command_1 = __importDefault(require("../Bot/Command"));
@@ -31,7 +31,7 @@ class SetLogChannel extends Command_1.default {
         this.FailMessages = [];
         this.Options = [
             {
-                type: CommandOptionTypes_1.default.Channel,
+                type: OptionTypes_1.default.Channel,
                 name: "logchannel",
                 description: "Channel ID to send Bot and Server Logs to",
                 required: true

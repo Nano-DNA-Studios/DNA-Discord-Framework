@@ -1,5 +1,5 @@
 import ICommand from "./ICommand";
-import FileSearch from "./FileSearch";
+import FileSearch from "../FileSearch";
 import Command from "./Command";
 
 /**
