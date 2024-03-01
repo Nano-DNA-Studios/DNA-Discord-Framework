@@ -155,4 +155,4 @@ class BotDataManager implements IBotDataManager {
     }
 }
 
-export = BotDataManager;
+export default BotDataManager;
