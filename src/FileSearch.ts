@@ -24,7 +24,6 @@ class FileSearch {
   public GetAllJSFiles(): string[] {
     let AllFiles: string[] = [];
 
-    console.log(this._modulePath);
     AllFiles.push(...this.GetFiles(this._directoryPath, ".js")); 
     AllFiles.push(...this.GetFiles(this._modulePath, ".js"));
 
