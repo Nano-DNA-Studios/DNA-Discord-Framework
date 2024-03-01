@@ -9,7 +9,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const discord_js_1 = require("discord.js");
+const rest_1 = require("@discordjs/rest");
+const v9_1 = require("discord-api-types/v9");
 /**
  * Registers the commands to the Discord Server
  */
@@ -20,7 +21,7 @@ class CommandRegisterer {
     constructor(dataManager) {
         this.Commands = [];
         this._dataManager = dataManager;
-        this.rest = new discord_js_1.REST({ version: "10" }).setToken(`${this._dataManager.DISCORD_BOT_TOKEN}`);
+        this.rest = new rest_1.REST({ version: "10" }).setToken(`${this._dataManager.DISCORD_BOT_TOKEN}`);
     }
     /**
      * Maps the Commands to be Added to Discord Commands and Adds to the List of Commands to be Registered and
@@ -47,7 +48,7 @@ class CommandRegisterer {
                         choices: option.choices || []
                     }))
                 }));
-                yield this.rest.put(discord_js_1.Routes.applicationGuildCommands(this._dataManager.CLIENT_ID, this._dataManager.GUILD_ID), {
+                yield this.rest.put(v9_1.Routes.applicationGuildCommands(this._dataManager.CLIENT_ID, this._dataManager.GUILD_ID), {
                     body: body
                 });
                 console.log('Slash Commands Registered');

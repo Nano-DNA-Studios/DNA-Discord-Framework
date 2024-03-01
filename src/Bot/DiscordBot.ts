@@ -2,7 +2,7 @@ import CommandHandler from "./CommandHandler";
 import CommandRegisterer from "./CommandRegisterer";
 import BotData from "./BotData";
 import { Client, IntentsBitField } from "discord.js";
-import FileSearch from "./FileSearch";
+import FileSearch from "../FileSearch";
 import BotDataManager from "./BotDataManager";
 import IDiscordBot from "./IDiscordBot";
 

@@ -8,7 +8,7 @@ Bot.StartBot();
 
 
 //Exports
-export {default as BotDataManager} from "./src/Bot/BotDataManager";
+//export {default as BotDataManager} from "./src/Bot/BotDataManager";
 export {default as Command} from "./src/Bot/Command";
 export {default as CommandHandler} from "./src/Bot/CommandHandler";
 export {default as BotCommandLog} from "./src/Bot/BotCommandLog";
@@ -20,7 +20,7 @@ export {default as CommandRegisterer} from "./src/Bot/CommandRegisterer";
 export {default as DefaultCommandHandler} from "./src/Bot/DefaultCommandHandler";
 export {default as DiscordBot} from "./src/Bot/DiscordBot";
 export {default as EmptyCustomCommandHandler} from "./src/Bot/EmptyCustomCommandHandler";
-export {default as FileSearch} from "./src/Bot/FileSearch";
+export {default as FileSearch} from "./src/FileSearch";
 export {default as IBotDataManager}from "./src/Bot/IBotDataManager";
 export {default as ICommand} from "./src/Bot/ICommand";
 export {default as ICommandHandler} from "./src/Bot/ICommandHandler";

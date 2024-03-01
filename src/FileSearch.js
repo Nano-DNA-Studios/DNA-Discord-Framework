@@ -34,13 +34,21 @@ class FileSearch {
          * Path the the Directory of the Bot
          */
         this._directoryPath = process.cwd() + "\\src";
+        /**
+         * Path this Module is Located
+         */
+        this._modulePath = __dirname + "\\BotCommands";
     }
     /**
     * Gets all the files with JavaScript endings in the Bot Directory
     * @returns An Array of Java Script File Paths within the Bot Directory
     */
     GetAllJSFiles() {
-        return this.GetFiles(this._directoryPath, ".js");
+        let AllFiles = [];
+        console.log(this._modulePath);
+        AllFiles.push(...this.GetFiles(this._directoryPath, ".js"));
+        AllFiles.push(...this.GetFiles(this._modulePath, ".js"));
+        return AllFiles;
     }
     /**
     * Gets all the Java Script Files within the provided directory and subdirectories through recursion
