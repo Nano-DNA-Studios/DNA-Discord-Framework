@@ -1,5 +1,5 @@
 import BotCommandsEnum from "./BotCommandsEnum";
-import OptionTypes from "../Bot/CommandOptionTypes";
+import OptionTypes from "../Bot/OptionTypes";
 import { CacheType, ChatInputCommandInteraction, TextChannel } from "discord.js";
 import DefaultCommandHandler from "../Bot/DefaultCommandHandler";
 import ICommand from "../Bot/ICommand";
