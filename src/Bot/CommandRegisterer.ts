@@ -1,4 +1,5 @@
-import { REST, Routes } from "discord.js";
+import { REST } from "@discordjs/rest";
+import { Routes } from "discord-api-types/v9";
 import ICommandOption from "./ICommandOption";
 import ICommand from "./ICommand";
 import IDiscordCommand from "./IDiscordCommand";
