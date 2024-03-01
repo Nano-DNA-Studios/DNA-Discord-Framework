@@ -27,4 +27,4 @@ class GetLogs extends Command implements ICommand {
     CommandHandler = DefaultCommandHandler.Instance();
 }
 
-export default GetLogs;
+export = GetLogs;
