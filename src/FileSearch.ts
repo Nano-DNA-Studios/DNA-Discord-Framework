@@ -15,7 +15,7 @@ class FileSearch {
   /**
    * Path this Module is Located
    */
-  private _modulePath: string = __dirname + "\\BotCommands";
+  private _modulePath: string = __dirname;
 
   /**
   * Gets all the files with JavaScript endings in the Bot Directory
