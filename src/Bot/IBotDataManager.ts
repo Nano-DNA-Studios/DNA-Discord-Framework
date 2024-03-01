@@ -1,5 +1,4 @@
 
-
 /**
  * Interface for the Bot Data Manager
  */

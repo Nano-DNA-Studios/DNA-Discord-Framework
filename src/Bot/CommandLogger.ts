@@ -2,6 +2,9 @@ import { CacheType, ChatInputCommandInteraction, InteractionResponse, TextChanne
 import BotDataManager from './BotDataManager';
 import BotCommandLog from './BotCommandLog';
 
+/**
+ * Logs the Command Responses and Stores the Log
+ */
 class CommandLogger {
  
      /**
@@ -52,4 +55,4 @@ class CommandLogger {
 
 }
 
-export = CommandLogger;
+export default CommandLogger;

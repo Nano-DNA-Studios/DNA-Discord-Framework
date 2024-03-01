@@ -8,10 +8,6 @@ const DefaultCommandHandler_1 = __importDefault(require("./DefaultCommandHandler
  * Represents a Command for a Discord Bot
  */
 class Command {
-    /**
-     * Initializes the Command
-     * @param data
-     */
     constructor() {
         this.CommandName = '';
         this.CommandDescription = '';
@@ -23,18 +19,6 @@ class Command {
         this.FailMessages = [];
         this.Options = [];
         this.CommandHandler = DefaultCommandHandler_1.default.Instance();
-        /*
-        this.CommandName = data.CommandName;
-        this.CommandDescription = data.CommandDescription;
-        this.CommandFunction = data.CommandFunction;
-        this.ReplyMessage = data.ReplyMessage;
-        this.LogMessage = data.LogMessage;
-        this.ErrorMessage = data.ErrorMessage;
-        this.SuccessMessage = data.SuccessMessage;
-        this.FailMessages = data.FailMessages;
-        this.Options = data.Options;
-        this.CommandHandler = data.CommandHandler;
-        */
     }
     /**
      * Runs the Discord Command

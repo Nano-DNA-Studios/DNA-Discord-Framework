@@ -1,4 +1,5 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 var OptionTypes;
 (function (OptionTypes) {
     OptionTypes[OptionTypes["SubCommand"] = 1] = "SubCommand";
@@ -13,4 +14,4 @@ var OptionTypes;
     OptionTypes[OptionTypes["Number"] = 10] = "Number";
     OptionTypes[OptionTypes["Attachment"] = 11] = "Attachment";
 })(OptionTypes || (OptionTypes = {}));
-module.exports = OptionTypes;
+exports.default = OptionTypes;
