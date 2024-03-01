@@ -11,6 +11,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
+Object.defineProperty(exports, "__esModule", { value: true });
 const CommandFactory_1 = __importDefault(require("./CommandFactory"));
 /**
  * Class Handling Command Execution, and Delegates to Custom Command Handlers
@@ -25,4 +26,4 @@ class CommandHandler {
         });
     }
 }
-module.exports = CommandHandler;
+exports.default = CommandHandler;

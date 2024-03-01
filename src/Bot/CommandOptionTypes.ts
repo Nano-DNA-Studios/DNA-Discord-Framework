@@ -12,5 +12,5 @@ enum OptionTypes {
     Attachment = 11,
   }
   
-  export = OptionTypes;
+  export default OptionTypes;
   

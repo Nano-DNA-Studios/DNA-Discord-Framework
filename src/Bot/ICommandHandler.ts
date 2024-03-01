@@ -16,4 +16,4 @@ interface ICommandHandler extends CommandLogger{
     HandleCommand(interaction: ChatInputCommandInteraction<CacheType>, client: Client, BotDataManager: BotDataManager): Promise<void>
 }
 
-export = ICommandHandler;
+export default ICommandHandler;

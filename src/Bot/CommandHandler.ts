@@ -19,4 +19,4 @@ class CommandHandler implements ICommandHandler {
     }
 }
 
-export = CommandHandler;
+export default CommandHandler;

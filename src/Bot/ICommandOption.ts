@@ -32,4 +32,4 @@ interface ICommandOption
     choices?: ICommandOptionChoice[];
 }
 
-export = ICommandOption;
+export default ICommandOption;

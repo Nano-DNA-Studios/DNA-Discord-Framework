@@ -11,7 +11,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
+Object.defineProperty(exports, "__esModule", { value: true });
 const BotCommandLog_1 = __importDefault(require("./BotCommandLog"));
+/**
+ * Logs the Command Responses and Stores the Log
+ */
 class CommandLogger {
     /**
     * Initializes all info needed for the Response to the Command
@@ -46,4 +50,4 @@ class CommandLogger {
  * Stores the Response Message to the Command
  */
 CommandLogger.ResponseMessage = "";
-module.exports = CommandLogger;
+exports.default = CommandLogger;

@@ -20,4 +20,4 @@ interface IDiscordCommand {
     Options: ICommandOption[];
 }
 
-export = IDiscordCommand;
+export default IDiscordCommand;

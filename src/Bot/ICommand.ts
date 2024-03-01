@@ -1,7 +1,7 @@
-import IDiscordCommand = require("./IDiscordCommand");
+import IDiscordCommand from "./IDiscordCommand";
 import BotDataManager from "./BotDataManager";
 import { CacheType, ChatInputCommandInteraction, Client} from 'discord.js';
-import ICommandHandler = require("./ICommandHandler");
+import ICommandHandler from "./ICommandHandler";
 
 /**
  * Describes the structure of a command for a Discord Bot

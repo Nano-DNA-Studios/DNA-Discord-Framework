@@ -21,26 +21,6 @@ class Command implements ICommand {
     public CommandHandler: ICommandHandler = DefaultCommandHandler.Instance();
 
     /**
-     * Initializes the Command
-     * @param data
-     */
-    constructor() {
-        /*
-        this.CommandName = data.CommandName;
-        this.CommandDescription = data.CommandDescription;
-        this.CommandFunction = data.CommandFunction;
-        this.ReplyMessage = data.ReplyMessage;
-        this.LogMessage = data.LogMessage;
-        this.ErrorMessage = data.ErrorMessage;
-        this.SuccessMessage = data.SuccessMessage;
-        this.FailMessages = data.FailMessages;
-        this.Options = data.Options;
-        this.CommandHandler = data.CommandHandler;
-        */
-    }
-    
-
-    /**
      * Runs the Discord Command
      * @param BotDataManager Instance of the BotDataManager
      * @param interaction Instance of the ChatInputCommandInteraction
