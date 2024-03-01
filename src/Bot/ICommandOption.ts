@@ -1,4 +1,5 @@
 import OptionTypes from "./CommandOptionTypes";
+import ICommandOptionChoice from "./ICommandOptionChoice";
 
 /**
  * Describes the structure of a commands option
@@ -30,6 +31,5 @@ interface ICommandOption
      */
     choices?: ICommandOptionChoice[];
 }
-
 
 export = ICommandOption;
