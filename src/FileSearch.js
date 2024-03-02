@@ -37,7 +37,7 @@ class FileSearch {
         /**
          * Path this Module is Located
          */
-        this._modulePath = __dirname + "\\BotCommands";
+        this._modulePath = __dirname;
     }
     /**
     * Gets all the files with JavaScript endings in the Bot Directory
@@ -45,7 +45,6 @@ class FileSearch {
     */
     GetAllJSFiles() {
         let AllFiles = [];
-        console.log(this._modulePath);
         AllFiles.push(...this.GetFiles(this._directoryPath, ".js"));
         AllFiles.push(...this.GetFiles(this._modulePath, ".js"));
         return AllFiles;

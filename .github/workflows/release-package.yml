@@ -36,15 +36,12 @@ jobs:
           git config --global user.email "93613553+MrDNAlex@users.noreply.github.com"
           git config --global user.name "MrDNAlex"
 
-      # Bump package version
-      # Use tag latest
-      - name: Bump release version
-        if: startsWith(github.event.inputs.release-type, 'pre') != true
+      # Set current package version as NEW_VERSION without bumping
+      - name: Set current version as NEW_VERSION
         run: |
-          echo "NEW_VERSION=$(npm --no-git-tag-version version $RELEASE_TYPE)" >> $GITHUB_ENV
+          CURRENT_VERSION=$(node -p "require('./package.json').version")
+          echo "NEW_VERSION=$CURRENT_VERSION" >> $GITHUB_ENV
           echo "RELEASE_TAG=latest" >> $GITHUB_ENV
-        env:
-          RELEASE_TYPE: ${{ github.event.inputs.release-type }}
 
       # Update changelog unreleased section with new version
       - name: Update changelog

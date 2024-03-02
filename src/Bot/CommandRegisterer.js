@@ -36,7 +36,7 @@ class CommandRegisterer {
     RegisterCommands() {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                console.log('Registering Slash Commands');
+                console.log('Registering Commands');
                 let body = this.Commands.map(element => ({
                     name: element.CommandName,
                     description: element.CommandDescription,
@@ -48,10 +48,11 @@ class CommandRegisterer {
                         choices: option.choices || []
                     }))
                 }));
+                console.log(`Registering Following Commands: [${body.map(command => command.name).join(', ')}]`);
                 yield this.rest.put(v9_1.Routes.applicationGuildCommands(this._dataManager.CLIENT_ID, this._dataManager.GUILD_ID), {
                     body: body
                 });
-                console.log('Slash Commands Registered');
+                console.log('Commands Registered');
             }
             catch (error) {
                 console.log(`Error Occurred: ${error}`);

@@ -11,8 +11,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
+Object.defineProperty(exports, "__esModule", { value: true });
 const fs_1 = __importDefault(require("fs"));
-const readline_1 = __importDefault(require("readline"));
 /**
  * The Default Bot Data Manager, implementing the bareminimum for a Bot Data Manager
  */
@@ -36,22 +36,24 @@ class BotDataManager {
      */
     LoadData() {
         return __awaiter(this, void 0, void 0, function* () {
-            if (this.FileExists()) {
+            if (this.SaveFileExists()) {
                 yield this.LoadDataFromFile();
             }
-            else {
-                fs_1.default.mkdirSync(this.DATA_SAVE_PATH, { recursive: true });
-                yield this.RegisterServerController();
-                fs_1.default.writeFileSync(this.LOG_FILE_PATH, '');
-                this.LoadDataFromFile();
-            }
         });
+    }
+    /**
+     * Initializes the Data by creating the Save Path and the File
+     */
+    InitializeData() {
+        fs_1.default.mkdirSync(this.DATA_SAVE_PATH, { recursive: true });
+        fs_1.default.writeFileSync(this.FILE_SAVE_PATH, '');
+        fs_1.default.writeFileSync(this.LOG_FILE_PATH, '');
     }
     /**
      * Determines if the Data File Exists
      * @returns True if the file exists, False if it does not
      */
-    FileExists() {
+    SaveFileExists() {
         return fs_1.default.existsSync(this.FILE_SAVE_PATH);
     }
     /**
@@ -76,27 +78,6 @@ class BotDataManager {
             if (data.hasOwnProperty(key) && this.hasOwnProperty(key))
                 this[key] = data[key];
         }
-    }
-    /**
-     * Registers the Server Controller by asking for the Bot Token
-     */
-    RegisterServerController() {
-        return __awaiter(this, void 0, void 0, function* () {
-            const setupReader = readline_1.default.createInterface({
-                input: process.stdin,
-                output: process.stdout
-            });
-            //Setup Question format
-            const prompt = (query) => new Promise((resolve) => setupReader.question(query, resolve));
-            // Prompt for bot token and guild ID asynchronously
-            this.DISCORD_BOT_TOKEN = yield prompt('Enter the Discord Bot Token: ');
-            this.GUILD_NAME = yield prompt('Enter the Guild Name: ');
-            // Close the readline interface after collecting all necessary inputs
-            setupReader.close();
-            //Save the data to the file
-            let JSONData = JSON.stringify(this, null, 4);
-            fs_1.default.writeFileSync(this.FILE_SAVE_PATH, JSONData);
-        });
     }
     /**
      * Gets the Data in JSON Format
@@ -139,4 +120,4 @@ class BotDataManager {
         fs_1.default.appendFileSync(this.LOG_FILE_PATH, JSON.stringify(log, null, 4));
     }
 }
-module.exports = BotDataManager;
+exports.default = BotDataManager;

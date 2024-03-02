@@ -1,6 +1,6 @@
 import IBotDataManager from "./IBotDataManager";
 import fs from 'fs';
-import readline, { Interface as ReadLineInterface } from 'readline';
+
 import BotCommandLog from "./BotCommandLog";
 
 /**
@@ -38,22 +38,25 @@ class BotDataManager implements IBotDataManager {
      * Loads the Data from the File or Registers it by creating the Default Data and file
      */
     public async LoadData() {
-
-        if (this.FileExists()) {
+        if (this.SaveFileExists()) {
             await this.LoadDataFromFile();
-        } else {
-            fs.mkdirSync(this.DATA_SAVE_PATH, { recursive: true });
-            await this.RegisterServerController();
-            fs.writeFileSync(this.LOG_FILE_PATH, '');
-            this.LoadDataFromFile();
-        }
+        } 
+    }
+
+    /**
+     * Initializes the Data by creating the Save Path and the File
+     */
+    public InitializeData(): void {
+        fs.mkdirSync(this.DATA_SAVE_PATH, { recursive: true });
+        fs.writeFileSync(this.FILE_SAVE_PATH, '');
+        fs.writeFileSync(this.LOG_FILE_PATH, '');
     }
 
     /**
      * Determines if the Data File Exists
      * @returns True if the file exists, False if it does not
      */
-    protected FileExists(): boolean {
+    public SaveFileExists(): boolean {
         return fs.existsSync(this.FILE_SAVE_PATH);
     }
 
@@ -83,35 +86,13 @@ class BotDataManager implements IBotDataManager {
         }
     }
 
-    /**
-     * Registers the Server Controller by asking for the Bot Token
-     */
-    private async RegisterServerController(): Promise<void> {
-        const setupReader: ReadLineInterface = readline.createInterface({
-            input: process.stdin,
-            output: process.stdout
-        });
-
-        //Setup Question format
-        const prompt = (query: string) => new Promise<string>((resolve) => setupReader.question(query, resolve));
-
-        // Prompt for bot token and guild ID asynchronously
-        this.DISCORD_BOT_TOKEN = await prompt('Enter the Discord Bot Token: ');
-        this.GUILD_NAME = await prompt('Enter the Guild Name: ');
-
-        // Close the readline interface after collecting all necessary inputs
-        setupReader.close();
-
-        //Save the data to the file
-        let JSONData: string = JSON.stringify(this, null, 4);
-        fs.writeFileSync(this.FILE_SAVE_PATH, JSONData);
-    }
+   
 
     /**
      * Gets the Data in JSON Format
      * @returns A string of the Data in JSON Format
      */
-    private GetJSONFormat(): string {
+    protected GetJSONFormat(): string {
         return JSON.stringify(this, null, 4);
     }
 
