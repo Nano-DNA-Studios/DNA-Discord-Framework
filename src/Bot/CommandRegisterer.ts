@@ -34,7 +34,7 @@ class CommandRegisterer {
      */
     public async RegisterCommands() {
         try {
-            console.log('Registering Slash Commands');
+            console.log('Registering Commands');
 
             let body =  this.Commands.map(element => ({
                 name: element.CommandName,
@@ -48,6 +48,8 @@ class CommandRegisterer {
                 }))
             }));
 
+            console.log(`Registering Following Commands: [${body.map(command => command.name).join(', ')}]`);
+
             await this.rest.put(
                 Routes.applicationGuildCommands(
                     this._dataManager.CLIENT_ID!,
@@ -58,7 +60,7 @@ class CommandRegisterer {
                 }
             );
 
-            console.log('Slash Commands Registered');
+            console.log('Commands Registered');
         } catch (error) {
             console.log(`Error Occurred: ${error}`);
         }

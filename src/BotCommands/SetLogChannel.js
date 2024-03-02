@@ -2,7 +2,6 @@
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-Object.defineProperty(exports, "__esModule", { value: true });
 const BotCommandsEnum_1 = __importDefault(require("./BotCommandsEnum"));
 const OptionTypes_1 = __importDefault(require("../Bot/OptionTypes"));
 const discord_js_1 = require("discord.js");
@@ -40,4 +39,4 @@ class SetLogChannel extends Command_1.default {
         this.CommandHandler = DefaultCommandHandler_1.default.Instance();
     }
 }
-exports.default = SetLogChannel;
+module.exports = SetLogChannel;

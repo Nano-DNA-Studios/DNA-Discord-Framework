@@ -32,6 +32,11 @@ interface IDiscordBot {
      * Starts the Discord Bot
      */
     StartBot(): Promise<void>
+
+    /**
+     * Makes the Bot Login by using the Token Provided
+     */
+    Login(): void
 }
 
 export default IDiscordBot;

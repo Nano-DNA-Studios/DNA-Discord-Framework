@@ -11,6 +11,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
+Object.defineProperty(exports, "__esModule", { value: true });
 const fs_1 = __importDefault(require("fs"));
 const readline_1 = __importDefault(require("readline"));
 /**
@@ -36,22 +37,24 @@ class BotDataManager {
      */
     LoadData() {
         return __awaiter(this, void 0, void 0, function* () {
-            if (this.FileExists()) {
+            if (this.SaveFileExists()) {
                 yield this.LoadDataFromFile();
             }
+            /*
             else {
-                fs_1.default.mkdirSync(this.DATA_SAVE_PATH, { recursive: true });
-                yield this.RegisterServerController();
-                fs_1.default.writeFileSync(this.LOG_FILE_PATH, '');
+                fs.mkdirSync(this.DATA_SAVE_PATH, { recursive: true });
+                await this.RegisterServerController();
+                fs.writeFileSync(this.LOG_FILE_PATH, '');
                 this.LoadDataFromFile();
             }
+            */
         });
     }
     /**
      * Determines if the Data File Exists
      * @returns True if the file exists, False if it does not
      */
-    FileExists() {
+    SaveFileExists() {
         return fs_1.default.existsSync(this.FILE_SAVE_PATH);
     }
     /**
@@ -78,9 +81,9 @@ class BotDataManager {
         }
     }
     /**
-     * Registers the Server Controller by asking for the Bot Token
+     * Registers the Bot Token by asking for the Bot Token, Used when the first Instance of the Bot is created
      */
-    RegisterServerController() {
+    RegisterBotToken() {
         return __awaiter(this, void 0, void 0, function* () {
             const setupReader = readline_1.default.createInterface({
                 input: process.stdin,
@@ -90,7 +93,33 @@ class BotDataManager {
             const prompt = (query) => new Promise((resolve) => setupReader.question(query, resolve));
             // Prompt for bot token and guild ID asynchronously
             this.DISCORD_BOT_TOKEN = yield prompt('Enter the Discord Bot Token: ');
-            this.GUILD_NAME = yield prompt('Enter the Guild Name: ');
+            // Close the readline interface after collecting all necessary inputs
+            setupReader.close();
+            //Save the data to the file
+            let JSONData = JSON.stringify(this, null, 4);
+            fs_1.default.writeFileSync(this.FILE_SAVE_PATH, JSONData);
+        });
+    }
+    /**
+     * Registers the Guild Name by asking for the Guild Name, Determines which Server to Connect to
+     * @param options Array of Guild Names to choose from
+     */
+    RegisterGuildName(options) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const setupReader = readline_1.default.createInterface({
+                input: process.stdin,
+                output: process.stdout
+            });
+            if (options.length > 1) {
+                console.log('\nSelect the Guild Name from the following options:');
+                console.log("\n" + options.join('\n') + "\n");
+                //Setup Question format
+                const prompt = (query) => new Promise((resolve) => setupReader.question(query, resolve));
+                // Prompt for bot token and guild ID asynchronously
+                this.GUILD_NAME = yield prompt('Enter the Guild Name: ');
+            }
+            else
+                this.GUILD_NAME = options[0];
             // Close the readline interface after collecting all necessary inputs
             setupReader.close();
             //Save the data to the file
@@ -139,4 +168,4 @@ class BotDataManager {
         fs_1.default.appendFileSync(this.LOG_FILE_PATH, JSON.stringify(log, null, 4));
     }
 }
-module.exports = BotDataManager;
+exports.default = BotDataManager;

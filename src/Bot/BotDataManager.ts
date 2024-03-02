@@ -39,21 +39,24 @@ class BotDataManager implements IBotDataManager {
      */
     public async LoadData() {
 
-        if (this.FileExists()) {
+        if (this.SaveFileExists()) {
             await this.LoadDataFromFile();
-        } else {
+        } 
+        /*
+        else {
             fs.mkdirSync(this.DATA_SAVE_PATH, { recursive: true });
             await this.RegisterServerController();
             fs.writeFileSync(this.LOG_FILE_PATH, '');
             this.LoadDataFromFile();
         }
+        */
     }
 
     /**
      * Determines if the Data File Exists
      * @returns True if the file exists, False if it does not
      */
-    protected FileExists(): boolean {
+    public SaveFileExists(): boolean {
         return fs.existsSync(this.FILE_SAVE_PATH);
     }
 
@@ -84,9 +87,9 @@ class BotDataManager implements IBotDataManager {
     }
 
     /**
-     * Registers the Server Controller by asking for the Bot Token
+     * Registers the Bot Token by asking for the Bot Token, Used when the first Instance of the Bot is created
      */
-    private async RegisterServerController(): Promise<void> {
+    public async RegisterBotToken (): Promise<void> {
         const setupReader: ReadLineInterface = readline.createInterface({
             input: process.stdin,
             output: process.stdout
@@ -95,9 +98,40 @@ class BotDataManager implements IBotDataManager {
         //Setup Question format
         const prompt = (query: string) => new Promise<string>((resolve) => setupReader.question(query, resolve));
 
-        // Prompt for bot token and guild ID asynchronously
-        this.DISCORD_BOT_TOKEN = await prompt('Enter the Discord Bot Token: ');
-        this.GUILD_NAME = await prompt('Enter the Guild Name: ');
+         // Prompt for bot token and guild ID asynchronously
+         this.DISCORD_BOT_TOKEN = await prompt('Enter the Discord Bot Token: ');
+
+          // Close the readline interface after collecting all necessary inputs
+        setupReader.close();
+
+        //Save the data to the file
+        let JSONData: string = JSON.stringify(this, null, 4);
+        fs.writeFileSync(this.FILE_SAVE_PATH, JSONData);
+    }
+
+    /**
+     * Registers the Guild Name by asking for the Guild Name, Determines which Server to Connect to
+     * @param options Array of Guild Names to choose from
+     */
+    public async RegisterGuildName (options: string[]): Promise<void> {
+        const setupReader: ReadLineInterface = readline.createInterface({
+            input: process.stdin,
+            output: process.stdout
+        });
+
+        if (options.length > 1)
+        {
+            console.log('\nSelect the Guild Name from the following options:');
+            console.log("\n" + options.join('\n') + "\n");
+    
+            //Setup Question format
+            const prompt = (query: string) => new Promise<string>((resolve) => setupReader.question(query, resolve));
+    
+            // Prompt for bot token and guild ID asynchronously
+            this.GUILD_NAME = await prompt('Enter the Guild Name: ');
+    
+        } else
+            this.GUILD_NAME = options[0];
 
         // Close the readline interface after collecting all necessary inputs
         setupReader.close();
@@ -111,7 +145,7 @@ class BotDataManager implements IBotDataManager {
      * Gets the Data in JSON Format
      * @returns A string of the Data in JSON Format
      */
-    private GetJSONFormat(): string {
+    protected GetJSONFormat(): string {
         return JSON.stringify(this, null, 4);
     }
 

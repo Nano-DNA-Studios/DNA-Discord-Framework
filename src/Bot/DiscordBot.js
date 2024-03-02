@@ -17,6 +17,7 @@ const CommandRegisterer_1 = __importDefault(require("./CommandRegisterer"));
 const BotData_1 = __importDefault(require("./BotData"));
 const discord_js_1 = require("discord.js");
 const FileSearch_1 = __importDefault(require("../FileSearch"));
+const fs_1 = __importDefault(require("fs"));
 /**
  * Represents an instance of a Discord Bot, has default functionality for a Discord Bot but can be extended and add custom functionality with minimal effort
  */
@@ -32,7 +33,7 @@ class DiscordBot {
             ],
         });
         this.BotInstance.on("ready", (c) => {
-            console.log(`Bot is ready ${c.user.tag}`);
+            console.log(`Bot is ready ${c.user.tag} on ${this.DataManager.GUILD_NAME}`);
         });
         this.BotInstance.on("interactionCreate", (interaction) => __awaiter(this, void 0, void 0, function* () {
             if (!interaction.isChatInputCommand())
@@ -63,12 +64,33 @@ class DiscordBot {
     }
     StartBot() {
         return __awaiter(this, void 0, void 0, function* () {
-            yield this.DataManager.LoadData();
-            yield this.BotInstance.login(this.DataManager.DISCORD_BOT_TOKEN);
+            if (!this.DataManager.SaveFileExists()) {
+                //Create new
+                fs_1.default.mkdirSync(this.DataManager.DATA_SAVE_PATH, { recursive: true });
+                fs_1.default.writeFileSync(this.DataManager.LOG_FILE_PATH, '');
+                yield this.DataManager.RegisterBotToken();
+                yield this.Login();
+                const guilds = (yield this.BotInstance.guilds.fetch()).map(guild => guild.name);
+                yield this.DataManager.RegisterGuildName(guilds);
+            }
+            else {
+                yield this.DataManager.LoadData();
+                yield this.Login();
+            }
             let guildID = yield this.GetGuildID(this.DataManager.GUILD_NAME);
             yield this.DataManager.SetGuildID(guildID);
             yield this.DataManager.SetClientID(this.BotInstance.user.id);
             yield this.RegisterCommands();
+        });
+    }
+    Login() {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                yield this.BotInstance.login(this.DataManager.DISCORD_BOT_TOKEN);
+            }
+            catch (e) {
+                throw new Error("Invalid Bot Token, Please check the Bot Token and try again");
+            }
         });
     }
 }
