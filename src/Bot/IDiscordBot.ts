@@ -37,6 +37,22 @@ interface IDiscordBot {
      * Makes the Bot Login by using the Token Provided
      */
     Login(): void
+
+    /**
+    * Registers the Bot Token by asking for the Bot Token, Used when the first Instance of the Bot is created
+    */
+    RegisterBotToken(): Promise<void>
+
+    /**
+     * Registers the Guild Name by asking for the Guild Name, Determines which Server to Connect to
+     * @param options Array of Guild Names to choose from
+     */
+    RegisterGuildName(options: string[]): Promise<void>
+
+    /**
+     * Initializes the Bot by asking for the Bot Token and the Guild Name, and Initializes Data Storage
+     */
+    InitializeBot(): Promise<void>
 }
 
 export default IDiscordBot;
