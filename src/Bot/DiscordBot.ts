@@ -89,13 +89,13 @@ class DiscordBot<T extends BotDataManager> implements IDiscordBot {
         await this.RegisterBotToken();
         await this.Login();
         const guilds: string[] = (await this.BotInstance.guilds.fetch()).map(guild => guild.name);
-        await this.RegisterGuildName(guilds);
+        this.RegisterGuildName(guilds);
     }
 
     /* <inheritdoc> */
     public async Login(): Promise<void> {
         try {
-            console.log(`Logging in with Bot Token : ${this.DataManager.DISCORD_BOT_TOKEN}`);
+            console.log(`${this.DataManager.DISCORD_BOT_TOKEN}`);
             await this.BotInstance.login(this.DataManager.DISCORD_BOT_TOKEN);
         }
         catch (e) {
@@ -104,7 +104,7 @@ class DiscordBot<T extends BotDataManager> implements IDiscordBot {
     }
 
     /* <inheritdoc> */
-    public async RegisterBotToken(): Promise<void> {
+    public RegisterBotToken(): void {
 
         // Prompt for bot token synchronously
         this.DataManager.DISCORD_BOT_TOKEN = readlineSync.question('Enter the Discord Bot Token: ');
@@ -141,8 +141,7 @@ class DiscordBot<T extends BotDataManager> implements IDiscordBot {
     }
 
     /* <inheritdoc> */
-    public async RegisterGuildName(options: string[]): Promise<void> {
-
+    public  RegisterGuildName(options: string[]): void {
 
         if (options.length > 1) {
             console.log('\nSelect the Guild Name from the following options:');
