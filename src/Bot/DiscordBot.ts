@@ -115,37 +115,10 @@ class DiscordBot<T extends BotDataManager> implements IDiscordBot {
         console.log(`Bot Token: ${this.DataManager.DISCORD_BOT_TOKEN}`);
 
         this.DataManager.SaveData();
-        /*
-        const setupReader: ReadLineInterface = readlineSync.createInterface({
-            input: process.stdin,
-            output: process.stdout
-        });
-
-        //Setup Question format
-        const prompt = (query: string) => new Promise<string>((resolve) => setupReader.question(query, resolve));
-
-        // Prompt for bot token and guild ID asynchronously
-        this.DataManager.DISCORD_BOT_TOKEN = await prompt('Enter the Discord Bot Token: ');
-
-        console.log(`Bot Token: ${this.DataManager.DISCORD_BOT_TOKEN}`);
-
-        const rl = readlineSync.createInterface({
-            input: process.stdin,
-            output: process.stdout
-          });
-          
-          rl.question('Enter the Discord Bot Token: ', (answer) => {
-            console.log(`Received token: ${answer}`);
-            rl.close();
-          });
-
-        // Close the readline interface after collecting all necessary inputs
-        setupReader.close();
-        */
     }
 
     /* <inheritdoc> */
-    public  RegisterGuildName(options: string[]): void {
+    public RegisterGuildName(options: string[]): void {
 
         if (options.length > 1) {
             console.log('\nSelect the Guild Name from the following options:');
@@ -156,28 +129,8 @@ class DiscordBot<T extends BotDataManager> implements IDiscordBot {
         } else {
             this.DataManager.GUILD_NAME = options[0];
         }
-        /*
-        const setupReader: ReadLineInterface = readlineSync.createInterface({
-            input: process.stdin,
-            output: process.stdout
-        });
 
-        if (options.length > 1) {
-            console.log('\nSelect the Guild Name from the following options:');
-            console.log("\n" + options.join('\n') + "\n");
-
-            //Setup Question format
-            const prompt = (query: string) => new Promise<string>((resolve) => setupReader.question(query, resolve));
-
-            // Prompt for bot token and guild ID asynchronously
-            this.DataManager.GUILD_NAME = await prompt('Enter the Guild Name: ');
-
-        } else
-            this.DataManager.GUILD_NAME = options[0];
-
-        // Close the readline interface after collecting all necessary inputs
-        setupReader.close();
-        */
+        this.DataManager.SaveData();
     }
 }
 
