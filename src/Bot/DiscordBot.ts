@@ -95,8 +95,11 @@ class DiscordBot<T extends BotDataManager> implements IDiscordBot {
     /* <inheritdoc> */
     public async Login(): Promise<void> {
         try {
-            console.log(`${this.DataManager.DISCORD_BOT_TOKEN}`);
-            await this.BotInstance.login(this.DataManager.DISCORD_BOT_TOKEN);
+            await console.log(`${this.DataManager.DISCORD_BOT_TOKEN}`);
+            const token = this.DataManager.DISCORD_BOT_TOKEN;
+            console.log("Following is token");
+            console.log(token);
+            await this.BotInstance.login(token);
         }
         catch (e) {
             throw new Error("Invalid Bot Token, Please check the Bot Token and try again");

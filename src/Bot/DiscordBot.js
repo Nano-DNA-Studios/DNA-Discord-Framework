@@ -96,8 +96,11 @@ class DiscordBot {
     Login() {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                console.log(`${this.DataManager.DISCORD_BOT_TOKEN}`);
-                yield this.BotInstance.login(this.DataManager.DISCORD_BOT_TOKEN);
+                yield console.log(`${this.DataManager.DISCORD_BOT_TOKEN}`);
+                const token = this.DataManager.DISCORD_BOT_TOKEN;
+                console.log("Following is token");
+                console.log(token);
+                yield this.BotInstance.login(token);
             }
             catch (e) {
                 throw new Error("Invalid Bot Token, Please check the Bot Token and try again");
