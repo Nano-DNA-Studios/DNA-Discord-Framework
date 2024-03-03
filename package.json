@@ -30,7 +30,8 @@
   "author": "Mr DNA",
   "license": "ISC",
   "dependencies": {
-    "discord.js": "^14.14.1"
+    "discord.js": "^14.14.1",
+    "readline-sync": "^1.4.10"
   },
   "repository": {
     "type": "git",

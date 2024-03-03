@@ -5,7 +5,7 @@ import { Client, IntentsBitField } from "discord.js";
 import FileSearch from "../FileSearch";
 import BotDataManager from "./BotDataManager";
 import IDiscordBot from "./IDiscordBot";
-import readline, { Interface as ReadLineInterface } from 'readline';
+import readlineSync, { Interface as ReadLineInterface } from 'readline';
 
 /**
  * Represents an instance of a Discord Bot, has default functionality for a Discord Bot but can be extended and add custom functionality with minimal effort
@@ -103,7 +103,7 @@ class DiscordBot<T extends BotDataManager> implements IDiscordBot {
 
     /* <inheritdoc> */
     public async RegisterBotToken(): Promise<void> {
-        const setupReader: ReadLineInterface = readline.createInterface({
+        const setupReader: ReadLineInterface = readlineSync.createInterface({
             input: process.stdin,
             output: process.stdout
         });
@@ -116,7 +116,7 @@ class DiscordBot<T extends BotDataManager> implements IDiscordBot {
 
         console.log(`Bot Token: ${this.DataManager.DISCORD_BOT_TOKEN}`);
 
-        const rl = readline.createInterface({
+        const rl = readlineSync.createInterface({
             input: process.stdin,
             output: process.stdout
           });
@@ -132,7 +132,7 @@ class DiscordBot<T extends BotDataManager> implements IDiscordBot {
 
     /* <inheritdoc> */
     public async RegisterGuildName(options: string[]): Promise<void> {
-        const setupReader: ReadLineInterface = readline.createInterface({
+        const setupReader: ReadLineInterface = readlineSync.createInterface({
             input: process.stdin,
             output: process.stdout
         });
