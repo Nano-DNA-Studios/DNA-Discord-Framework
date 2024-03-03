@@ -5,7 +5,8 @@ import { Client, IntentsBitField } from "discord.js";
 import FileSearch from "../FileSearch";
 import BotDataManager from "./BotDataManager";
 import IDiscordBot from "./IDiscordBot";
-import readlineSync, { Interface as ReadLineInterface } from 'readline';
+//import readlineSync, { Interface as ReadLineInterface } from 'readline';
+import readlineSync from 'readline-sync';
 
 /**
  * Represents an instance of a Discord Bot, has default functionality for a Discord Bot but can be extended and add custom functionality with minimal effort
@@ -103,6 +104,11 @@ class DiscordBot<T extends BotDataManager> implements IDiscordBot {
 
     /* <inheritdoc> */
     public async RegisterBotToken(): Promise<void> {
+
+          // Prompt for bot token synchronously
+    this.DataManager.DISCORD_BOT_TOKEN = readlineSync.question('Enter the Discord Bot Token: ');
+    console.log(`Bot Token: ${this.DataManager.DISCORD_BOT_TOKEN}`);
+        /*
         const setupReader: ReadLineInterface = readlineSync.createInterface({
             input: process.stdin,
             output: process.stdout
@@ -128,10 +134,21 @@ class DiscordBot<T extends BotDataManager> implements IDiscordBot {
 
         // Close the readline interface after collecting all necessary inputs
         setupReader.close();
+        */
     }
 
     /* <inheritdoc> */
     public async RegisterGuildName(options: string[]): Promise<void> {
+
+
+        if (options.length > 1) {
+            console.log('\nSelect the Guild Name from the following options:');
+            console.log("\n" + options.join('\n') + "\n");
+
+            this.DataManager.GUILD_NAME = readlineSync.question('Enter the Guild Name: ');
+    console.log(`Bot Token: ${this.DataManager.DISCORD_BOT_TOKEN}`);
+        }
+        /*
         const setupReader: ReadLineInterface = readlineSync.createInterface({
             input: process.stdin,
             output: process.stdout
@@ -152,6 +169,7 @@ class DiscordBot<T extends BotDataManager> implements IDiscordBot {
 
         // Close the readline interface after collecting all necessary inputs
         setupReader.close();
+        */
     }
 }
 
