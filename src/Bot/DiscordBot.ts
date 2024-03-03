@@ -114,6 +114,18 @@ class DiscordBot<T extends BotDataManager> implements IDiscordBot {
         // Prompt for bot token and guild ID asynchronously
         this.DataManager.DISCORD_BOT_TOKEN = await prompt('Enter the Discord Bot Token: ');
 
+        console.log(`Bot Token: ${this.DataManager.DISCORD_BOT_TOKEN}`);
+
+        const rl = readline.createInterface({
+            input: process.stdin,
+            output: process.stdout
+          });
+          
+          rl.question('Enter the Discord Bot Token: ', (answer) => {
+            console.log(`Received token: ${answer}`);
+            rl.close();
+          });
+
         // Close the readline interface after collecting all necessary inputs
         setupReader.close();
     }
