@@ -71,7 +71,7 @@ class DiscordBot<T extends BotDataManager> implements IDiscordBot {
     public async StartBot(): Promise<void> {
 
         if (!this.DataManager.SaveFileExists()) {
-          this.InitializeBot();
+            this.InitializeBot();
         } else {
             await this.DataManager.LoadData();
             await this.Login();
@@ -83,7 +83,7 @@ class DiscordBot<T extends BotDataManager> implements IDiscordBot {
         await this.RegisterCommands();
     }
 
-     /* <inheritdoc> */
+    /* <inheritdoc> */
     public async InitializeBot(): Promise<void> {
         this.DataManager.InitializeData();
         await this.RegisterBotToken();
@@ -105,9 +105,11 @@ class DiscordBot<T extends BotDataManager> implements IDiscordBot {
     /* <inheritdoc> */
     public async RegisterBotToken(): Promise<void> {
 
-          // Prompt for bot token synchronously
-    this.DataManager.DISCORD_BOT_TOKEN = readlineSync.question('Enter the Discord Bot Token: ');
-    console.log(`Bot Token: ${this.DataManager.DISCORD_BOT_TOKEN}`);
+        // Prompt for bot token synchronously
+        this.DataManager.DISCORD_BOT_TOKEN = readlineSync.question('Enter the Discord Bot Token: ');
+        console.log(`Bot Token: ${this.DataManager.DISCORD_BOT_TOKEN}`);
+
+        this.DataManager.SaveData();
         /*
         const setupReader: ReadLineInterface = readlineSync.createInterface({
             input: process.stdin,
@@ -146,7 +148,9 @@ class DiscordBot<T extends BotDataManager> implements IDiscordBot {
             console.log("\n" + options.join('\n') + "\n");
 
             this.DataManager.GUILD_NAME = readlineSync.question('Enter the Guild Name: ');
-    console.log(`Bot Token: ${this.DataManager.DISCORD_BOT_TOKEN}`);
+            console.log(`Bot Token: ${this.DataManager.DISCORD_BOT_TOKEN}`);
+        } else {
+            this.DataManager.GUILD_NAME = options[0];
         }
         /*
         const setupReader: ReadLineInterface = readlineSync.createInterface({

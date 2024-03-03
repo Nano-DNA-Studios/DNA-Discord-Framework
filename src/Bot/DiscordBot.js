@@ -109,6 +109,7 @@ class DiscordBot {
             // Prompt for bot token synchronously
             this.DataManager.DISCORD_BOT_TOKEN = readline_sync_1.default.question('Enter the Discord Bot Token: ');
             console.log(`Bot Token: ${this.DataManager.DISCORD_BOT_TOKEN}`);
+            this.DataManager.SaveData();
             /*
             const setupReader: ReadLineInterface = readlineSync.createInterface({
                 input: process.stdin,
@@ -146,6 +147,9 @@ class DiscordBot {
                 console.log("\n" + options.join('\n') + "\n");
                 this.DataManager.GUILD_NAME = readline_sync_1.default.question('Enter the Guild Name: ');
                 console.log(`Bot Token: ${this.DataManager.DISCORD_BOT_TOKEN}`);
+            }
+            else {
+                this.DataManager.GUILD_NAME = options[0];
             }
             /*
             const setupReader: ReadLineInterface = readlineSync.createInterface({
