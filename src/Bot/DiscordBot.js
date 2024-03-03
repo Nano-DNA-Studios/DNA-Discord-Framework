@@ -87,6 +87,7 @@ class DiscordBot {
         return __awaiter(this, void 0, void 0, function* () {
             this.DataManager.InitializeData();
             this.RegisterBotToken();
+            yield this.DataManager.LoadData();
             yield this.Login();
             const guilds = (yield this.BotInstance.guilds.fetch()).map(guild => guild.name);
             this.RegisterGuildName(guilds);
