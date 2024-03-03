@@ -27,9 +27,9 @@ class BotDataManager {
         this.GUILD_NAME = "";
         this.CLIENT_ID = "";
         this.LOG_CHANNEL_ID = "";
-        this.DATA_SAVE_PATH = process.cwd() + '\\Resources';
-        this.FILE_SAVE_PATH = this.DATA_SAVE_PATH + '\\data.json';
-        this.LOG_FILE_PATH = this.DATA_SAVE_PATH + '\\log.txt';
+        this.DATA_SAVE_PATH = process.cwd() + '/Resources';
+        this.FILE_SAVE_PATH = this.DATA_SAVE_PATH + '/data.json';
+        this.LOG_FILE_PATH = this.DATA_SAVE_PATH + '/log.txt';
     }
     /**
      * Loads the Data from the File or Registers it by creating the Default Data and file

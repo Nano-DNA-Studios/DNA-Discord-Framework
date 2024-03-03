@@ -29,9 +29,9 @@ class BotDataManager implements IBotDataManager {
      * @param botDirectory The Directory that the Bot is located in
      */
     constructor() {
-        this.DATA_SAVE_PATH = process.cwd() + '\\Resources';
-        this.FILE_SAVE_PATH = this.DATA_SAVE_PATH + '\\data.json';
-        this.LOG_FILE_PATH = this.DATA_SAVE_PATH + '\\log.txt';
+        this.DATA_SAVE_PATH = process.cwd() + '/Resources';
+        this.FILE_SAVE_PATH = this.DATA_SAVE_PATH + '/data.json';
+        this.LOG_FILE_PATH = this.DATA_SAVE_PATH + '/log.txt';
     }
 
     /**
