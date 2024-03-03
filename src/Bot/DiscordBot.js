@@ -96,6 +96,7 @@ class DiscordBot {
     Login() {
         return __awaiter(this, void 0, void 0, function* () {
             try {
+                console.log(`Logging in with Bot Token : ${this.DataManager.DISCORD_BOT_TOKEN}`);
                 yield this.BotInstance.login(this.DataManager.DISCORD_BOT_TOKEN);
             }
             catch (e) {
