@@ -71,7 +71,7 @@ class DiscordBot<T extends BotDataManager> implements IDiscordBot {
     public async StartBot(): Promise<void> {
 
         if (!this.DataManager.SaveFileExists()) {
-            this.InitializeBot();
+            await this.InitializeBot();
         } else {
             await this.DataManager.LoadData();
             await this.Login();
@@ -86,7 +86,7 @@ class DiscordBot<T extends BotDataManager> implements IDiscordBot {
     /* <inheritdoc> */
     public async InitializeBot(): Promise<void> {
         this.DataManager.InitializeData();
-        await this.RegisterBotToken();
+        this.RegisterBotToken();
         await this.Login();
         const guilds: string[] = (await this.BotInstance.guilds.fetch()).map(guild => guild.name);
         this.RegisterGuildName(guilds);

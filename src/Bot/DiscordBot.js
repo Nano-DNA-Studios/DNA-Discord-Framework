@@ -70,7 +70,7 @@ class DiscordBot {
     StartBot() {
         return __awaiter(this, void 0, void 0, function* () {
             if (!this.DataManager.SaveFileExists()) {
-                this.InitializeBot();
+                yield this.InitializeBot();
             }
             else {
                 yield this.DataManager.LoadData();
@@ -86,7 +86,7 @@ class DiscordBot {
     InitializeBot() {
         return __awaiter(this, void 0, void 0, function* () {
             this.DataManager.InitializeData();
-            yield this.RegisterBotToken();
+            this.RegisterBotToken();
             yield this.Login();
             const guilds = (yield this.BotInstance.guilds.fetch()).map(guild => guild.name);
             this.RegisterGuildName(guilds);
