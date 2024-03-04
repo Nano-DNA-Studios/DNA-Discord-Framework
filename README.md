@@ -35,9 +35,16 @@ This leads you to the Following page
 
 ![image](https://github.com/Nano-DNA-Studios/DNA-Discord-Framework/assets/93613553/385a6112-4978-4855-a079-a4ed1a8d2786)
 
-You can fill out this information to customize your bot and give it personality.
+You can fill out this information to customize your bot and give it personality. You can fill this out later.
 
-This is not important in our case. 
+
+## Setup Bot and Invite to Server
+
+Go to the "Bot" Tab.
+
+Make sure you turn the "Public Bot" Setting Off and turn on all the Settings in "Priveleged Gateway Intents"
+
+![image](https://github.com/Nano-DNA-Studios/DNA-Discord-Framework/assets/93613553/cb461e54-a96f-47ae-a261-db21641fe981)
 
 Head over to the "OAuth2" Tab.
 
@@ -79,10 +86,9 @@ If Successful they should appear in the Server.
 
 The Bot can't be used and Won't be online until you make your own Discord Project
 
+# Make Bot Go Online with Default Settings
 
-
-
-# Creating a Base Custom Bot
+## Setup Project
 
 Head over to your preffered Code editor, the folowing will use VS Code. 
 
@@ -90,18 +96,146 @@ Create a new Folder in the location you want to store your Bot and then drag the
 
 ![image](https://github.com/Nano-DNA-Studios/DNA-Discord-Framework/assets/93613553/7eed2a6c-f852-466a-a5a9-9bf2f0424640)
 
+Run the Following in the VS Code Terminal or Equivalent
+
+```
+npm init -y  
+```
+
+```
+npm install typescript --save-dev
+```
+
+```
+npx tsc --init
+```
+
+![image](https://github.com/Nano-DNA-Studios/DNA-Discord-Framework/assets/93613553/3293022b-7f74-4679-8604-58cdf02106e8)
+
+
+## Create Base Bot
+
+Now install the NPM Package using the following command.
+
+```
+npm install dna-discord-framework
+```
+
+![image](https://github.com/Nano-DNA-Studios/DNA-Discord-Framework/assets/93613553/df62192a-58fe-49a5-aac1-a53244660ef1)
 
 
 
+Create a new file named "index.ts" 
+
+![image](https://github.com/Nano-DNA-Studios/DNA-Discord-Framework/assets/93613553/8de74173-ee36-40b7-963d-4b344b9ff825)
 
 
 
+Inside your "index.ts" file, add the following code
+
+```typescript
+import { DiscordBot, BotDataManager } from "dna-discord-framework";
+
+const Bot = new DiscordBot(BotDataManager);
+
+Bot.StartBot();
+```
+
+![image](https://github.com/Nano-DNA-Studios/DNA-Discord-Framework/assets/93613553/45aa00a8-795b-474e-b9ff-2e67a2222487)
+
+Next, run the following in the terminal, this will create a JavaScript file in your project
+
+```
+tsc
+```
+
+![image](https://github.com/Nano-DNA-Studios/DNA-Discord-Framework/assets/93613553/c9aca3e6-faeb-481f-a0b9-66eb0c82f5a6)
+
+Finally run the following to start the Bot
+
+```
+node index.js
+```
+
+You will be prompted to provide a Token
+
+![image](https://github.com/Nano-DNA-Studios/DNA-Discord-Framework/assets/93613553/588a80c5-a747-4b9d-8594-23132411aded)
 
 
+## Generating Token and Login
+
+Back in Discord Applications, go to the "Bot" Tab
+
+![image](https://github.com/Nano-DNA-Studios/DNA-Discord-Framework/assets/93613553/768fa36e-a7b7-4865-bc05-5f6f74341e4a)
+
+Click the "Reset Token" Button, you may be prompted for a 2 Factor Authentication if you have that set up
+
+It will then show your token with a "Copy" button.
+
+**Do Not Share Your Token Anywhere**
+
+If shared you Bot can be comprimised. Discord will also search for your token and if found on the internet will deactivate it.
+
+![image](https://github.com/Nano-DNA-Studios/DNA-Discord-Framework/assets/93613553/d2b5ed10-ca2b-4017-99f7-75ed77fdf8de)
+
+Copy your Token and paste it in the Command Line for the Program. You should receive something similar
+
+![image](https://github.com/Nano-DNA-Studios/DNA-Discord-Framework/assets/93613553/641b82e4-5846-4bf9-9412-d5014521b222)
+
+If you have invited the Bot to multiple Servers you may be prompted to input the name of the Server you want it connected to.
 
 
+Notice that a Resource Folder is created with the Bots Data and a Log file. Make sure to add these files to your GitIgnore in order not to compromise your Token or other important information
+
+![image](https://github.com/Nano-DNA-Studios/DNA-Discord-Framework/assets/93613553/330f6950-16ec-4f77-8ce1-5de50d8dda32)
 
 
+Going back to Discord, you should notice that your Bot is now online 
 
+![image](https://github.com/Nano-DNA-Studios/DNA-Discord-Framework/assets/93613553/1b9154cf-3744-4739-8edb-c07033c9db18)
+
+
+## Run your First Command
+
+The Bot comes with a few default Commands. The first is Setting the Log Channel. This is not required but can be useful to debug things in the future if you need it.
+
+In the Discord Server start typing "/setlogchannel"
+
+The command should appear in a Window
+
+![image](https://github.com/Nano-DNA-Studios/DNA-Discord-Framework/assets/93613553/f012844a-d783-4dde-b2c4-e64b7b9cb600)
+
+Click on it to complete the Command, you will then see a new Window appear for your options.
+
+Pick an appropriate Channel to send Logs to, in our case it will be #general
+
+![image](https://github.com/Nano-DNA-Studios/DNA-Discord-Framework/assets/93613553/0f7dac02-e881-4d80-acee-00f500fc5a10)
+
+Now run the command.
+
+You will get an ephemeral message. This is only visible to you
+
+** All Command Responses are Ephemeral, Once a Log Channel is set a copy of the Response is sent to the Log Channel**
+
+![image](https://github.com/Nano-DNA-Studios/DNA-Discord-Framework/assets/93613553/34f9da4c-889b-4748-897b-982993f6c76d)
+
+Now that a Log Channel is set Responses will be sent there for Future Commands.
+
+If needed the Bot also keeps tracks of Logs. This can be accessed in the log.txt file. Alternatively you can get them through Discord by running the following Command
+
+```
+/getlogs
+```
+
+![image](https://github.com/Nano-DNA-Studios/DNA-Discord-Framework/assets/93613553/2122a92d-5c50-4b4b-a742-287e524f22f6)
+
+The logs file should be sent and Downloadable now
+
+![image](https://github.com/Nano-DNA-Studios/DNA-Discord-Framework/assets/93613553/dc629b91-424c-4ec4-8bed-d8246081e2ca)
+
+Logs keep track of the user who called Commands, Name of the Command, Response Message and the Date and time the Command was called
+
+
+# Creating your own Command
 
 
