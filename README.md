@@ -227,8 +227,6 @@ If needed the Bot also keeps tracks of Logs. This can be accessed in the log.txt
 /getlogs
 ```
 
-![image](https://github.com/Nano-DNA-Studios/DNA-Discord-Framework/assets/93613553/2122a92d-5c50-4b4b-a742-287e524f22f6)
-
 The logs file should be sent and Downloadable now
 
 ![image](https://github.com/Nano-DNA-Studios/DNA-Discord-Framework/assets/93613553/dc629b91-424c-4ec4-8bed-d8246081e2ca)
