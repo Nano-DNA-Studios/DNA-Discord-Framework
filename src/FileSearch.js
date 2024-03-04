@@ -33,7 +33,7 @@ class FileSearch {
         /**
          * Path the the Directory of the Bot
          */
-        this._directoryPath = process.cwd() + "\\src";
+        this._directoryPath = process.cwd() + "/src";
         /**
          * Path this Module is Located
          */

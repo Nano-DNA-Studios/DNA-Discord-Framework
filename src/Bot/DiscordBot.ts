@@ -5,7 +5,8 @@ import { Client, IntentsBitField } from "discord.js";
 import FileSearch from "../FileSearch";
 import BotDataManager from "./BotDataManager";
 import IDiscordBot from "./IDiscordBot";
-import readline, { Interface as ReadLineInterface } from 'readline';
+//import readlineSync, { Interface as ReadLineInterface } from 'readline';
+import readlineSync from 'readline-sync';
 
 /**
  * Represents an instance of a Discord Bot, has default functionality for a Discord Bot but can be extended and add custom functionality with minimal effort
@@ -70,7 +71,7 @@ class DiscordBot<T extends BotDataManager> implements IDiscordBot {
     public async StartBot(): Promise<void> {
 
         if (!this.DataManager.SaveFileExists()) {
-          this.InitializeBot();
+            await this.InitializeBot();
         } else {
             await this.DataManager.LoadData();
             await this.Login();
@@ -82,19 +83,24 @@ class DiscordBot<T extends BotDataManager> implements IDiscordBot {
         await this.RegisterCommands();
     }
 
-     /* <inheritdoc> */
+    /* <inheritdoc> */
     public async InitializeBot(): Promise<void> {
         this.DataManager.InitializeData();
-        await this.RegisterBotToken();
+        this.RegisterBotToken();
+        await this.DataManager.LoadData();
         await this.Login();
         const guilds: string[] = (await this.BotInstance.guilds.fetch()).map(guild => guild.name);
-        await this.RegisterGuildName(guilds);
+        this.RegisterGuildName(guilds);
     }
 
     /* <inheritdoc> */
     public async Login(): Promise<void> {
         try {
-            await this.BotInstance.login(this.DataManager.DISCORD_BOT_TOKEN);
+            await console.log(`${this.DataManager.DISCORD_BOT_TOKEN}`);
+            const token = this.DataManager.DISCORD_BOT_TOKEN;
+            console.log("Following is token");
+            console.log(token);
+            await this.BotInstance.login(token);
         }
         catch (e) {
             throw new Error("Invalid Bot Token, Please check the Bot Token and try again");
@@ -102,44 +108,29 @@ class DiscordBot<T extends BotDataManager> implements IDiscordBot {
     }
 
     /* <inheritdoc> */
-    public async RegisterBotToken(): Promise<void> {
-        const setupReader: ReadLineInterface = readline.createInterface({
-            input: process.stdin,
-            output: process.stdout
-        });
+    public RegisterBotToken(): void {
 
-        //Setup Question format
-        const prompt = (query: string) => new Promise<string>((resolve) => setupReader.question(query, resolve));
+        // Prompt for bot token synchronously
+        this.DataManager.DISCORD_BOT_TOKEN = readlineSync.question('Enter the Discord Bot Token: ');
+        console.log(`Bot Token: ${this.DataManager.DISCORD_BOT_TOKEN}`);
 
-        // Prompt for bot token and guild ID asynchronously
-        this.DataManager.DISCORD_BOT_TOKEN = await prompt('Enter the Discord Bot Token: ');
-
-        // Close the readline interface after collecting all necessary inputs
-        setupReader.close();
+        this.DataManager.SaveData();
     }
 
     /* <inheritdoc> */
-    public async RegisterGuildName(options: string[]): Promise<void> {
-        const setupReader: ReadLineInterface = readline.createInterface({
-            input: process.stdin,
-            output: process.stdout
-        });
+    public RegisterGuildName(options: string[]): void {
 
         if (options.length > 1) {
             console.log('\nSelect the Guild Name from the following options:');
             console.log("\n" + options.join('\n') + "\n");
 
-            //Setup Question format
-            const prompt = (query: string) => new Promise<string>((resolve) => setupReader.question(query, resolve));
-
-            // Prompt for bot token and guild ID asynchronously
-            this.DataManager.GUILD_NAME = await prompt('Enter the Guild Name: ');
-
-        } else
+            this.DataManager.GUILD_NAME = readlineSync.question('Enter the Guild Name: ');
+            console.log(`Bot Token: ${this.DataManager.DISCORD_BOT_TOKEN}`);
+        } else {
             this.DataManager.GUILD_NAME = options[0];
+        }
 
-        // Close the readline interface after collecting all necessary inputs
-        setupReader.close();
+        this.DataManager.SaveData();
     }
 }
 

@@ -17,7 +17,8 @@ const CommandRegisterer_1 = __importDefault(require("./CommandRegisterer"));
 const BotData_1 = __importDefault(require("./BotData"));
 const discord_js_1 = require("discord.js");
 const FileSearch_1 = __importDefault(require("../FileSearch"));
-const readline_1 = __importDefault(require("readline"));
+//import readlineSync, { Interface as ReadLineInterface } from 'readline';
+const readline_sync_1 = __importDefault(require("readline-sync"));
 /**
  * Represents an instance of a Discord Bot, has default functionality for a Discord Bot but can be extended and add custom functionality with minimal effort
  */
@@ -69,7 +70,7 @@ class DiscordBot {
     StartBot() {
         return __awaiter(this, void 0, void 0, function* () {
             if (!this.DataManager.SaveFileExists()) {
-                this.InitializeBot();
+                yield this.InitializeBot();
             }
             else {
                 yield this.DataManager.LoadData();
@@ -85,17 +86,22 @@ class DiscordBot {
     InitializeBot() {
         return __awaiter(this, void 0, void 0, function* () {
             this.DataManager.InitializeData();
-            yield this.RegisterBotToken();
+            this.RegisterBotToken();
+            yield this.DataManager.LoadData();
             yield this.Login();
             const guilds = (yield this.BotInstance.guilds.fetch()).map(guild => guild.name);
-            yield this.RegisterGuildName(guilds);
+            this.RegisterGuildName(guilds);
         });
     }
     /* <inheritdoc> */
     Login() {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                yield this.BotInstance.login(this.DataManager.DISCORD_BOT_TOKEN);
+                yield console.log(`${this.DataManager.DISCORD_BOT_TOKEN}`);
+                const token = this.DataManager.DISCORD_BOT_TOKEN;
+                console.log("Following is token");
+                console.log(token);
+                yield this.BotInstance.login(token);
             }
             catch (e) {
                 throw new Error("Invalid Bot Token, Please check the Bot Token and try again");
@@ -104,39 +110,23 @@ class DiscordBot {
     }
     /* <inheritdoc> */
     RegisterBotToken() {
-        return __awaiter(this, void 0, void 0, function* () {
-            const setupReader = readline_1.default.createInterface({
-                input: process.stdin,
-                output: process.stdout
-            });
-            //Setup Question format
-            const prompt = (query) => new Promise((resolve) => setupReader.question(query, resolve));
-            // Prompt for bot token and guild ID asynchronously
-            this.DataManager.DISCORD_BOT_TOKEN = yield prompt('Enter the Discord Bot Token: ');
-            // Close the readline interface after collecting all necessary inputs
-            setupReader.close();
-        });
+        // Prompt for bot token synchronously
+        this.DataManager.DISCORD_BOT_TOKEN = readline_sync_1.default.question('Enter the Discord Bot Token: ');
+        console.log(`Bot Token: ${this.DataManager.DISCORD_BOT_TOKEN}`);
+        this.DataManager.SaveData();
     }
     /* <inheritdoc> */
     RegisterGuildName(options) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const setupReader = readline_1.default.createInterface({
-                input: process.stdin,
-                output: process.stdout
-            });
-            if (options.length > 1) {
-                console.log('\nSelect the Guild Name from the following options:');
-                console.log("\n" + options.join('\n') + "\n");
-                //Setup Question format
-                const prompt = (query) => new Promise((resolve) => setupReader.question(query, resolve));
-                // Prompt for bot token and guild ID asynchronously
-                this.DataManager.GUILD_NAME = yield prompt('Enter the Guild Name: ');
-            }
-            else
-                this.DataManager.GUILD_NAME = options[0];
-            // Close the readline interface after collecting all necessary inputs
-            setupReader.close();
-        });
+        if (options.length > 1) {
+            console.log('\nSelect the Guild Name from the following options:');
+            console.log("\n" + options.join('\n') + "\n");
+            this.DataManager.GUILD_NAME = readline_sync_1.default.question('Enter the Guild Name: ');
+            console.log(`Bot Token: ${this.DataManager.DISCORD_BOT_TOKEN}`);
+        }
+        else {
+            this.DataManager.GUILD_NAME = options[0];
+        }
+        this.DataManager.SaveData();
     }
 }
 exports.default = DiscordBot;

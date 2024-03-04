@@ -41,13 +41,13 @@ interface IDiscordBot {
     /**
     * Registers the Bot Token by asking for the Bot Token, Used when the first Instance of the Bot is created
     */
-    RegisterBotToken(): Promise<void>
+    RegisterBotToken(): void
 
     /**
      * Registers the Guild Name by asking for the Guild Name, Determines which Server to Connect to
      * @param options Array of Guild Names to choose from
      */
-    RegisterGuildName(options: string[]): Promise<void>
+    RegisterGuildName(options: string[]): void
 
     /**
      * Initializes the Bot by asking for the Bot Token and the Guild Name, and Initializes Data Storage
