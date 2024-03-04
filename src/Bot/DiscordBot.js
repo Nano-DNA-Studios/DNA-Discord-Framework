@@ -97,10 +97,7 @@ class DiscordBot {
     Login() {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                yield console.log(`${this.DataManager.DISCORD_BOT_TOKEN}`);
-                const token = this.DataManager.DISCORD_BOT_TOKEN;
-                console.log("Following is token");
-                console.log(token);
+                const token = yield this.DataManager.DISCORD_BOT_TOKEN;
                 yield this.BotInstance.login(token);
             }
             catch (e) {
@@ -111,8 +108,7 @@ class DiscordBot {
     /* <inheritdoc> */
     RegisterBotToken() {
         // Prompt for bot token synchronously
-        this.DataManager.DISCORD_BOT_TOKEN = readline_sync_1.default.question('Enter the Discord Bot Token: ');
-        console.log(`Bot Token: ${this.DataManager.DISCORD_BOT_TOKEN}`);
+        this.DataManager.DISCORD_BOT_TOKEN = readline_sync_1.default.question('Enter the Discord Bot Token: ').replace(/\s/g, '');
         this.DataManager.SaveData();
     }
     /* <inheritdoc> */
@@ -120,8 +116,7 @@ class DiscordBot {
         if (options.length > 1) {
             console.log('\nSelect the Guild Name from the following options:');
             console.log("\n" + options.join('\n') + "\n");
-            this.DataManager.GUILD_NAME = readline_sync_1.default.question('Enter the Guild Name: ');
-            console.log(`Bot Token: ${this.DataManager.DISCORD_BOT_TOKEN}`);
+            this.DataManager.GUILD_NAME = readline_sync_1.default.question('Enter the Guild Name: ').replace(/\s/g, '');
         }
         else {
             this.DataManager.GUILD_NAME = options[0];

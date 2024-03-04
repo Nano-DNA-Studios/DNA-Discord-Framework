@@ -96,10 +96,7 @@ class DiscordBot<T extends BotDataManager> implements IDiscordBot {
     /* <inheritdoc> */
     public async Login(): Promise<void> {
         try {
-            await console.log(`${this.DataManager.DISCORD_BOT_TOKEN}`);
-            const token = this.DataManager.DISCORD_BOT_TOKEN;
-            console.log("Following is token");
-            console.log(token);
+            const token = await this.DataManager.DISCORD_BOT_TOKEN;
             await this.BotInstance.login(token);
         }
         catch (e) {
@@ -111,8 +108,7 @@ class DiscordBot<T extends BotDataManager> implements IDiscordBot {
     public RegisterBotToken(): void {
 
         // Prompt for bot token synchronously
-        this.DataManager.DISCORD_BOT_TOKEN = readlineSync.question('Enter the Discord Bot Token: ');
-        console.log(`Bot Token: ${this.DataManager.DISCORD_BOT_TOKEN}`);
+        this.DataManager.DISCORD_BOT_TOKEN = readlineSync.question('Enter the Discord Bot Token: ').replace(/\s/g, '');
 
         this.DataManager.SaveData();
     }
@@ -124,8 +120,7 @@ class DiscordBot<T extends BotDataManager> implements IDiscordBot {
             console.log('\nSelect the Guild Name from the following options:');
             console.log("\n" + options.join('\n') + "\n");
 
-            this.DataManager.GUILD_NAME = readlineSync.question('Enter the Guild Name: ');
-            console.log(`Bot Token: ${this.DataManager.DISCORD_BOT_TOKEN}`);
+            this.DataManager.GUILD_NAME = readlineSync.question('Enter the Guild Name: ').replace(/\s/g, '');
         } else {
             this.DataManager.GUILD_NAME = options[0];
         }
