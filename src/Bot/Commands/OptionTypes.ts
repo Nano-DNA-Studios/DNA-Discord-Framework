@@ -1,3 +1,6 @@
+/**
+ * The types of options that can be used in a command.
+ */
 enum OptionTypes {
     SubCommand = 1,
     SubCommandGroup = 2,

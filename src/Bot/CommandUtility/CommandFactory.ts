@@ -1,6 +1,6 @@
-import ICommand from "./ICommand";
-import FileSearch from "../FileSearch";
-import Command from "./Command";
+import ICommand from "../Commands/ICommand";
+import FileSearch from "../../FileSearch";
+import Command from "../Commands/Command";
 
 /**
  * Command Factory for creating new Instances of a Command based off the Command Name provided

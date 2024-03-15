@@ -3,8 +3,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 const BotCommandsEnum_1 = __importDefault(require("./BotCommandsEnum"));
-const DefaultCommandHandler_1 = __importDefault(require("../Bot/DefaultCommandHandler"));
-const Command_1 = __importDefault(require("../Bot/Command"));
+const DefaultCommandHandler_1 = __importDefault(require("../Bot/Defaults/DefaultCommandHandler"));
+const Command_1 = __importDefault(require("../Bot/Commands/Command"));
 class GetLogs extends Command_1.default {
     constructor() {
         super(...arguments);

@@ -1,6 +1,6 @@
 import * as fs from "fs";
 import * as path from "path";
-import ICommand from "./Bot/ICommand";
+import ICommand from "./Bot/Commands/ICommand";
 
 /**
  * Utility Class for Searching Files

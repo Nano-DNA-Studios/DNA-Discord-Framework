@@ -1,8 +1,8 @@
 import { CacheType, ChatInputCommandInteraction, Client } from 'discord.js';
 import CommandFactory from './CommandFactory';
-import BotDataManager from './BotDataManager';
-import ICommand from './ICommand';
-import Command from './Command';
+import BotDataManager from '../Data/BotDataManager';
+import ICommand from '../Commands/ICommand';
+import Command from '../Commands/Command';
 import ICommandHandler from './ICommandHandler';
 
 /**

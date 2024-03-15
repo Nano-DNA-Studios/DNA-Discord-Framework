@@ -1,10 +1,10 @@
 import BotCommandsEnum from "./BotCommandsEnum";
-import OptionTypes from "../Bot/OptionTypes";
+import OptionTypes from "../Bot/Commands/OptionTypes";
 import { CacheType, ChatInputCommandInteraction, TextChannel } from "discord.js";
-import DefaultCommandHandler from "../Bot/DefaultCommandHandler";
-import ICommand from "../Bot/ICommand";
-import Command from "../Bot/Command";
-import BotDataManager from "../Bot/BotDataManager";
+import DefaultCommandHandler from "../Bot/Defaults/DefaultCommandHandler";
+import ICommand from "../Bot/Commands/ICommand";
+import Command from "../Bot/Commands/Command";
+import BotDataManager from "../Bot/Data/BotDataManager";
 
 
 class SetLogChannel extends Command implements ICommand {

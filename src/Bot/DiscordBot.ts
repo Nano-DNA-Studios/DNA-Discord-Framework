@@ -1,9 +1,9 @@
-import CommandHandler from "./CommandHandler";
-import CommandRegisterer from "./CommandRegisterer";
-import BotData from "./BotData";
+import CommandHandler from "./CommandUtility/CommandHandler";
+import CommandRegisterer from "./CommandUtility/CommandRegisterer";
+import BotData from "./Data/BotData";
 import { Client, IntentsBitField } from "discord.js";
 import FileSearch from "../FileSearch";
-import BotDataManager from "./BotDataManager";
+import BotDataManager from "./Data/BotDataManager";
 import IDiscordBot from "./IDiscordBot";
 //import readlineSync, { Interface as ReadLineInterface } from 'readline';
 import readlineSync from 'readline-sync';
