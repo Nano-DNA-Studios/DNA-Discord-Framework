@@ -12,11 +12,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const CommandHandler_1 = __importDefault(require("./CommandHandler"));
-const CommandRegisterer_1 = __importDefault(require("./CommandRegisterer"));
-const BotData_1 = __importDefault(require("./BotData"));
+const CommandHandler_1 = __importDefault(require("./Commands/CommandHandler"));
+const CommandRegisterer_1 = __importDefault(require("./Commands/CommandRegisterer"));
+const BotData_1 = __importDefault(require("./Data/BotData"));
 const discord_js_1 = require("discord.js");
-const FileSearch_1 = __importDefault(require("../FileSearch"));
+const FileSearch_1 = __importDefault(require("../../FileSearch"));
 //import readlineSync, { Interface as ReadLineInterface } from 'readline';
 const readline_sync_1 = __importDefault(require("readline-sync"));
 /**

@@ -1,4 +1,4 @@
-import ILogMessage from './ILogMessage';
+import ILogMessage from '../Interfaces/ILogMessage';
 import { CacheType, ChatInputCommandInteraction } from 'discord.js';
 
 /**

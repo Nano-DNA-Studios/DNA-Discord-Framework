@@ -1,9 +1,9 @@
 import { REST } from "@discordjs/rest";
 import { Routes } from "discord-api-types/v9";
-import ICommandOption from "./ICommandOption";
-import ICommand from "./ICommand";
-import IDiscordCommand from "./IDiscordCommand";
-import BotDataManager from "./BotDataManager";
+import ICommandOption from "../Interfaces/ICommandOption";
+import ICommand from "../Interfaces/ICommand";
+import IDiscordCommand from "../Interfaces/IDiscordCommand";
+import BotDataManager from "../Data/BotDataManager";
 
 /**
  * Registers the commands to the Discord Server

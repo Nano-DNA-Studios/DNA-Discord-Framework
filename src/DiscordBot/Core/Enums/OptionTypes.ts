@@ -1,4 +1,4 @@
-enum OptionTypes {
+enum OptionTypesEnum {
     SubCommand = 1,
     SubCommandGroup = 2,
     String = 3,
@@ -12,5 +12,5 @@ enum OptionTypes {
     Attachment = 11,
   }
   
-  export default OptionTypes;
+  export default OptionTypesEnum;
   

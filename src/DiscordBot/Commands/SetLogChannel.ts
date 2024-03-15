@@ -1,10 +1,10 @@
-import BotCommandsEnum from "./BotCommandsEnum";
-import OptionTypes from "../Bot/OptionTypes";
+import BotCommandsEnum from "../Core/Enums/BotCommandsEnum";
+import OptionTypesEnum from "../Core/Enums/OptionTypes";
 import { CacheType, ChatInputCommandInteraction, TextChannel } from "discord.js";
-import DefaultCommandHandler from "../Bot/DefaultCommandHandler";
-import ICommand from "../Bot/ICommand";
-import Command from "../Bot/Command";
-import BotDataManager from "../Bot/BotDataManager";
+import DefaultCommandHandler from "../Core/Defaults/DefaultCommandHandler";
+import ICommand from "../Core/Interfaces/ICommand";
+import Command from "../Core/Commands/Command";
+import BotDataManager from "../Core/Data/BotDataManager";
 
 
 class SetLogChannel extends Command implements ICommand {
@@ -30,7 +30,7 @@ class SetLogChannel extends Command implements ICommand {
     FailMessages = [];
     Options = [
         {
-            type: OptionTypes.Channel,
+            type: OptionTypesEnum.Channel,
             name: "logchannel",
             description: "Channel ID to send Bot and Server Logs to",
             required: true

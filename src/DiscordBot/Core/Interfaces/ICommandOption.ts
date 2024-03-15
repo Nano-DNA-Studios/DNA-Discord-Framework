@@ -1,4 +1,4 @@
-import OptionTypes from "./OptionTypes";
+import OptionTypesEnum from "../Enums/OptionTypes";
 import ICommandOptionChoice from "./ICommandOptionChoice";
 
 /**
@@ -9,7 +9,7 @@ interface ICommandOption
     /**
      * Describes the Value type the option will take
      */
-    type: OptionTypes;
+    type: OptionTypesEnum;
 
     /**
      * The name of the option
