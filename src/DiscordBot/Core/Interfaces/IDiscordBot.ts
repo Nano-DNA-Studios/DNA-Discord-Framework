@@ -1,5 +1,5 @@
 import { Client } from "discord.js";
-import BotDataManager from "./BotDataManager";
+import BotDataManager from "../Data/BotDataManager";
 
 /**
  * Interface for an Instance of a Discord Bot

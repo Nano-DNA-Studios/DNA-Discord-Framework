@@ -1,9 +1,9 @@
-import BotCommandsEnum from "./BotCommandsEnum";
+import BotCommandsEnum from "../Core/Enums/BotCommandsEnum";
 import { CacheType, ChatInputCommandInteraction, TextChannel } from "discord.js";
-import DefaultCommandHandler from "../Bot/DefaultCommandHandler";
-import ICommand from "../Bot/ICommand";
-import Command from "../Bot/Command";
-import BotDataManager from "../Bot/BotDataManager";
+import DefaultCommandHandler from "../Core/Defaults/DefaultCommandHandler";
+import ICommand from "../Core/Interfaces/ICommand";
+import Command from "../Core/Commands/Command";
+import BotDataManager from "../Core/Data/BotDataManager";
 
 class GetLogs extends Command implements ICommand {
     CommandName = BotCommandsEnum.GetLogs;

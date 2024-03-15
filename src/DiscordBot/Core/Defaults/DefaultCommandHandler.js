@@ -12,8 +12,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const CommandFactory_1 = __importDefault(require("./CommandFactory"));
-const CommandLogger_1 = __importDefault(require("./CommandLogger"));
+const CommandFactory_1 = __importDefault(require("../Commands/CommandFactory"));
+const CommandLogger_1 = __importDefault(require("../Logging/CommandLogger"));
 /**
  * Default Command Handler used for empty and regular Discord Bot Commands
  */

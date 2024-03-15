@@ -2,11 +2,11 @@
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-const BotCommandsEnum_1 = __importDefault(require("./BotCommandsEnum"));
-const OptionTypes_1 = __importDefault(require("../Bot/OptionTypes"));
+const BotCommandsEnum_1 = __importDefault(require("../Core/Enums/BotCommandsEnum"));
+const OptionTypes_1 = __importDefault(require("../Core/Enums/OptionTypes"));
 const discord_js_1 = require("discord.js");
-const DefaultCommandHandler_1 = __importDefault(require("../Bot/DefaultCommandHandler"));
-const Command_1 = __importDefault(require("../Bot/Command"));
+const DefaultCommandHandler_1 = __importDefault(require("../Core/Defaults/DefaultCommandHandler"));
+const Command_1 = __importDefault(require("../Core/Commands/Command"));
 class SetLogChannel extends Command_1.default {
     constructor() {
         super(...arguments);

@@ -1,4 +1,4 @@
-import IBotDataManager from "./IBotDataManager";
+import IBotDataManager from "../Interfaces/IBotDataManager";
 
 /**
  * Singleton Class storing an Instance of the Bot Data Manager

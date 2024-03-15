@@ -1,5 +1,5 @@
 import { CacheType, ChatInputCommandInteraction, InteractionResponse, TextChannel, Client } from 'discord.js';
-import BotDataManager from './BotDataManager';
+import BotDataManager from '../Data/BotDataManager';
 import BotCommandLog from './BotCommandLog';
 
 /**

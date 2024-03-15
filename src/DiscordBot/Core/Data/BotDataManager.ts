@@ -1,7 +1,7 @@
-import IBotDataManager from "./IBotDataManager";
+import IBotDataManager from "../Interfaces/IBotDataManager";
 import fs from 'fs';
 
-import BotCommandLog from "./BotCommandLog";
+import BotCommandLog from "../Logging/BotCommandLog";
 
 /**
  * The Default Bot Data Manager, implementing the bareminimum for a Bot Data Manager
