@@ -33,7 +33,7 @@ class FileSearch {
         /**
          * Path the the Directory of the Bot
          */
-        this._directoryPath = process.cwd() + "/src";
+        this._directoryPath = process.cwd() + "\\src";
         /**
          * Path this Module is Located
          */
@@ -46,7 +46,8 @@ class FileSearch {
     GetAllJSFiles() {
         let AllFiles = [];
         AllFiles.push(...this.GetFiles(this._directoryPath, ".js"));
-        AllFiles.push(...this.GetFiles(this._modulePath, ".js"));
+        if (this._directoryPath != this._modulePath)
+            AllFiles.push(...this.GetFiles(this._modulePath, ".js"));
         return AllFiles;
     }
     /**

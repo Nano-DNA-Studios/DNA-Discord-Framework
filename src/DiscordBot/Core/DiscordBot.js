@@ -69,6 +69,7 @@ class DiscordBot {
     /* <inheritdoc> */
     StartBot() {
         return __awaiter(this, void 0, void 0, function* () {
+            console.log("Running Start");
             if (!this.DataManager.SaveFileExists()) {
                 yield this.InitializeBot();
             }

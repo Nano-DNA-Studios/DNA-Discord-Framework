@@ -13,7 +13,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const CommandFactory_1 = __importDefault(require("../Commands/CommandFactory"));
-const CommandLogger_1 = __importDefault(require("../Logging/CommandLogger"));
 /**
  * Default Command Handler used for empty and regular Discord Bot Commands
  */
@@ -23,16 +22,18 @@ class DefaultCommandHandler {
             let Factory = yield new CommandFactory_1.default(interaction.commandName);
             let command = yield Factory.CreateCommand();
             if (command) {
-                yield CommandLogger_1.default.InitializeResponse(interaction, client, dataManager);
+                yield command.InitializeCommandLogger(interaction, client);
+                // await CommandLogger.InitializeResponse(interaction, client, dataManager);
                 try {
-                    CommandLogger_1.default.LogAndRespond(command.LogMessage);
-                    command.RunCommand(dataManager, interaction, client);
-                    CommandLogger_1.default.LogAndRespond(command.SuccessMessage);
+                    // CommandLogger.LogAndRespond(command.LogMessage);
+                    command.RunCommand(client, interaction, dataManager);
+                    //CommandLogger.LogAndRespond(command.SuccessMessage);
                 }
                 catch (error) {
-                    CommandLogger_1.default.LogAndRespond(command.ErrorMessage + `  (${error})`);
+                    //CommandLogger.LogAndRespond(command.ErrorMessage + `  (${error})`)
                 }
-                dataManager.AddCommandLog(CommandLogger_1.default.GetCommandLog(interaction));
+                command.LogAndRespond();
+                //dataManager.AddCommandLog(CommandLogger.GetCommandLog(interaction));
             }
         });
     }

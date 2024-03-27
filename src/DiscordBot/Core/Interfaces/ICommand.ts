@@ -1,12 +1,13 @@
 import IDiscordCommand from "./IDiscordCommand";
 import BotDataManager from "../Data/BotDataManager";
-import { CacheType, ChatInputCommandInteraction, Client} from 'discord.js';
+import { CacheType, ChatInputCommandInteraction, Client, MessageCreateOptions } from 'discord.js';
 import ICommandHandler from "./ICommandHandler";
+import BotResponse from "../Response/BotResponse";
 
 /**
  * Describes the structure of a command for a Discord Bot
  */
-interface ICommand extends IDiscordCommand{
+interface ICommand extends IDiscordCommand {
 
     /**
      * The message to reply with when the command is executed successfully.
@@ -19,7 +20,7 @@ interface ICommand extends IDiscordCommand{
      * @param interaction Interaction instance that triggered running the command
      * @returns void
      */
-    CommandFunction: (interaction: ChatInputCommandInteraction<CacheType>, BotDataManager : BotDataManager) => void;
+    RunCommand: (client: Client, interaction: ChatInputCommandInteraction<CacheType>, BotDataManager: BotDataManager) => void;
 
     /**
      * The message to log when the command is executed.
@@ -39,7 +40,12 @@ interface ICommand extends IDiscordCommand{
     /**
      * The array of fail messages to display when the command fails.
      */
-    FailMessages: string[];
+    FailMessages?: string[];
+
+    /**
+     * Boolean Flag determining if the Response to the User will be Ephemeral or Not
+     */
+    IsEphemeralResponse: boolean;
 
     /**
      * The Custom Command Handler for the command
@@ -49,7 +55,15 @@ interface ICommand extends IDiscordCommand{
      */
     CommandHandler: ICommandHandler;
 
-    RunCommand: (dataManager: BotDataManager, interaction: ChatInputCommandInteraction<CacheType>, client: Client) => void;
+    /**
+     * The Ephemeral Response sent back to the User who called the Command
+     */
+    EphemeralResponse: BotResponse;
+
+    /**
+     * The Response sent back to the User that is visible to everyone
+     */
+    Response: BotResponse;
 }
 
 export default ICommand;

@@ -17,7 +17,7 @@ interface IDiscordCommand {
     /**
      * Array of Options associated with the Command. Options are filled in by the user when running the Command
      */
-    Options: ICommandOption[];
+    Options?: ICommandOption[];
 }
 
 export default IDiscordCommand;

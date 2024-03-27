@@ -1,4 +1,3 @@
-
 //Exports
 export {default as BotDataManager} from "./src/DiscordBot/Core/Data/BotDataManager";
 export {default as Command} from "./src/DiscordBot/Core/Commands/Command";
@@ -24,3 +23,4 @@ export {default as ILogMessage} from "./src/DiscordBot/Core/Interfaces/ILogMessa
 export {default as BotCommandsEnum} from "./src/DiscordBot/Core/Enums/BotCommandsEnum";
 export {default as GetLogs} from "./src/DiscordBot/Commands/GetLogs";
 export {default as SetLogChannel} from "./src/DiscordBot/Commands/SetLogChannel";
+export {default as BotResponse} from "./src/DiscordBot/Core/Response/BotResponse";

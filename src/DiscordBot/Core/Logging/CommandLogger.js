@@ -12,7 +12,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const BotDataManager_1 = __importDefault(require("../Data/BotDataManager"));
 const BotCommandLog_1 = __importDefault(require("./BotCommandLog"));
+const BotData_1 = __importDefault(require("../Data/BotData"));
 /**
  * Logs the Command Responses and Stores the Log
  */
@@ -23,31 +25,37 @@ class CommandLogger {
     * @param client Discord Bot Client
     * @param BotDataManager Data Manager
     */
-    static InitializeResponse(interaction, client, dataManager) {
+    InitializeResponse(interaction, client, isEphemeral, response) {
         return __awaiter(this, void 0, void 0, function* () {
-            this.ResponseMessage = `Running ${interaction.commandName} :arrows_clockwise: \n`;
-            this.LogChannel = client.channels.cache.get(`${dataManager.LOG_CHANNEL_ID}`);
-            this.Response = (yield interaction.reply({ content: this.ResponseMessage, ephemeral: true }));
+            const dataManager = BotData_1.default.Instance(BotDataManager_1.default);
+            // let ResponseMessage = `Running ${interaction.commandName} :arrows_clockwise: \n`;
+            let LogChannel = client.channels.cache.get(`${dataManager.LOG_CHANNEL_ID}`);
+            this.Response = (yield interaction.reply({ content: response.content, ephemeral: isEphemeral }));
+            this.LogMessage = yield LogChannel.send({ content: response.content });
         });
+    }
+    LogInChannel(logMessage) {
+        return __awaiter(this, void 0, void 0, function* () {
+            var _a;
+            (_a = this.LogMessage) === null || _a === void 0 ? void 0 : _a.edit(logMessage);
+        });
+    }
+    RespondToUser(response) {
+        var _a;
+        (_a = this.Response) === null || _a === void 0 ? void 0 : _a.edit(response);
     }
     /**
      * Logs the Command and Responds to the User
      * @param message Message to Log and Respond
      */
-    static LogAndRespond(message) {
-        var _a;
-        (_a = this.LogChannel) === null || _a === void 0 ? void 0 : _a.send(message);
-        this.ResponseMessage += `${message} \n`;
-        this.Response.edit({ content: this.ResponseMessage });
+    LogAndRespond(logMessage, response) {
+        this.LogInChannel(logMessage);
+        this.RespondToUser(response);
     }
-    static GetCommandLog(interaction) {
+    GetCommandLog(interaction) {
         let log = new BotCommandLog_1.default(interaction);
-        log.AddLogMessage(this.ResponseMessage);
+        // log.AddLogMessage(this.ResponseMessage);
         return log;
     }
 }
-/**
- * Stores the Response Message to the Command
- */
-CommandLogger.ResponseMessage = "";
 exports.default = CommandLogger;

@@ -39,7 +39,7 @@ class CommandRegisterer {
             let body =  this.Commands.map(element => ({
                 name: element.CommandName,
                 description: element.CommandDescription,
-                options: element.Options.map((option: ICommandOption) => ({
+                options: element.Options?.map((option: ICommandOption) => ({
                     type: option.type,
                     name: option.name,
                     description: option.description,

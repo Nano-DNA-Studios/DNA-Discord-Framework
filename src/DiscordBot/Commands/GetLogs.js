@@ -3,27 +3,31 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 const BotCommandsEnum_1 = __importDefault(require("../Core/Enums/BotCommandsEnum"));
-const DefaultCommandHandler_1 = __importDefault(require("../Core/Defaults/DefaultCommandHandler"));
 const Command_1 = __importDefault(require("../Core/Commands/Command"));
 class GetLogs extends Command_1.default {
     constructor() {
         super(...arguments);
         this.CommandName = BotCommandsEnum_1.default.GetLogs;
         this.CommandDescription = "Returns the Log File";
-        this.CommandFunction = (interaction, dataManager) => {
+        this.IsEphemeralResponse = false;
+        this.RunCommand = (client, interaction, dataManager) => {
+            this.AddToAllResponseMessages(this.ReplyMessage);
             let logChannel = interaction.client.channels.cache.get(`${dataManager.LOG_CHANNEL_ID}`);
-            if (logChannel)
-                logChannel.send({ files: [`${dataManager.LOG_FILE_PATH}`] });
-            else
+            if (logChannel) {
+                interaction.user.send({ content: "Here are the Log Files", files: [`${dataManager.LOG_FILE_PATH}`] });
+                this.AddToAllResponseMessages(this.SuccessMessage);
+            }
+            else {
+                this.AddToResponseMessage(this.ErrorMessage + "(Log Channel ID provided does not match to a Text Channel)");
+                this.AddToLogMessage(this.ErrorMessage);
                 throw new Error("Log Channel ID provided does not match to a Text Channel");
+            }
+            this.LogAndRespond();
         };
         this.ReplyMessage = "Sending Log File :arrows_clockwise:";
         this.LogMessage = "Sending Log File :arrows_clockwise:";
         this.ErrorMessage = ":warning: Could not send the Log File :warning:";
         this.SuccessMessage = ":white_check_mark: Log File sent Successfully :white_check_mark:";
-        this.FailMessages = [];
-        this.Options = [];
-        this.CommandHandler = DefaultCommandHandler_1.default.Instance();
     }
 }
 module.exports = GetLogs;

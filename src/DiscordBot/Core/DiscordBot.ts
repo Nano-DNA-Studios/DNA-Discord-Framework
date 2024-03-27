@@ -70,6 +70,7 @@ class DiscordBot<T extends BotDataManager> implements IDiscordBot {
     /* <inheritdoc> */
     public async StartBot(): Promise<void> {
 
+        console.log("Running Start")
         if (!this.DataManager.SaveFileExists()) {
             await this.InitializeBot();
         } else {

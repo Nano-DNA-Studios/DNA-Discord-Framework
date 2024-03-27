@@ -37,17 +37,20 @@ class CommandRegisterer {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 console.log('Registering Commands');
-                let body = this.Commands.map(element => ({
-                    name: element.CommandName,
-                    description: element.CommandDescription,
-                    options: element.Options.map((option) => ({
-                        type: option.type,
-                        name: option.name,
-                        description: option.description,
-                        required: option.required || false,
-                        choices: option.choices || []
-                    }))
-                }));
+                let body = this.Commands.map(element => {
+                    var _a;
+                    return ({
+                        name: element.CommandName,
+                        description: element.CommandDescription,
+                        options: (_a = element.Options) === null || _a === void 0 ? void 0 : _a.map((option) => ({
+                            type: option.type,
+                            name: option.name,
+                            description: option.description,
+                            required: option.required || false,
+                            choices: option.choices || []
+                        }))
+                    });
+                });
                 console.log(`Registering Following Commands: [${body.map(command => command.name).join(', ')}]`);
                 yield this.rest.put(v9_1.Routes.applicationGuildCommands(this._dataManager.CLIENT_ID, this._dataManager.GUILD_ID), {
                     body: body
