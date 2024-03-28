@@ -17,8 +17,6 @@ class GetLogs extends Command_1.default {
             this.InitializeUserResponse(interaction, this.RunningMessage);
             let logChannel = interaction.client.channels.cache.get(`${dataManager.LOG_CHANNEL_ID}`);
             this.AddToResponseMessage(this.LogMessage);
-            this.AddToResponseMessage("https://tenor.com/view/leonardo-dicaprio-clapping-clap-applause-amazing-gif-16078907558888063471");
-            this.AddToResponseMessage("https://tenor.com/view/clapping-gif-8248312488213405277");
             if (logChannel) {
                 interaction.user.send({ content: "Here are the Log Files", files: [`${dataManager.LOG_FILE_PATH}`] });
                 this.AddToResponseMessage(this.SuccessMessage);

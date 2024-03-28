@@ -1,4 +1,4 @@
-import { APIAttachment, APIEmbed, Attachment, AttachmentBuilder, AttachmentPayload, BufferResolvable, JSONEncodable, MessageCreateOptions, MessageEditAttachmentData, MessageEditOptions } from "discord.js";
+import { APIAttachment, Attachment, AttachmentBuilder, AttachmentPayload, BufferResolvable, JSONEncodable, MessageCreateOptions, MessageEditOptions } from "discord.js";
 import { Stream } from "stream";
 
 /**
@@ -15,13 +15,6 @@ content?: string = "";
  * The Files associated with the Response
  */
 files?: (BufferResolvable | Stream | JSONEncodable<APIAttachment> | Attachment | AttachmentBuilder | AttachmentPayload)[] = [];
-
-public embeds?: (APIEmbed | JSONEncodable<APIEmbed>)[] | undefined;
-
-attachments?: (Attachment | MessageEditAttachmentData)[] | undefined;
-
-
-
 }
 
 export default BotResponse;
