@@ -6,6 +6,8 @@ import ICommandHandler from "../Interfaces/ICommandHandler";
 import DefaultCommandHandler from "../Defaults/DefaultCommandHandler";
 import BotResponse from "../Response/BotResponse";
 
+//Split this into a Configure and Execute part?
+
 /**
  * Represents a Command for a Discord Bot
  */
