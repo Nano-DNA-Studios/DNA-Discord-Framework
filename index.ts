@@ -23,3 +23,5 @@ export {default as BotCommandsEnum} from "./src/DiscordBot/Core/Enums/BotCommand
 export {default as GetLogs} from "./src/DiscordBot/Commands/GetLogs";
 export {default as SetLogChannel} from "./src/DiscordBot/Commands/SetLogChannel";
 export {default as BotResponse} from "./src/DiscordBot/Core/Response/BotResponse";
+export {default as SSHConnectionInfo} from "./src/Bash-Plugin/SSHConnectionInfo";
+export {default as BashScriptRunner} from "./src/Bash-Plugin/BashScriptRunner";

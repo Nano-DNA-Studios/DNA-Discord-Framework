@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.BotResponse = exports.SetLogChannel = exports.GetLogs = exports.BotCommandsEnum = exports.FileSearch = exports.EmptyCustomCommandHandler = exports.DiscordBot = exports.DefaultCommandHandler = exports.CommandRegisterer = exports.OptionTypesEnum = exports.CommandFactory = exports.BotData = exports.BotCommandLog = exports.CommandHandler = exports.Command = exports.BotDataManager = void 0;
+exports.BashScriptRunner = exports.SSHConnectionInfo = exports.BotResponse = exports.SetLogChannel = exports.GetLogs = exports.BotCommandsEnum = exports.FileSearch = exports.EmptyCustomCommandHandler = exports.DiscordBot = exports.DefaultCommandHandler = exports.CommandRegisterer = exports.OptionTypesEnum = exports.CommandFactory = exports.BotData = exports.BotCommandLog = exports.CommandHandler = exports.Command = exports.BotDataManager = void 0;
 //Exports
 var BotDataManager_1 = require("./src/DiscordBot/Core/Data/BotDataManager");
 Object.defineProperty(exports, "BotDataManager", { enumerable: true, get: function () { return __importDefault(BotDataManager_1).default; } });
@@ -37,3 +37,7 @@ var SetLogChannel_1 = require("./src/DiscordBot/Commands/SetLogChannel");
 Object.defineProperty(exports, "SetLogChannel", { enumerable: true, get: function () { return __importDefault(SetLogChannel_1).default; } });
 var BotResponse_1 = require("./src/DiscordBot/Core/Response/BotResponse");
 Object.defineProperty(exports, "BotResponse", { enumerable: true, get: function () { return __importDefault(BotResponse_1).default; } });
+var SSHConnectionInfo_1 = require("./src/Bash-Plugin/SSHConnectionInfo");
+Object.defineProperty(exports, "SSHConnectionInfo", { enumerable: true, get: function () { return __importDefault(SSHConnectionInfo_1).default; } });
+var BashScriptRunner_1 = require("./src/Bash-Plugin/BashScriptRunner");
+Object.defineProperty(exports, "BashScriptRunner", { enumerable: true, get: function () { return __importDefault(BashScriptRunner_1).default; } });
