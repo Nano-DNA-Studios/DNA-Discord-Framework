@@ -1,4 +1,3 @@
-import { DefaultUserAgent } from "discord.js";
 
 /**
  * Describes the information required to connect to a device through SSH

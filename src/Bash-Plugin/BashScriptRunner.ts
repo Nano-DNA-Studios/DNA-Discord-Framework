@@ -1,7 +1,5 @@
 import { Client } from "ssh2";
-//import BashScript from "./BashScript";
-import BotDataManager from "../DiscordBot/Core/Data/BotDataManager";
-import exec from "child_process";
+import { spawn } from 'child_process';
 import SSHConnectionInfo from "./SSHConnectionInfo";
 
 /**
@@ -9,101 +7,65 @@ import SSHConnectionInfo from "./SSHConnectionInfo";
  */
 class BashScriptRunner {
 
+    /**
+     * The Connection info to run a Command through an SSH Connection
+     */
     public ConnectionInfo: SSHConnectionInfo | undefined;
 
-    public ScriptCompleted: boolean = false;
+    /**
+     * The Error Logs collected through the commands execution
+     */
+    public ErrorLogs: string;
 
+    /**
+     * The Standard Error Logs collected through the commands execution
+     */
+    public StandardErrorLogs: string;
+
+    /**
+     * The Standard Output Logs collected through the commands execution
+     */
+    public StandardOutputLogs: string;
+
+    /**
+     * Initializes the Bash Script runner and can optionally provide SSHConnection info if SSH execution is intended
+     * @param connectionInfo The Connection info if the SSH execution is intended
+     */
     constructor(connectionInfo: SSHConnectionInfo | undefined = undefined) {
         this.ConnectionInfo = connectionInfo;
+        this.ErrorLogs = "";
+        this.StandardErrorLogs = "";
+        this.StandardOutputLogs = "";
     }
-
-
-    public async RunBashScript(Script: string): Promise<void> {
-
-        if ()
-       await this.RunLocally("ls");
-    }
-
-
-
-
-
-
-
-    /**
-     * Data Manager for the Bot
-     */
-    // private _dataManager: BotDataManager;
-
-    /**
-     * Result of the Bash Script Running Successfully
-     */
-    // private _scriptRanSuccessfully: boolean = true;
-
-    /**
-     * Bash Command to Run
-     */
-    // public BashCommand: BashScript;
-
-    /**
-     * Initializes the Bash Script Runner
-     * @param bashCommand The Bash Command to Run
-     * @param BotDataManager The Bot Data Manager
-     */
-    //  constructor(bashCommand: BashScript, BotDataManager: BotDataManager) {
-    //      this._dataManager = BotDataManager;
-    //      this.BashCommand = bashCommand;
-    //  }
-
-    /**
-     * Determines if the Output of the Bash Script is an Error
-     * @param data The Output of the Bash Script
-     */
-    private DetermineError(data: any): void {
-        let Fails = this.BashCommand.FailMessages;
-        let dataStr = data.toString().replace(/\r?\n|\r/g, "");
-        if (Fails.includes(dataStr)) {
-            this._scriptRanSuccessfully = false;
-        }
-    }
-
-    /**
-     * Runs the Bash Script
-     * @returns True if the Script Ran Successfully, False if it did not
-     */
-    /*
-    public async RunBashScript(): Promise<boolean> {
-        this._scriptRanSuccessfully = true;
-
-        const Script = await this.BashCommand.GetCode();
-
-        if (this._dataManager.RUN_LOCALLY)
-            return this.RunLocally(Script);
-        else
-            return this.RunThroughSHH(Script);
-    }
-    */
-
-    //, {cwd: '/home/orca'}
 
     /**
      * Runs a Bash Script through a local execution
      * @param Script Bash Script to Run
-     * @returns True if no errors occurred, False if an error occurred (Errors are defined by the Bash Command Fail Messages)
+     * @returns A Promise void
      */
-    async RunLocally(Script: string): Promise<boolean> {
-        return new Promise<boolean>((resolve, reject) => {
-            exec.exec(`${Script}`, (error, stdout, stderr) => {
-
-                if (error) {
-                    console.error(`exec error: ${error}`);
+    public RunLocally(Script: string): Promise<void> {
+        return new Promise<void>((resolve, reject) => {
+            const process = spawn(Script, { shell: true});
+    
+            process.stdout.on('data', (data: string) => {
+                this.StandardOutputLogs += `${data} \n`;
+            });
+    
+            process.stderr.on('data', (data) => {
+                this.StandardErrorLogs += data + "\n";
+                console.error(`stderr: ${data}`);
+            });
+    
+            process.on('close', (code) => {
+                if(code === 0) {
+                    resolve();
+                } else {
+                    reject(new Error(`Process exited with code ${code}`)); // Reject the promise on error
                 }
-                if (stderr) {
-                    console.error(`stderr: ${stderr}`);
-                }
-
-                console.log(`STDOUT: ${stdout}`);
-                resolve(true);
+            });
+    
+            process.on('error', (error) => {
+                reject(error);
             });
         });
     }
@@ -111,39 +73,26 @@ class BashScriptRunner {
     /**
      * Runs a Bash Script through an SSH Connection
      * @param Script Bash Script to Run
-     * @returns True if no errors occurred, False if an error occurred (Errors are defined by the Bash Command Fail Messages)
+     * @returns A Promise Void
      */
-    async RunThroughSHH(Script: string): Promise<boolean> {
+    public async RunThroughSHH(Script: string,): Promise<void> {
 
         const ServerConnection = await this.ConnectToServer();
 
-        return new Promise<boolean>((resolve, reject) => {
+        return new Promise<void>((resolve, reject) => {
             ServerConnection.exec(`${Script}`, (err, stream) => {
                 if (err) throw err;
 
-                let dataBuffer = "";
-
-                if (this.BashCommand.HasMaxOutTimer()) {
-                    console.log("Max Timeout Set");
-                    setTimeout(() => {
-                        console.log("Max Timeout Reached");
-                        resolve(this._scriptRanSuccessfully);
-                        stream.end();
-                    }, this.BashCommand.MaxOutTimer);
-                }
-
                 stream
                     .on("close", (code: string, signal: string) => {
-                        resolve(this._scriptRanSuccessfully);
+                        resolve();
                     })
                     .on("data", (data: string) => {
-                        dataBuffer += data;
-                        console.log("STDOUT: " + data);
-                        this.DetermineError(data);
+
+                        this.StandardOutputLogs += data + "\n";
                     })
                     .stderr.on("data", (data) => {
-                        console.error("STDERR: " + data);
-                        this.DetermineError(data);
+                        this.StandardErrorLogs += data + "\n";
                     });
             });
         });
@@ -153,21 +102,29 @@ class BashScriptRunner {
      * Connects to a Server through SSH
      * @returns A Promise to the SSH Client
      */
-    ConnectToServer(connectionInfo: SSHConnectionInfo): Promise<Client> {
+    ConnectToServer(): Promise<Client> {
         return new Promise((resolve, reject) => {
-            const conn = new Client();
-            conn.on('ready', () => {
-                console.log('SSH Connection ready');
-                resolve(conn); // Resolve with the connection instance
-            }).on('error', (err) => {
-                console.error('SSH Connection error:', err);
-                reject(err);
-            }).connect({
-                host: connectionInfo.Host!,
-                port: connectionInfo.Port!,
-                username: connectionInfo.Username!,
-                password: connectionInfo.Password!
-            });
+            if (this.ConnectionInfo) {
+                const conn = new Client();
+                try {
+                    conn.on('ready', () => {
+                        console.log('SSH Connection ready');
+                        resolve(conn); // Resolve with the connection instance
+                    }).on('error', (err) => {
+                        console.error('SSH Connection error:', err);
+                        reject(err);
+                    }).connect({
+
+                        host: this.ConnectionInfo?.Host!,
+                        port: this.ConnectionInfo?.Port!,
+                        username: this.ConnectionInfo?.Username!,
+                        password: this.ConnectionInfo?.Password!
+                    });
+                } catch (error) {
+                    console.log("Connection settings are not right. Check you connection settings again");
+                }
+            } else
+                reject("Connection Info has not been provided");
         });
     }
 }

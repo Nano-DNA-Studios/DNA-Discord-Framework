@@ -2,6 +2,7 @@ import BotCommandsEnum from "../Core/Enums/BotCommandsEnum";
 import { CacheType, ChatInputCommandInteraction, Client, TextChannel } from "discord.js";
 import BotDataManager from "../Core/Data/BotDataManager";
 import Command from "../Core/Commands/Command";
+import BashScriptRunner from "../../Bash-Plugin/BashScriptRunner";
 
 /**
  * Gets the Logs the Bot has collected and sends the file to the User through a Private Message
@@ -10,7 +11,7 @@ class GetLogs extends Command {
     CommandName = BotCommandsEnum.GetLogs;
     CommandDescription = "Returns the Log File";
     IsEphemeralResponse = true;
-    RunCommand = (client: Client, interaction: ChatInputCommandInteraction<CacheType>, dataManager: BotDataManager) => {
+    RunCommand = async (client: Client, interaction: ChatInputCommandInteraction<CacheType>, dataManager: BotDataManager) => {
         this.InitializeUserResponse(interaction, this.RunningMessage);
 
         let logChannel = interaction.client.channels.cache.get(`${dataManager.LOG_CHANNEL_ID}`) as TextChannel;

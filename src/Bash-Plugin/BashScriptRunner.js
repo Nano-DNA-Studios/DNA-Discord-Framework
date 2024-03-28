@@ -8,80 +8,55 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 const ssh2_1 = require("ssh2");
-const child_process_1 = __importDefault(require("child_process"));
+const child_process_1 = require("child_process");
 /**
  * Runs Bash Scripts provided from a Bash Command
  */
 class BashScriptRunner {
     /**
-     * Initializes the Bash Script Runner
-     * @param bashCommand The Bash Command to Run
-     * @param BotDataManager The Bot Data Manager
+     * Initializes the Bash Script runner and can optionally provide SSHConnection info if SSH execution is intended
+     * @param connectionInfo The Connection info if the SSH execution is intended
      */
-    constructor(bashCommand, BotDataManager) {
-        /**
-         * Result of the Bash Script Running Successfully
-         */
-        this._scriptRanSuccessfully = true;
-        this._dataManager = BotDataManager;
-        this.BashCommand = bashCommand;
+    constructor(connectionInfo = undefined) {
+        this.ConnectionInfo = connectionInfo;
+        this.ErrorLogs = "";
+        this.StandardErrorLogs = "";
+        this.StandardOutputLogs = "";
     }
-    /**
-     * Determines if the Output of the Bash Script is an Error
-     * @param data The Output of the Bash Script
-     */
-    DetermineError(data) {
-        let Fails = this.BashCommand.FailMessages;
-        let dataStr = data.toString().replace(/\r?\n|\r/g, "");
-        if (Fails.includes(dataStr)) {
-            this._scriptRanSuccessfully = false;
-        }
-    }
-    /**
-     * Runs the Bash Script
-     * @returns True if the Script Ran Successfully, False if it did not
-     */
-    RunBashScript() {
-        return __awaiter(this, void 0, void 0, function* () {
-            this._scriptRanSuccessfully = true;
-            const Script = yield this.BashCommand.GetCode();
-            if (this._dataManager.RUN_LOCALLY)
-                return this.RunLocally(Script);
-            else
-                return this.RunThroughSHH(Script);
-        });
-    }
-    //, {cwd: '/home/orca'}
     /**
      * Runs a Bash Script through a local execution
      * @param Script Bash Script to Run
-     * @returns True if no errors occurred, False if an error occurred (Errors are defined by the Bash Command Fail Messages)
+     * @returns A Promise void
      */
     RunLocally(Script) {
-        return __awaiter(this, void 0, void 0, function* () {
-            return new Promise((resolve, reject) => {
-                child_process_1.default.exec(`${Script}`, (error, stdout, stderr) => {
-                    if (error) {
-                        console.error(`exec error: ${error}`);
-                    }
-                    if (stderr) {
-                        console.error(`stderr: ${stderr}`);
-                    }
-                    console.log(`STDOUT: ${stdout}`);
-                    resolve(this._scriptRanSuccessfully);
-                });
+        return new Promise((resolve, reject) => {
+            const process = (0, child_process_1.spawn)(Script, { shell: true });
+            process.stdout.on('data', (data) => {
+                this.StandardOutputLogs += `${data} \n`;
+            });
+            process.stderr.on('data', (data) => {
+                this.StandardErrorLogs += data + "\n";
+                console.error(`stderr: ${data}`);
+            });
+            process.on('close', (code) => {
+                if (code === 0) {
+                    resolve();
+                }
+                else {
+                    reject(new Error(`Process exited with code ${code}`)); // Reject the promise on error
+                }
+            });
+            process.on('error', (error) => {
+                reject(error);
             });
         });
     }
     /**
      * Runs a Bash Script through an SSH Connection
      * @param Script Bash Script to Run
-     * @returns True if no errors occurred, False if an error occurred (Errors are defined by the Bash Command Fail Messages)
+     * @returns A Promise Void
      */
     RunThroughSHH(Script) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -90,27 +65,15 @@ class BashScriptRunner {
                 ServerConnection.exec(`${Script}`, (err, stream) => {
                     if (err)
                         throw err;
-                    let dataBuffer = "";
-                    if (this.BashCommand.HasMaxOutTimer()) {
-                        console.log("Max Timeout Set");
-                        setTimeout(() => {
-                            console.log("Max Timeout Reached");
-                            resolve(this._scriptRanSuccessfully);
-                            stream.end();
-                        }, this.BashCommand.MaxOutTimer);
-                    }
                     stream
                         .on("close", (code, signal) => {
-                        resolve(this._scriptRanSuccessfully);
+                        resolve();
                     })
                         .on("data", (data) => {
-                        dataBuffer += data;
-                        console.log("STDOUT: " + data);
-                        this.DetermineError(data);
+                        this.StandardOutputLogs += data + "\n";
                     })
                         .stderr.on("data", (data) => {
-                        console.error("STDERR: " + data);
-                        this.DetermineError(data);
+                        this.StandardErrorLogs += data + "\n";
                     });
                 });
             });
@@ -120,21 +83,31 @@ class BashScriptRunner {
      * Connects to a Server through SSH
      * @returns A Promise to the SSH Client
      */
-    ConnectToServer(connectionInfo) {
+    ConnectToServer() {
         return new Promise((resolve, reject) => {
-            const conn = new ssh2_1.Client();
-            conn.on('ready', () => {
-                console.log('SSH Connection ready');
-                resolve(conn); // Resolve with the connection instance
-            }).on('error', (err) => {
-                console.error('SSH Connection error:', err);
-                reject(err);
-            }).connect({
-                host: connectionInfo.Host,
-                port: connectionInfo.Port,
-                username: connectionInfo.Username,
-                password: connectionInfo.Password
-            });
+            var _a, _b, _c, _d;
+            if (this.ConnectionInfo) {
+                const conn = new ssh2_1.Client();
+                try {
+                    conn.on('ready', () => {
+                        console.log('SSH Connection ready');
+                        resolve(conn); // Resolve with the connection instance
+                    }).on('error', (err) => {
+                        console.error('SSH Connection error:', err);
+                        reject(err);
+                    }).connect({
+                        host: (_a = this.ConnectionInfo) === null || _a === void 0 ? void 0 : _a.Host,
+                        port: (_b = this.ConnectionInfo) === null || _b === void 0 ? void 0 : _b.Port,
+                        username: (_c = this.ConnectionInfo) === null || _c === void 0 ? void 0 : _c.Username,
+                        password: (_d = this.ConnectionInfo) === null || _d === void 0 ? void 0 : _d.Password
+                    });
+                }
+                catch (error) {
+                    console.log("Connection settings are not right. Check you connection settings again");
+                }
+            }
+            else
+                reject("Connection Info has not been provided");
         });
     }
 }

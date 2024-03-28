@@ -7,5 +7,6 @@ var BotCommandsEnum;
 (function (BotCommandsEnum) {
     BotCommandsEnum["SetLogChannel"] = "setlogchannel";
     BotCommandsEnum["GetLogs"] = "getlogs";
+    BotCommandsEnum["RunBashCommand"] = "runbashcommand";
 })(BotCommandsEnum || (BotCommandsEnum = {}));
 exports.default = BotCommandsEnum;
