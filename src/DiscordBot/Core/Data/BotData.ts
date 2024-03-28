@@ -3,7 +3,7 @@ import IBotDataManager from "../Interfaces/IBotDataManager";
 /**
  * Singleton Class storing an Instance of the Bot Data Manager
  */
-class BotData<T extends IBotDataManager>
+class BotData
 {
     /**
      * Instances of Singleton Classes

@@ -1,4 +1,3 @@
-import ICommand from "../Interfaces/ICommand";
 import FileSearch from "../../../FileSearch";
 import Command from "./Command";
 
@@ -30,7 +29,7 @@ class CommandFactory {
      * @param CommandType The Class Type of the Command that will be created. Must have a constructor that takes a single parameter of the Command Interface
      * @returns A New Instance of the Command Requested
      */
-    public CreateCommand<T extends ICommand>(): T | undefined {
+    public CreateCommand<T extends Command>(): T | undefined {
         try {
             const Commands = this._fileSearch.GetAllCommands();
             for (const command of Commands) {

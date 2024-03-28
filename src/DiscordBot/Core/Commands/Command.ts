@@ -1,56 +1,82 @@
 import ICommand from "../Interfaces/ICommand";
 import ICommandOption from "../Interfaces/ICommandOption";
 import BotDataManager from "../Data/BotDataManager";
-import { CacheType, ChatInputCommandInteraction, Client } from 'discord.js';
+import { CacheType, ChatInputCommandInteraction, Client, InteractionResponse } from 'discord.js';
 import ICommandHandler from "../Interfaces/ICommandHandler";
 import DefaultCommandHandler from "../Defaults/DefaultCommandHandler";
+import BotResponse from "../Response/BotResponse";
 
 /**
  * Represents a Command for a Discord Bot
  */
-class Command implements ICommand {
-    public CommandName: string = '';
-    public CommandDescription: string = '';
-    public CommandFunction: ( interaction: ChatInputCommandInteraction<CacheType>, BotDataManager: BotDataManager) => void = () => { };
-    public ReplyMessage: string = '';
-    public LogMessage: string = '';
-    public ErrorMessage: string = '';
-    public SuccessMessage: string = '';
-    public FailMessages: string[] = [];
-    public Options: ICommandOption[] = [];
+abstract class Command implements ICommand {
+    /* <inheritdoc> */
+    public abstract RunningMessage: string;
+
+    /* <inheritdoc> */
+    public abstract CommandName: string;
+
+    /* <inheritdoc> */
+    public abstract CommandDescription: string;
+
+    /* <inheritdoc> */
+    public abstract RunCommand: (client: Client, interaction: ChatInputCommandInteraction<CacheType>, BotDataManager: BotDataManager) => void;
+
+    /* <inheritdoc> */
+    public abstract LogMessage: string;
+
+    /* <inheritdoc> */
+    public abstract ErrorMessage: string;
+
+    /* <inheritdoc> */
+    public abstract SuccessMessage: string;
+
+    /* <inheritdoc> */
+    public abstract IsEphemeralResponse: boolean;
+
+    /* <inheritdoc> */
+    public FailMessages?: string[];
+
+    /* <inheritdoc> */
+    public Options?: ICommandOption[];
+
+    /* <inheritdoc> */
     public CommandHandler: ICommandHandler = DefaultCommandHandler.Instance();
 
-    /**
-     * Runs the Discord Command
-     * @param BotDataManager Instance of the BotDataManager
-     * @param interaction Instance of the ChatInputCommandInteraction
-     */
-    RunCommand(dataManager: BotDataManager, interaction: ChatInputCommandInteraction<CacheType>, client: Client): void {
-        this.CommandFunction(interaction, dataManager);
-    }
+    /* <inheritdoc> */
+    public Response: BotResponse = new BotResponse();
+
+    /* <inheritdoc> */
+    public UserResponse: InteractionResponse | undefined;
 
     /**
-     * Gets an Empty Command that can be used as a default
-     * @returns Returns an Empty Command
+     * Boolean Flag to indicate when the Response Instance sent to the User has been received and the Promise has been accomplished
      */
-    public static GetEmptyCommand(): ICommand {
-        let UndefinedBashScript: ICommand = {
-            CommandName: "undefined",
-            CommandDescription: "",
-            CommandFunction: () => { },
-            ReplyMessage: " ",
-            LogMessage: " ",
-            ErrorMessage: " ",
-            SuccessMessage: " ",
-            FailMessages: [''],
-            Options: [],
-            CommandHandler: new DefaultCommandHandler(),
-            RunCommand: () => { }
+    private _responseReceived: boolean = false;
+
+    /* <inheritdoc> */
+    public InitializeUserResponse(interaction: ChatInputCommandInteraction<CacheType>, message: string): void {
+        this.Response.content = message + "\n";
+        const reply = interaction.reply({ content: this.Response.content, ephemeral: this.IsEphemeralResponse });
+
+        reply.then((interactionResponse: InteractionResponse) => {
+            this.UserResponse = interactionResponse;
+            this._responseReceived = true;
+        });
+    }
+
+    /* <inheritdoc> */
+    public AddToResponseMessage(content: string): void {
+        const attemptToAdd = () => {
+            if (this._responseReceived)
+                this.UserResponse?.edit(this.Response);
+            else
+                setTimeout(attemptToAdd, 100);
         };
 
-        return new this();
+        this.Response.content += content + "\n";
+        attemptToAdd();
     }
-
 }
 
 export default Command;

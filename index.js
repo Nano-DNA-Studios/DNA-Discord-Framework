@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.SetLogChannel = exports.GetLogs = exports.BotCommandsEnum = exports.FileSearch = exports.EmptyCustomCommandHandler = exports.DiscordBot = exports.DefaultCommandHandler = exports.CommandRegisterer = exports.OptionTypesEnum = exports.CommandLogger = exports.CommandFactory = exports.BotData = exports.BotCommandLog = exports.CommandHandler = exports.Command = exports.BotDataManager = void 0;
+exports.BotResponse = exports.SetLogChannel = exports.GetLogs = exports.BotCommandsEnum = exports.FileSearch = exports.EmptyCustomCommandHandler = exports.DiscordBot = exports.DefaultCommandHandler = exports.CommandRegisterer = exports.OptionTypesEnum = exports.CommandFactory = exports.BotData = exports.BotCommandLog = exports.CommandHandler = exports.Command = exports.BotDataManager = void 0;
 //Exports
 var BotDataManager_1 = require("./src/DiscordBot/Core/Data/BotDataManager");
 Object.defineProperty(exports, "BotDataManager", { enumerable: true, get: function () { return __importDefault(BotDataManager_1).default; } });
@@ -17,8 +17,6 @@ var BotData_1 = require("./src/DiscordBot/Core/Data/BotData");
 Object.defineProperty(exports, "BotData", { enumerable: true, get: function () { return __importDefault(BotData_1).default; } });
 var CommandFactory_1 = require("./src/DiscordBot/Core/Commands/CommandFactory");
 Object.defineProperty(exports, "CommandFactory", { enumerable: true, get: function () { return __importDefault(CommandFactory_1).default; } });
-var CommandLogger_1 = require("./src/DiscordBot/Core/Logging/CommandLogger");
-Object.defineProperty(exports, "CommandLogger", { enumerable: true, get: function () { return __importDefault(CommandLogger_1).default; } });
 var OptionTypes_1 = require("./src/DiscordBot/Core/Enums/OptionTypes");
 Object.defineProperty(exports, "OptionTypesEnum", { enumerable: true, get: function () { return __importDefault(OptionTypes_1).default; } });
 var CommandRegisterer_1 = require("./src/DiscordBot/Core/Commands/CommandRegisterer");
@@ -37,3 +35,5 @@ var GetLogs_1 = require("./src/DiscordBot/Commands/GetLogs");
 Object.defineProperty(exports, "GetLogs", { enumerable: true, get: function () { return __importDefault(GetLogs_1).default; } });
 var SetLogChannel_1 = require("./src/DiscordBot/Commands/SetLogChannel");
 Object.defineProperty(exports, "SetLogChannel", { enumerable: true, get: function () { return __importDefault(SetLogChannel_1).default; } });
+var BotResponse_1 = require("./src/DiscordBot/Core/Response/BotResponse");
+Object.defineProperty(exports, "BotResponse", { enumerable: true, get: function () { return __importDefault(BotResponse_1).default; } });

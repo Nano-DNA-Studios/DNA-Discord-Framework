@@ -1,11 +1,10 @@
 import { CacheType, ChatInputCommandInteraction, Client } from 'discord.js';
 import BotDataManager from '../Data/BotDataManager';
-import CommandLogger from '../Logging/CommandLogger';
 
 /**
  * Interface describing the structure for a Command Handler
  */
-interface ICommandHandler extends CommandLogger{
+interface ICommandHandler{
 
     /**
      * Handles Discord Bot Command Execution

@@ -1,55 +1,82 @@
 import IDiscordCommand from "./IDiscordCommand";
 import BotDataManager from "../Data/BotDataManager";
-import { CacheType, ChatInputCommandInteraction, Client} from 'discord.js';
+import { CacheType, ChatInputCommandInteraction, Client, InteractionResponse } from 'discord.js';
 import ICommandHandler from "./ICommandHandler";
+import BotResponse from "../Response/BotResponse";
 
 /**
  * Describes the structure of a command for a Discord Bot
  */
-interface ICommand extends IDiscordCommand{
+interface ICommand extends IDiscordCommand {
 
-    /**
-     * The message to reply with when the command is executed successfully.
-     */
-    ReplyMessage: string;
+  /**
+   * Function that is executed when the command is run
+   * @param BotDataManager BotDataManager that contains all Bot Settings
+   * @param interaction Interaction instance that triggered running the command
+   * @returns void
+   */
+  RunCommand: (client: Client, interaction: ChatInputCommandInteraction<CacheType>, BotDataManager: BotDataManager) => void;
 
-    /**
-     * Function that is executed when the command is run
-     * @param BotDataManager BotDataManager that contains all Bot Settings
-     * @param interaction Interaction instance that triggered running the command
-     * @returns void
-     */
-    CommandFunction: (interaction: ChatInputCommandInteraction<CacheType>, BotDataManager : BotDataManager) => void;
+  /**
+   * The Message to log when the Command is running
+   */
+  RunningMessage: string;
 
-    /**
-     * The message to log when the command is executed.
-     */
-    LogMessage: string;
+  /**
+   * The message to log when the command is executed.
+   */
+  LogMessage: string;
 
-    /**
-     * The error message to display when the command fails.
-     */
-    ErrorMessage: string;
+  /**
+   * The error message to display when the command fails.
+   */
+  ErrorMessage: string;
 
-    /**
-     * The success message to display when the command succeeds.
-     */
-    SuccessMessage: string;
+  /**
+   * The success message to display when the command succeeds.
+   */
+  SuccessMessage: string;
 
-    /**
-     * The array of fail messages to display when the command fails.
-     */
-    FailMessages: string[];
+  /**
+   * The array of fail messages to display when the command fails.
+   */
+  FailMessages?: string[];
 
-    /**
-     * The Custom Command Handler for the command
-     * @param BotDataManager Data Manager that contains all Bot Settings
-     * @param interaction Interaction instance that triggered running the command
-     * @returns Nothing
-     */
-    CommandHandler: ICommandHandler;
+  /**
+   * Boolean Flag determining if the Response to the User will be Ephemeral or Not
+   */
+  IsEphemeralResponse: boolean;
 
-    RunCommand: (dataManager: BotDataManager, interaction: ChatInputCommandInteraction<CacheType>, client: Client) => void;
+  /**
+   * The Custom Command Handler for the command
+   * @param BotDataManager Data Manager that contains all Bot Settings
+   * @param interaction Interaction instance that triggered running the command
+   * @returns Nothing
+   */
+  CommandHandler: ICommandHandler;
+
+  /**
+   * The Response sent back to the User who called the Command
+   */
+  Response: BotResponse;
+
+  /**
+   * The Interaction Response Reply Instance that was sent to the User who called the Command
+   */
+  UserResponse: InteractionResponse | undefined;
+
+  /**
+   * Initializes and Sends the Response to the User who called the Command, can be Ephermeral or not based on {@link IsEphemeralResponse}
+   * @param interaction The interaction instance caused by the Command
+   * @param message The First message to send to the User
+   */
+  InitializeUserResponse(interaction: ChatInputCommandInteraction<CacheType>, message: string): void;
+
+  /**
+   * Adds a String Message in the next line to the Reply created from {@link InitializeUserResponse}
+   * @param content The String Content of the Message to add to the Response Sent to the User from {@link InitializeUserResponse}
+   */
+  AddToResponseMessage(content: string): void;
 }
 
 export default ICommand;

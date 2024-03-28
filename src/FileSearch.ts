@@ -1,6 +1,7 @@
 import * as fs from "fs";
 import * as path from "path";
 import ICommand from "./DiscordBot/Core/Interfaces/ICommand";
+import Command from "./DiscordBot/Core/Commands/Command";
 
 /**
  * Utility Class for Searching Files
@@ -10,7 +11,7 @@ class FileSearch {
   /**
    * Path the the Directory of the Bot
    */
-  private _directoryPath: string = process.cwd() + "/src";
+  private _directoryPath: string = process.cwd() + "\\src";
 
   /**
    * Path this Module is Located
@@ -24,8 +25,10 @@ class FileSearch {
   public GetAllJSFiles(): string[] {
     let AllFiles: string[] = [];
 
-    AllFiles.push(...this.GetFiles(this._directoryPath, ".js")); 
-    AllFiles.push(...this.GetFiles(this._modulePath, ".js"));
+    AllFiles.push(...this.GetFiles(this._directoryPath, ".js"));
+
+    if (this._directoryPath != this._modulePath)
+      AllFiles.push(...this.GetFiles(this._modulePath, ".js"));
 
     return AllFiles
   }
@@ -77,7 +80,7 @@ class FileSearch {
   * Gets all the Command Classes from the Provided Directory
   * @returns Array of IT Command Objects
   */
-  public GetAllCommands<T extends { new(): ICommand } & ICommand>(): T[] {
+  public GetAllCommands<T extends { new(): Command } & Command>(): T[] {
     let Commands: T[] = [];
 
     const Files = this.GetAllJSFiles();
