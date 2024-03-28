@@ -5,7 +5,6 @@ export {default as CommandHandler} from "./src/DiscordBot/Core/Commands/CommandH
 export {default as BotCommandLog} from "./src/DiscordBot/Core/Logging/BotCommandLog";
 export {default as BotData} from "./src/DiscordBot/Core/Data/BotData";
 export {default as CommandFactory} from "./src/DiscordBot/Core/Commands/CommandFactory";
-export {default as CommandLogger} from "./src/DiscordBot/Core/Logging/CommandLogger";
 export {default as OptionTypesEnum} from "./src/DiscordBot/Core/Enums/OptionTypes";
 export {default as CommandRegisterer} from "./src/DiscordBot/Core/Commands/CommandRegisterer";
 export {default as DefaultCommandHandler} from "./src/DiscordBot/Core/Defaults/DefaultCommandHandler";

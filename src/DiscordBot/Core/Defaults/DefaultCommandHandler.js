@@ -13,6 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const CommandFactory_1 = __importDefault(require("../Commands/CommandFactory"));
+const BotCommandLog_1 = __importDefault(require("../Logging/BotCommandLog"));
 /**
  * Default Command Handler used for empty and regular Discord Bot Commands
  */
@@ -22,18 +23,14 @@ class DefaultCommandHandler {
             let Factory = yield new CommandFactory_1.default(interaction.commandName);
             let command = yield Factory.CreateCommand();
             if (command) {
-                yield command.InitializeCommandLogger(interaction, client);
-                // await CommandLogger.InitializeResponse(interaction, client, dataManager);
                 try {
-                    // CommandLogger.LogAndRespond(command.LogMessage);
-                    command.RunCommand(client, interaction, dataManager);
-                    //CommandLogger.LogAndRespond(command.SuccessMessage);
+                    yield command.RunCommand(client, interaction, dataManager);
                 }
                 catch (error) {
-                    //CommandLogger.LogAndRespond(command.ErrorMessage + `  (${error})`)
                 }
-                command.LogAndRespond();
-                //dataManager.AddCommandLog(CommandLogger.GetCommandLog(interaction));
+                const log = new BotCommandLog_1.default(interaction);
+                log.AddLogMessage(command.Response);
+                dataManager.AddCommandLog(log);
             }
         });
     }

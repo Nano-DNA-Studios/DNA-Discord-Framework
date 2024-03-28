@@ -1,5 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+/**
+ * The Message Object that is sent as a Response to the User when using a Command
+ */
 class BotResponse {
     constructor() {
         /**

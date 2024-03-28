@@ -17,7 +17,6 @@ const CommandRegisterer_1 = __importDefault(require("./Commands/CommandRegistere
 const BotData_1 = __importDefault(require("./Data/BotData"));
 const discord_js_1 = require("discord.js");
 const FileSearch_1 = __importDefault(require("../../FileSearch"));
-//import readlineSync, { Interface as ReadLineInterface } from 'readline';
 const readline_sync_1 = __importDefault(require("readline-sync"));
 /**
  * Represents an instance of a Discord Bot, has default functionality for a Discord Bot but can be extended and add custom functionality with minimal effort
@@ -69,7 +68,6 @@ class DiscordBot {
     /* <inheritdoc> */
     StartBot() {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log("Running Start");
             if (!this.DataManager.SaveFileExists()) {
                 yield this.InitializeBot();
             }

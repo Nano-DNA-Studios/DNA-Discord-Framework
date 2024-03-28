@@ -5,7 +5,6 @@ import { Client, IntentsBitField } from "discord.js";
 import FileSearch from "../../FileSearch";
 import BotDataManager from "./Data/BotDataManager";
 import IDiscordBot from "./Interfaces/IDiscordBot";
-//import readlineSync, { Interface as ReadLineInterface } from 'readline';
 import readlineSync from 'readline-sync';
 
 /**
@@ -69,8 +68,6 @@ class DiscordBot<T extends BotDataManager> implements IDiscordBot {
 
     /* <inheritdoc> */
     public async StartBot(): Promise<void> {
-
-        console.log("Running Start")
         if (!this.DataManager.SaveFileExists()) {
             await this.InitializeBot();
         } else {

@@ -1,60 +1,81 @@
 import ICommand from "../Interfaces/ICommand";
 import ICommandOption from "../Interfaces/ICommandOption";
 import BotDataManager from "../Data/BotDataManager";
-import { CacheType, ChatInputCommandInteraction, Client, Message, MessageCreateOptions, MessagePayload, MessagePayloadOption, VoiceStateEditOptions } from 'discord.js';
+import { CacheType, ChatInputCommandInteraction, Client, InteractionResponse } from 'discord.js';
 import ICommandHandler from "../Interfaces/ICommandHandler";
 import DefaultCommandHandler from "../Defaults/DefaultCommandHandler";
 import BotResponse from "../Response/BotResponse";
-import CommandLogger from "../Logging/CommandLogger";
 
 /**
  * Represents a Command for a Discord Bot
  */
 abstract class Command implements ICommand {
+    /* <inheritdoc> */
+    public abstract RunningMessage: string;
+
+    /* <inheritdoc> */
     public abstract CommandName: string;
+
+    /* <inheritdoc> */
     public abstract CommandDescription: string;
+
+    /* <inheritdoc> */
     public abstract RunCommand: (client: Client, interaction: ChatInputCommandInteraction<CacheType>, BotDataManager: BotDataManager) => void;
-    public abstract ReplyMessage: string;
+
+    /* <inheritdoc> */
     public abstract LogMessage: string;
+
+    /* <inheritdoc> */
     public abstract ErrorMessage: string;
+
+    /* <inheritdoc> */
     public abstract SuccessMessage: string;
+
+    /* <inheritdoc> */
     public abstract IsEphemeralResponse: boolean;
 
-
+    /* <inheritdoc> */
     public FailMessages?: string[];
+
+    /* <inheritdoc> */
     public Options?: ICommandOption[];
 
-
+    /* <inheritdoc> */
     public CommandHandler: ICommandHandler = DefaultCommandHandler.Instance();
-    public EphemeralResponse: BotResponse = new BotResponse();
+
+    /* <inheritdoc> */
     public Response: BotResponse = new BotResponse();
 
-    private Logger: CommandLogger = new CommandLogger();
+    /* <inheritdoc> */
+    public UserResponse: InteractionResponse | undefined;
 
+    /**
+     * Boolean Flag to indicate when the Response Instance sent to the User has been received and the Promise has been accomplished
+     */
+    private _responseReceived: boolean = false;
 
-    public AddToResponseMessage(content: string): void {
-        this.EphemeralResponse.content += content + "\n";
+    /* <inheritdoc> */
+    public InitializeUserResponse(interaction: ChatInputCommandInteraction<CacheType>, message: string): void {
+        this.Response.content = message + "\n";
+        const reply = interaction.reply({ content: this.Response.content, ephemeral: this.IsEphemeralResponse });
+
+        reply.then((interactionResponse: InteractionResponse) => {
+            this.UserResponse = interactionResponse;
+            this._responseReceived = true;
+        });
     }
 
-    public AddToLogMessage(content: string): void {
+    /* <inheritdoc> */
+    public AddToResponseMessage(content: string): void {
+        const attemptToAdd = () => {
+            if (this._responseReceived)
+                this.UserResponse?.edit(this.Response);
+            else
+                setTimeout(attemptToAdd, 100);
+        };
 
         this.Response.content += content + "\n";
-    }
-
-    public AddToAllResponseMessages(content: string): void {
-        this.AddToResponseMessage(content);
-        this.AddToLogMessage(content);
-    }
-
-    public async InitializeCommandLogger(interaction: ChatInputCommandInteraction<CacheType>, client: Client) {
-        this.AddToAllResponseMessages(`Running ${interaction.commandName} :arrows_clockwise:`)
-        await this.Logger.InitializeResponse(interaction, client, this.IsEphemeralResponse, this.Response)
-
-    }
-
-    public LogAndRespond(): void {
-
-        this.Logger.LogAndRespond(this.Response, this.EphemeralResponse);
+        attemptToAdd();
     }
 }
 
