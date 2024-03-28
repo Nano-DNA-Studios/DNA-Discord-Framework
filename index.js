@@ -17,7 +17,6 @@ var BotData_1 = require("./src/DiscordBot/Core/Data/BotData");
 Object.defineProperty(exports, "BotData", { enumerable: true, get: function () { return __importDefault(BotData_1).default; } });
 var CommandFactory_1 = require("./src/DiscordBot/Core/Commands/CommandFactory");
 Object.defineProperty(exports, "CommandFactory", { enumerable: true, get: function () { return __importDefault(CommandFactory_1).default; } });
-//export {default as CommandLogger} from "./src/DiscordBot/Core/Logging/CommandLogger";
 var OptionTypes_1 = require("./src/DiscordBot/Core/Enums/OptionTypes");
 Object.defineProperty(exports, "OptionTypesEnum", { enumerable: true, get: function () { return __importDefault(OptionTypes_1).default; } });
 var CommandRegisterer_1 = require("./src/DiscordBot/Core/Commands/CommandRegisterer");
