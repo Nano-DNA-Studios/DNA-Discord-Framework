@@ -6,7 +6,7 @@
   "scripts": {
     "test": "npm run build && clear && node src/testbot.js",
     "build": "tsc",
-    "start": "clear && npm run build && node index.js"
+    "start": "clear && npm run build && node src/testbot.js"
   },
   "keywords": [
     "Discord",

@@ -104,7 +104,6 @@ class DiscordBot<T extends BotDataManager> implements IDiscordBot {
 
     /* <inheritdoc> */
     public RegisterBotToken(): void {
-
         // Prompt for bot token synchronously
         this.DataManager.DISCORD_BOT_TOKEN = readlineSync.question('Enter the Discord Bot Token: ').replace(/\s/g, '');
 
