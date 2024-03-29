@@ -92,12 +92,10 @@ class FileSearch {
         const Files = this.GetAllJSFiles();
         Files.forEach(file => {
             const module = require(file);
-            console.log(module);
             try {
                 const classType = module;
                 try {
                     const moduleInstance = new classType();
-                    console.log(moduleInstance);
                     if ('CommandName' in moduleInstance)
                         Commands.push(module);
                 }
