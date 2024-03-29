@@ -11,7 +11,7 @@ class FileSearch {
   /**
    * Path the the Directory of the Bot
    */
-  private _directoryPath: string = process.cwd() + "\\src";
+  private _directoryPath: string = process.cwd() + "/src";
 
   /**
    * Path this Module is Located
