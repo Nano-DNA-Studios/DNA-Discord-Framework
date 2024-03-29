@@ -33,7 +33,7 @@ class FileSearch {
         /**
          * Path the the Directory of the Bot
          */
-        this._directoryPath = process.cwd() + "\\src";
+        this._directoryPath = process.cwd() + "/src";
         /**
          * Path this Module is Located
          */
@@ -92,10 +92,12 @@ class FileSearch {
         const Files = this.GetAllJSFiles();
         Files.forEach(file => {
             const module = require(file);
+            console.log(module);
             try {
                 const classType = module;
                 try {
                     const moduleInstance = new classType();
+                    console.log(moduleInstance);
                     if ('CommandName' in moduleInstance)
                         Commands.push(module);
                 }
