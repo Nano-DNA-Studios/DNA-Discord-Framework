@@ -33,11 +33,11 @@ class FileSearch {
         /**
          * Path the the Directory of the Bot
          */
-        this._directoryPath = process.cwd() + "/src";
+        this._directoryPath = fs.realpathSync(process.cwd() + "/src");
         /**
          * Path this Module is Located
          */
-        this._modulePath = __dirname;
+        this._modulePath = fs.realpathSync(__dirname);
     }
     /**
     * Gets all the files with JavaScript endings in the Bot Directory

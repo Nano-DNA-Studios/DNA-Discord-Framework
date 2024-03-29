@@ -7,6 +7,3 @@ const DiscordBot = require("./DiscordBot/Core/DiscordBot");
 const Bot = new DiscordBot.default(BotDataManager.default);
 
 Bot.StartBot();
-
-
-let runner = new BashScriptRunner();

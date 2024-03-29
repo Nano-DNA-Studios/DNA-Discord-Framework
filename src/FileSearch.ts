@@ -11,12 +11,12 @@ class FileSearch {
   /**
    * Path the the Directory of the Bot
    */
-  private _directoryPath: string = process.cwd() + "/src";
+  private _directoryPath: string = fs.realpathSync(process.cwd() + "/src");
 
   /**
    * Path this Module is Located
    */
-  private _modulePath: string = __dirname;
+  private _modulePath: string = fs.realpathSync(__dirname);
 
   /**
   * Gets all the files with JavaScript endings in the Bot Directory
