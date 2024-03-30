@@ -27,7 +27,6 @@ class RunBashCommand extends Command {
         else { this.AddToResponseMessage("Command has not been provided"); }
 
         this.AddToResponseMessage("Results: \n" + runner.StandardOutputLogs);
-
     };
     RunningMessage = `Running ${this.CommandName} :arrows_clockwise:`;
     LogMessage = "Bash Command is running :arrows_clockwise:";
