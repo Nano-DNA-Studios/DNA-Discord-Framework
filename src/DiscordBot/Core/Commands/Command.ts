@@ -12,8 +12,6 @@ import BotResponse from "../Response/BotResponse";
  * Represents a Command for a Discord Bot
  */
 abstract class Command implements ICommand {
-    /* <inheritdoc> */
-    public abstract RunningMessage: string;
 
     /* <inheritdoc> */
     public abstract CommandName: string;
@@ -23,15 +21,6 @@ abstract class Command implements ICommand {
 
     /* <inheritdoc> */
     public abstract RunCommand: (client: Client, interaction: ChatInputCommandInteraction<CacheType>, BotDataManager: BotDataManager) => void;
-
-    /* <inheritdoc> */
-    public abstract LogMessage: string;
-
-    /* <inheritdoc> */
-    public abstract ErrorMessage: string;
-
-    /* <inheritdoc> */
-    public abstract SuccessMessage: string;
 
     /* <inheritdoc> */
     public abstract IsEphemeralResponse: boolean;

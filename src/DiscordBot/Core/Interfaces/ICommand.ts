@@ -18,26 +18,6 @@ interface ICommand extends IDiscordCommand {
   RunCommand: (client: Client, interaction: ChatInputCommandInteraction<CacheType>, BotDataManager: BotDataManager) => void;
 
   /**
-   * The Message to log when the Command is running
-   */
-  RunningMessage: string;
-
-  /**
-   * The message to log when the command is executed.
-   */
-  LogMessage: string;
-
-  /**
-   * The error message to display when the command fails.
-   */
-  ErrorMessage: string;
-
-  /**
-   * The success message to display when the command succeeds.
-   */
-  SuccessMessage: string;
-
-  /**
    * The array of fail messages to display when the command fails.
    */
   FailMessages?: string[];
