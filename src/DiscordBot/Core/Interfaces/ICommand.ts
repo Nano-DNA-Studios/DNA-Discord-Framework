@@ -57,6 +57,12 @@ interface ICommand extends IDiscordCommand {
    * @param content The String Content of the Message to add to the Response Sent to the User from {@link InitializeUserResponse}
    */
   AddToResponseMessage(content: string): void;
+
+  /**
+   * Adds a File to the Bots Reply created from {@link InitializeUserResponse}
+   * @param filePath The Path to the File Being added
+   */
+  AddFileToResponseMessage (filePath: string) : void;
 }
 
 export default ICommand;

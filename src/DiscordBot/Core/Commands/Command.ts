@@ -58,6 +58,21 @@ abstract class Command implements ICommand {
 
     /* <inheritdoc> */
     public AddToResponseMessage(content: string): void {
+        this.Response.content += content + "\n";
+        this.UpdateResponse();
+    }
+
+    /* <inheritdoc> */
+    public AddFileToResponseMessage(filePath: string): void {
+        this.Response.files?.push(filePath);
+        this.UpdateResponse();
+    }
+
+    /**
+     * Updates the Bot Response sent to the User created from {@link InitializeUserResponse}
+     */
+    private UpdateResponse(): void {
+
         const attemptToAdd = () => {
             if (this._responseReceived)
                 this.UserResponse?.edit(this.Response);
@@ -65,7 +80,6 @@ abstract class Command implements ICommand {
                 setTimeout(attemptToAdd, 100);
         };
 
-        this.Response.content += content + "\n";
         attemptToAdd();
     }
 }

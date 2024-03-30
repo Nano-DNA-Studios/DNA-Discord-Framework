@@ -31,6 +31,19 @@ class Command {
     }
     /* <inheritdoc> */
     AddToResponseMessage(content) {
+        this.Response.content += content + "\n";
+        this.UpdateResponse();
+    }
+    /* <inheritdoc> */
+    AddFileToResponseMessage(filePath) {
+        var _a;
+        (_a = this.Response.files) === null || _a === void 0 ? void 0 : _a.push(filePath);
+        this.UpdateResponse();
+    }
+    /**
+     * Updates the Bot Response sent to the User created from {@link InitializeUserResponse}
+     */
+    UpdateResponse() {
         const attemptToAdd = () => {
             var _a;
             if (this._responseReceived)
@@ -38,7 +51,6 @@ class Command {
             else
                 setTimeout(attemptToAdd, 100);
         };
-        this.Response.content += content + "\n";
         attemptToAdd();
     }
 }
