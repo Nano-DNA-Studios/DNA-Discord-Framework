@@ -15,15 +15,20 @@ const BotCommandsEnum_1 = __importDefault(require("../../DiscordBot/Core/Enums/B
 const Command_1 = __importDefault(require("../../DiscordBot/Core/Commands/Command"));
 const OptionTypes_1 = __importDefault(require("../../DiscordBot/Core/Enums/OptionTypes"));
 const BashScriptRunner_1 = __importDefault(require("../BashScriptRunner"));
+const fs_1 = __importDefault(require("fs"));
 /**
  * Gets the Logs the Bot has collected and sends the file to the User through a Private Message
  */
 class RunBashCommand extends Command_1.default {
     constructor() {
         super(...arguments);
+        /* <inheritdoc> */
         this.CommandName = BotCommandsEnum_1.default.RunBashCommand;
+        /* <inheritdoc> */
         this.CommandDescription = "Returns the Log File";
+        /* <inheritdoc> */
         this.IsEphemeralResponse = true;
+        /* <inheritdoc> */
         this.RunCommand = (client, interaction, dataManager) => __awaiter(this, void 0, void 0, function* () {
             this.InitializeUserResponse(interaction, this.RunningMessage);
             const command = interaction.options.getString("command");
@@ -35,12 +40,27 @@ class RunBashCommand extends Command_1.default {
             else {
                 this.AddToResponseMessage("Command has not been provided");
             }
-            this.AddToResponseMessage("Results: \n" + runner.StandardOutputLogs);
+            if (runner.StandardOutputLogs.length > 1900) {
+                const filePath = dataManager.TEMP_DATA_SAVE_PATH + `/bashResult.txt`;
+                try {
+                    fs_1.default.rmSync(filePath);
+                }
+                catch (e) { }
+                fs_1.default.writeFileSync(filePath, runner.StandardOutputLogs);
+                this.AddFileToResponseMessage(filePath);
+            }
+            else
+                this.AddToResponseMessage("Results: \n" + runner.StandardOutputLogs);
         });
+        /**
+         * The Running Message
+         */
         this.RunningMessage = `Running ${this.CommandName} :arrows_clockwise:`;
+        /**
+         * The Log Message
+         */
         this.LogMessage = "Bash Command is running :arrows_clockwise:";
-        this.ErrorMessage = ":warning: Could not run the Bash Command :warning:";
-        this.SuccessMessage = ":white_check_mark: Bash Command ran Successfully :white_check_mark:";
+        /* <inheritdoc> */
         this.Options = [
             {
                 type: OptionTypes_1.default.String,
