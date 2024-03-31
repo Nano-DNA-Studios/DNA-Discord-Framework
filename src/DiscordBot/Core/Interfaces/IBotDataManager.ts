@@ -15,6 +15,11 @@ interface IBotDataManager {
     FILE_SAVE_PATH: string;
 
     /**
+     * The Path to the Temporary data Folder
+     */
+    TEMP_DATA_SAVE_PATH:string;
+
+    /**
      * Discord Bot Token
      */
     DISCORD_BOT_TOKEN: string;

@@ -125,6 +125,7 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+Resources
 Resources/data.json
 Resources/log.txt
 src\testbot.ts

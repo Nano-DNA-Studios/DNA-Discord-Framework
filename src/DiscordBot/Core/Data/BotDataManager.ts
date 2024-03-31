@@ -10,6 +10,8 @@ class BotDataManager implements IBotDataManager {
 
     public LOG_FILE_PATH: string;
 
+    public TEMP_DATA_SAVE_PATH:string;
+
     public DATA_SAVE_PATH: string;
 
     public FILE_SAVE_PATH: string;
@@ -32,6 +34,7 @@ class BotDataManager implements IBotDataManager {
         this.DATA_SAVE_PATH = process.cwd() + '/Resources';
         this.FILE_SAVE_PATH = this.DATA_SAVE_PATH + '/data.json';
         this.LOG_FILE_PATH = this.DATA_SAVE_PATH + '/log.txt';
+        this.TEMP_DATA_SAVE_PATH = this.DATA_SAVE_PATH + `/temp`
     }
 
     /**
@@ -48,6 +51,7 @@ class BotDataManager implements IBotDataManager {
      */
     public InitializeData(): void {
         fs.mkdirSync(this.DATA_SAVE_PATH, { recursive: true });
+        fs.mkdirSync(this.TEMP_DATA_SAVE_PATH, { recursive: true });
         fs.writeFileSync(this.FILE_SAVE_PATH, '');
         fs.writeFileSync(this.LOG_FILE_PATH, '');
     }
@@ -85,8 +89,6 @@ class BotDataManager implements IBotDataManager {
                 (this as any)[key] = data[key];   
         }
     }
-
-   
 
     /**
      * Gets the Data in JSON Format

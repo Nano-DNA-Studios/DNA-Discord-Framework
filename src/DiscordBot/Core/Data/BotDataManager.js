@@ -30,6 +30,7 @@ class BotDataManager {
         this.DATA_SAVE_PATH = process.cwd() + '/Resources';
         this.FILE_SAVE_PATH = this.DATA_SAVE_PATH + '/data.json';
         this.LOG_FILE_PATH = this.DATA_SAVE_PATH + '/log.txt';
+        this.TEMP_DATA_SAVE_PATH = this.DATA_SAVE_PATH + `/temp`;
     }
     /**
      * Loads the Data from the File or Registers it by creating the Default Data and file
@@ -46,6 +47,7 @@ class BotDataManager {
      */
     InitializeData() {
         fs_1.default.mkdirSync(this.DATA_SAVE_PATH, { recursive: true });
+        fs_1.default.mkdirSync(this.TEMP_DATA_SAVE_PATH, { recursive: true });
         fs_1.default.writeFileSync(this.FILE_SAVE_PATH, '');
         fs_1.default.writeFileSync(this.LOG_FILE_PATH, '');
     }
