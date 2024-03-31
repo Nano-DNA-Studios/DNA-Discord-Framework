@@ -20,6 +20,11 @@ interface IBotDataManager {
     TEMP_DATA_SAVE_PATH:string;
 
     /**
+     * The File Path and File that contains the Discord Bot Token to make it easier to login if you are using Docker or running locally
+     */
+    AUTO_LOGIN_FILE:string;
+
+    /**
      * Discord Bot Token
      */
     DISCORD_BOT_TOKEN: string;

@@ -31,6 +31,7 @@ class BotDataManager {
         this.FILE_SAVE_PATH = this.DATA_SAVE_PATH + '/data.json';
         this.LOG_FILE_PATH = this.DATA_SAVE_PATH + '/log.txt';
         this.TEMP_DATA_SAVE_PATH = this.DATA_SAVE_PATH + `/temp`;
+        this.AUTO_LOGIN_FILE = this.DATA_SAVE_PATH + `/autologin.txt`;
     }
     /**
      * Loads the Data from the File or Registers it by creating the Default Data and file
@@ -57,6 +58,20 @@ class BotDataManager {
      */
     SaveFileExists() {
         return fs_1.default.existsSync(this.FILE_SAVE_PATH);
+    }
+    /**
+     * Determines if the Auto Login File Exists
+     * @returns True if the file exists, False if it does not
+     */
+    AutoLoginExists() {
+        return fs_1.default.existsSync(this.AUTO_LOGIN_FILE);
+    }
+    /**
+     * Gets the Auto Login File Content
+     * @returns Returns the Content of the Auto Login File
+     */
+    GetAutoLoginContent() {
+        return fs_1.default.readFileSync(this.AUTO_LOGIN_FILE, "utf8");
     }
     /**
      * Saves the Data to the File

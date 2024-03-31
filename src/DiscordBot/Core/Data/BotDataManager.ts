@@ -16,6 +16,8 @@ class BotDataManager implements IBotDataManager {
 
     public FILE_SAVE_PATH: string;
 
+    AUTO_LOGIN_FILE: string;
+
     public DISCORD_BOT_TOKEN: string = "";
 
     public GUILD_ID: string = "";
@@ -35,6 +37,7 @@ class BotDataManager implements IBotDataManager {
         this.FILE_SAVE_PATH = this.DATA_SAVE_PATH + '/data.json';
         this.LOG_FILE_PATH = this.DATA_SAVE_PATH + '/log.txt';
         this.TEMP_DATA_SAVE_PATH = this.DATA_SAVE_PATH + `/temp`
+        this.AUTO_LOGIN_FILE = this.DATA_SAVE_PATH + `/autologin.txt`;
     }
 
     /**
@@ -62,6 +65,24 @@ class BotDataManager implements IBotDataManager {
      */
     public SaveFileExists(): boolean {
         return fs.existsSync(this.FILE_SAVE_PATH);
+    }
+
+    /**
+     * Determines if the Auto Login File Exists
+     * @returns True if the file exists, False if it does not
+     */
+    public AutoLoginExists (): boolean
+    {
+        return fs.existsSync(this.AUTO_LOGIN_FILE);
+    }
+
+    /**
+     * Gets the Auto Login File Content
+     * @returns Returns the Content of the Auto Login File
+     */
+    public GetAutoLoginContent(): string
+    {
+        return fs.readFileSync(this.AUTO_LOGIN_FILE, "utf8");
     }
 
     /**
