@@ -68,7 +68,13 @@ class DiscordBot<T extends BotDataManager> implements IDiscordBot {
 
     /* <inheritdoc> */
     public async StartBot(): Promise<void> {
-        if (!this.DataManager.SaveFileExists()) {
+
+        if (this.DataManager.AutoLoginExists() && !this.DataManager.SaveFileExists()) {
+            this.DataManager.DISCORD_BOT_TOKEN = this.DataManager.GetAutoLoginContent();
+            await this.InitializeBot();
+        }
+        else if (!this.DataManager.SaveFileExists()) {
+            await this.RegisterBotToken();
             await this.InitializeBot();
         } else {
             await this.DataManager.LoadData();
@@ -84,11 +90,10 @@ class DiscordBot<T extends BotDataManager> implements IDiscordBot {
     /* <inheritdoc> */
     public async InitializeBot(): Promise<void> {
         this.DataManager.InitializeData();
-        this.RegisterBotToken();
-        await this.DataManager.LoadData();
         await this.Login();
         const guilds: string[] = (await this.BotInstance.guilds.fetch()).map(guild => guild.name);
         this.RegisterGuildName(guilds);
+        this.DataManager.SaveData();
     }
 
     /* <inheritdoc> */
@@ -104,10 +109,7 @@ class DiscordBot<T extends BotDataManager> implements IDiscordBot {
 
     /* <inheritdoc> */
     public RegisterBotToken(): void {
-        // Prompt for bot token synchronously
         this.DataManager.DISCORD_BOT_TOKEN = readlineSync.question('Enter the Discord Bot Token: ').replace(/\s/g, '');
-
-        this.DataManager.SaveData();
     }
 
     /* <inheritdoc> */

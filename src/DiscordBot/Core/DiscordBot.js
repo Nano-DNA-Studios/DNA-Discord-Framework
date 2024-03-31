@@ -68,7 +68,12 @@ class DiscordBot {
     /* <inheritdoc> */
     StartBot() {
         return __awaiter(this, void 0, void 0, function* () {
-            if (!this.DataManager.SaveFileExists()) {
+            if (this.DataManager.AutoLoginExists() && !this.DataManager.SaveFileExists()) {
+                this.DataManager.DISCORD_BOT_TOKEN = this.DataManager.GetAutoLoginContent();
+                yield this.InitializeBot();
+            }
+            else if (!this.DataManager.SaveFileExists()) {
+                yield this.RegisterBotToken();
                 yield this.InitializeBot();
             }
             else {
@@ -85,11 +90,10 @@ class DiscordBot {
     InitializeBot() {
         return __awaiter(this, void 0, void 0, function* () {
             this.DataManager.InitializeData();
-            this.RegisterBotToken();
-            yield this.DataManager.LoadData();
             yield this.Login();
             const guilds = (yield this.BotInstance.guilds.fetch()).map(guild => guild.name);
             this.RegisterGuildName(guilds);
+            this.DataManager.SaveData();
         });
     }
     /* <inheritdoc> */
@@ -106,9 +110,7 @@ class DiscordBot {
     }
     /* <inheritdoc> */
     RegisterBotToken() {
-        // Prompt for bot token synchronously
         this.DataManager.DISCORD_BOT_TOKEN = readline_sync_1.default.question('Enter the Discord Bot Token: ').replace(/\s/g, '');
-        this.DataManager.SaveData();
     }
     /* <inheritdoc> */
     RegisterGuildName(options) {
