@@ -65,7 +65,11 @@ abstract class Command implements ICommand {
     /* <inheritdoc> */
     public AddFileToResponseMessage(filePath: string): void {
         if (!this.Response.files?.includes(filePath))
+        {
             this.Response.files?.push(filePath);
+            console.log(this.Response.files);
+        }
+           
         this.UpdateResponse();
     }
 

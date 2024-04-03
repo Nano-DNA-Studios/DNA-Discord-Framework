@@ -36,8 +36,11 @@ class Command {
     }
     /* <inheritdoc> */
     AddFileToResponseMessage(filePath) {
-        var _a;
-        (_a = this.Response.files) === null || _a === void 0 ? void 0 : _a.push(filePath);
+        var _a, _b;
+        if (!((_a = this.Response.files) === null || _a === void 0 ? void 0 : _a.includes(filePath))) {
+            (_b = this.Response.files) === null || _b === void 0 ? void 0 : _b.push(filePath);
+            console.log(this.Response.files);
+        }
         this.UpdateResponse();
     }
     /**
