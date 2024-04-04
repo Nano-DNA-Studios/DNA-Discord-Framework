@@ -66,16 +66,9 @@ abstract class Command implements ICommand {
     public AddFileToResponseMessage(filePath: string): void {
 
         if (!this.Response.files?.some(file => file === filePath)) {
-            this.Response.files?.push(filePath); // Adjust according to how you structure objects
-        }
-
-        /*
-        if (!this.Response.files?.includes(filePath))
-        {
             this.Response.files?.push(filePath);
         }
-        */
-           
+
         this.UpdateResponse();
     }
 
