@@ -38,14 +38,8 @@ class Command {
     AddFileToResponseMessage(filePath) {
         var _a, _b;
         if (!((_a = this.Response.files) === null || _a === void 0 ? void 0 : _a.some(file => file === filePath))) {
-            (_b = this.Response.files) === null || _b === void 0 ? void 0 : _b.push(filePath); // Adjust according to how you structure objects
+            (_b = this.Response.files) === null || _b === void 0 ? void 0 : _b.push(filePath);
         }
-        /*
-        if (!this.Response.files?.includes(filePath))
-        {
-            this.Response.files?.push(filePath);
-        }
-        */
         this.UpdateResponse();
     }
     /**
