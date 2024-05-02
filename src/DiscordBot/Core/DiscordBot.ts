@@ -1,7 +1,7 @@
 import CommandHandler from "./Commands/CommandHandler";
 import CommandRegisterer from "./Commands/CommandRegisterer";
 import BotData from "./Data/BotData";
-import { Client, IntentsBitField } from "discord.js";
+import { Client, IntentsBitField, TextChannel } from "discord.js";
 import FileSearch from "../../FileSearch";
 import BotDataManager from "./Data/BotDataManager";
 import IDiscordBot from "./Interfaces/IDiscordBot";
@@ -35,11 +35,46 @@ class DiscordBot<T extends BotDataManager> implements IDiscordBot {
             console.log(`Bot is ready ${c.user.tag} on ${this.DataManager.GUILD_NAME}`);
         });
 
+        this.HandleShutDown();
+
         this.BotInstance.on("interactionCreate", async (interaction) => {
             if (!interaction.isChatInputCommand()) return;
             console.log(interaction.commandName);
             new CommandHandler().HandleCommand(interaction, this.BotInstance, this.DataManager);
         });
+    }
+
+    /**
+     * Handles the Shut Down Cases
+     */
+    private HandleShutDown ()
+    {
+        this.BotInstance.on("shardDisconnect", (c) => {
+            console.log(`Bot is shutting down ${this.BotInstance.user?.tag} on ${this.DataManager.GUILD_NAME}`)
+            this.DisconnectMessage(this.BotInstance);
+        });
+
+        process.on('SIGINT', () => {
+            this.BotInstance.destroy();
+        });
+        
+        process.on('SIGTERM', () => {
+           this.BotInstance.destroy();
+        });
+    }
+
+    /**
+     * Sends a Shut Down Message to the last Message Channel the Bot texted in
+     * @param client The Discord Bot Client Instance
+     */
+    private async DisconnectMessage(client: Client<boolean>) {
+        try {
+            const channel = await this.BotInstance.channels.fetch(this.DataManager.LAST_MESSAGE_CHANNEL_ID);
+
+            if (channel instanceof TextChannel)
+                channel.send(`${client.user?.tag} is Shutting Down`)
+
+        } catch (e) { console.log("No Channel Found.") }
     }
 
     /* <inheritdoc> */

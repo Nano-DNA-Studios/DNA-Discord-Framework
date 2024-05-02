@@ -3,8 +3,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const BotDataManager_1 = __importDefault(require("../Data/BotDataManager"));
 const DefaultCommandHandler_1 = __importDefault(require("../Defaults/DefaultCommandHandler"));
 const BotResponse_1 = __importDefault(require("../Response/BotResponse"));
+const BotData_1 = __importDefault(require("../Data/BotData"));
 //Split this into a Configure and Execute part?
 /**
  * Represents a Command for a Discord Bot
@@ -24,6 +26,8 @@ class Command {
     InitializeUserResponse(interaction, message) {
         this.Response.content = message + "\n";
         const reply = interaction.reply({ content: this.Response.content, ephemeral: this.IsEphemeralResponse });
+        const dataManager = BotData_1.default.Instance(BotDataManager_1.default);
+        dataManager.LAST_MESSAGE_CHANNEL_ID = interaction.channelId;
         reply.then((interactionResponse) => {
             this.UserResponse = interactionResponse;
             this._responseReceived = true;
