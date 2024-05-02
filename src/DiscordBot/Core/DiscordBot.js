@@ -132,13 +132,20 @@ class DiscordBot {
     }
     /* <inheritdoc> */
     Login() {
-        return __awaiter(this, void 0, void 0, function* () {
+        return __awaiter(this, arguments, void 0, function* (loginCount = 0) {
             try {
                 const token = yield this.DataManager.DISCORD_BOT_TOKEN;
                 yield this.BotInstance.login(token);
             }
             catch (e) {
-                throw new Error("Invalid Bot Token, Please check the Bot Token and try again");
+                console.log("Invalid Bot Token, Your Token might be Outdated or incorrect, Please check the Bot Token and try again");
+                if (loginCount < 3) {
+                    this.RegisterBotToken();
+                    loginCount++;
+                    yield this.Login(loginCount);
+                }
+                else
+                    throw new Error("Too Many Incorrect Login Attempts, Shutting Down.");
             }
         });
     }

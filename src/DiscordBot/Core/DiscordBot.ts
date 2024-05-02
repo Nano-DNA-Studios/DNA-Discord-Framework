@@ -47,8 +47,7 @@ class DiscordBot<T extends BotDataManager> implements IDiscordBot {
     /**
      * Handles the Shut Down Cases
      */
-    private HandleShutDown ()
-    {
+    private HandleShutDown() {
         this.BotInstance.on("shardDisconnect", (c) => {
             console.log(`Bot is shutting down ${this.BotInstance.user?.tag} on ${this.DataManager.GUILD_NAME}`)
             this.DisconnectMessage(this.BotInstance);
@@ -57,9 +56,9 @@ class DiscordBot<T extends BotDataManager> implements IDiscordBot {
         process.on('SIGINT', () => {
             this.BotInstance.destroy();
         });
-        
+
         process.on('SIGTERM', () => {
-           this.BotInstance.destroy();
+            this.BotInstance.destroy();
         });
     }
 
@@ -132,13 +131,20 @@ class DiscordBot<T extends BotDataManager> implements IDiscordBot {
     }
 
     /* <inheritdoc> */
-    public async Login(): Promise<void> {
+    public async Login(loginCount: number = 0): Promise<void> {
         try {
             const token = await this.DataManager.DISCORD_BOT_TOKEN;
             await this.BotInstance.login(token);
         }
         catch (e) {
-            throw new Error("Invalid Bot Token, Please check the Bot Token and try again");
+            console.log("Invalid Bot Token, Your Token might be Outdated or incorrect, Please check the Bot Token and try again")
+
+            if (loginCount < 3) {
+                this.RegisterBotToken();
+                loginCount++;
+                await this.Login(loginCount);
+            } else
+                throw new Error("Too Many Incorrect Login Attempts, Shutting Down.");
         }
     }
 
