@@ -35,8 +35,9 @@ interface IDiscordBot {
 
     /**
      * Makes the Bot Login by using the Token Provided
+     * @param loginCount The Number of Login Attempts that have Occured
      */
-    Login(): void
+    Login(loginCount: number): void
 
     /**
     * Registers the Bot Token by asking for the Bot Token, Used when the first Instance of the Bot is created
