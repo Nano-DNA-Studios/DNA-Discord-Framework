@@ -36,12 +36,46 @@ class DiscordBot {
         this.BotInstance.on("ready", (c) => {
             console.log(`Bot is ready ${c.user.tag} on ${this.DataManager.GUILD_NAME}`);
         });
+        this.HandleShutDown();
         this.BotInstance.on("interactionCreate", (interaction) => __awaiter(this, void 0, void 0, function* () {
             if (!interaction.isChatInputCommand())
                 return;
             console.log(interaction.commandName);
             new CommandHandler_1.default().HandleCommand(interaction, this.BotInstance, this.DataManager);
         }));
+    }
+    /**
+     * Handles the Shut Down Cases
+     */
+    HandleShutDown() {
+        this.BotInstance.on("shardDisconnect", (c) => {
+            var _a;
+            console.log(`Bot is shutting down ${(_a = this.BotInstance.user) === null || _a === void 0 ? void 0 : _a.tag} on ${this.DataManager.GUILD_NAME}`);
+            this.DisconnectMessage(this.BotInstance);
+        });
+        process.on('SIGINT', () => {
+            this.BotInstance.destroy();
+        });
+        process.on('SIGTERM', () => {
+            this.BotInstance.destroy();
+        });
+    }
+    /**
+     * Sends a Shut Down Message to the last Message Channel the Bot texted in
+     * @param client The Discord Bot Client Instance
+     */
+    DisconnectMessage(client) {
+        return __awaiter(this, void 0, void 0, function* () {
+            var _a;
+            try {
+                const channel = yield this.BotInstance.channels.fetch(this.DataManager.LAST_MESSAGE_CHANNEL_ID);
+                if (channel instanceof discord_js_1.TextChannel)
+                    channel.send(`${(_a = client.user) === null || _a === void 0 ? void 0 : _a.tag} is Shutting Down`);
+            }
+            catch (e) {
+                console.log("No Channel Found.");
+            }
+        });
     }
     /* <inheritdoc> */
     RegisterCommands() {

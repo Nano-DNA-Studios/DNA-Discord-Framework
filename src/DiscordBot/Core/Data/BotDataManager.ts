@@ -10,13 +10,13 @@ class BotDataManager implements IBotDataManager {
 
     public LOG_FILE_PATH: string;
 
-    public TEMP_DATA_SAVE_PATH:string;
+    public TEMP_DATA_SAVE_PATH: string;
 
     public DATA_SAVE_PATH: string;
 
     public FILE_SAVE_PATH: string;
 
-    AUTO_LOGIN_FILE: string;
+    public AUTO_LOGIN_FILE: string;
 
     public DISCORD_BOT_TOKEN: string = "";
 
@@ -27,6 +27,8 @@ class BotDataManager implements IBotDataManager {
     public CLIENT_ID: string = "";
 
     public LOG_CHANNEL_ID: string = "";
+
+    public LAST_MESSAGE_CHANNEL_ID: string = "";
 
     /**
      * Initializes the Data Manager
@@ -46,7 +48,7 @@ class BotDataManager implements IBotDataManager {
     public async LoadData() {
         if (this.SaveFileExists()) {
             await this.LoadDataFromFile();
-        } 
+        }
     }
 
     /**
@@ -71,8 +73,7 @@ class BotDataManager implements IBotDataManager {
      * Determines if the Auto Login File Exists
      * @returns True if the file exists, False if it does not
      */
-    public AutoLoginExists (): boolean
-    {
+    public AutoLoginExists(): boolean {
         return fs.existsSync(this.AUTO_LOGIN_FILE);
     }
 
@@ -80,8 +81,7 @@ class BotDataManager implements IBotDataManager {
      * Gets the Auto Login File Content
      * @returns Returns the Content of the Auto Login File
      */
-    public GetAutoLoginContent(): string
-    {
+    public GetAutoLoginContent(): string {
         return fs.readFileSync(this.AUTO_LOGIN_FILE, "utf8");
     }
 
@@ -106,8 +106,8 @@ class BotDataManager implements IBotDataManager {
 
         // Dynamically assign values from JSON to class properties
         for (const key in data) {
-            if (data.hasOwnProperty(key) && this.hasOwnProperty(key)) 
-                (this as any)[key] = data[key];   
+            if (data.hasOwnProperty(key) && this.hasOwnProperty(key))
+                (this as any)[key] = data[key];
         }
     }
 
@@ -156,6 +156,15 @@ class BotDataManager implements IBotDataManager {
      */
     public AddCommandLog(log: BotCommandLog): void {
         fs.appendFileSync(this.LOG_FILE_PATH, JSON.stringify(log, null, 4));
+    }
+
+    /**
+     * Sets the Last Messaged Channel ID
+     * @param messageChannelID The Message Channel ID
+     */
+    public SetLastMessageChannelID(messageChannelID: string) {
+        this.LAST_MESSAGE_CHANNEL_ID = messageChannelID;
+        this.SaveData();
     }
 }
 

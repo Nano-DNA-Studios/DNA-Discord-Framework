@@ -27,6 +27,7 @@ class BotDataManager {
         this.GUILD_NAME = "";
         this.CLIENT_ID = "";
         this.LOG_CHANNEL_ID = "";
+        this.LAST_MESSAGE_CHANNEL_ID = "";
         this.DATA_SAVE_PATH = process.cwd() + '/Resources';
         this.FILE_SAVE_PATH = this.DATA_SAVE_PATH + '/data.json';
         this.LOG_FILE_PATH = this.DATA_SAVE_PATH + '/log.txt';
@@ -135,6 +136,14 @@ class BotDataManager {
      */
     AddCommandLog(log) {
         fs_1.default.appendFileSync(this.LOG_FILE_PATH, JSON.stringify(log, null, 4));
+    }
+    /**
+     * Sets the Last Messaged Channel ID
+     * @param messageChannelID The Message Channel ID
+     */
+    SetLastMessageChannelID(messageChannelID) {
+        this.LAST_MESSAGE_CHANNEL_ID = messageChannelID;
+        this.SaveData();
     }
 }
 exports.default = BotDataManager;

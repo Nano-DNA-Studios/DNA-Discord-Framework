@@ -5,6 +5,7 @@ import { CacheType, ChatInputCommandInteraction, Client, InteractionResponse } f
 import ICommandHandler from "../Interfaces/ICommandHandler";
 import DefaultCommandHandler from "../Defaults/DefaultCommandHandler";
 import BotResponse from "../Response/BotResponse";
+import BotData from "../Data/BotData";
 
 //Split this into a Configure and Execute part?
 
@@ -49,6 +50,9 @@ abstract class Command implements ICommand {
     public InitializeUserResponse(interaction: ChatInputCommandInteraction<CacheType>, message: string): void {
         this.Response.content = message + "\n";
         const reply = interaction.reply({ content: this.Response.content, ephemeral: this.IsEphemeralResponse });
+        const dataManager = BotData.Instance(BotDataManager);
+
+        dataManager.LAST_MESSAGE_CHANNEL_ID = interaction.channelId;
 
         reply.then((interactionResponse: InteractionResponse) => {
             this.UserResponse = interactionResponse;
