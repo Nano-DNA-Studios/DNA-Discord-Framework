@@ -32,7 +32,9 @@ class GetLogs extends Command_1.default {
             }
             else {
                 this.AddToResponseMessage(this.ErrorMessage + "(Log Channel ID provided does not match to a Text Channel)");
-                throw new Error("Log Channel ID provided does not match to a Text Channel");
+                let error = new Error("Log Channel ID provided does not match to a Text Channel");
+                dataManager.AddErrorLog(error);
+                throw error;
             }
         });
         this.RunningMessage = `Running ${this.CommandName} :arrows_clockwise:`;

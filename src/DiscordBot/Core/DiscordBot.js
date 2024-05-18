@@ -73,6 +73,8 @@ class DiscordBot {
                     channel.send(`${(_a = client.user) === null || _a === void 0 ? void 0 : _a.tag} is Shutting Down`);
             }
             catch (e) {
+                if (e instanceof Error)
+                    this.DataManager.AddErrorLog(e);
                 console.log("No Channel Found.");
             }
         });
@@ -111,6 +113,7 @@ class DiscordBot {
                 yield this.InitializeBot();
             }
             else {
+                this.DataManager.InitializeData();
                 yield this.DataManager.LoadData();
                 yield this.Login();
             }
@@ -144,8 +147,11 @@ class DiscordBot {
                     loginCount++;
                     yield this.Login(loginCount);
                 }
-                else
-                    throw new Error("Too Many Incorrect Login Attempts, Shutting Down.");
+                else {
+                    let error = new Error("Too Many Incorrect Login Attempts, Shutting Down.");
+                    this.DataManager.AddErrorLog(error);
+                    throw error;
+                }
             }
         });
     }

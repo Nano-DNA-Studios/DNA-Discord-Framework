@@ -8,9 +8,14 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const rest_1 = require("@discordjs/rest");
 const v9_1 = require("discord-api-types/v9");
+const BotDataManager_1 = __importDefault(require("../Data/BotDataManager"));
+const BotData_1 = __importDefault(require("../Data/BotData"));
 /**
  * Registers the commands to the Discord Server
  */
@@ -58,6 +63,8 @@ class CommandRegisterer {
                 console.log('Commands Registered');
             }
             catch (error) {
+                if (error instanceof Error)
+                    BotData_1.default.Instance(BotDataManager_1.default).AddErrorLog(error);
                 console.log(`Error Occurred: ${error}`);
             }
         });

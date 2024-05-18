@@ -4,6 +4,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const FileSearch_1 = __importDefault(require("../../../FileSearch"));
+const BotData_1 = __importDefault(require("../Data/BotData"));
+const BotDataManager_1 = __importDefault(require("../Data/BotDataManager"));
 /**
  * Command Factory for creating new Instances of a Command based off the Command Name provided
  */
@@ -30,8 +32,10 @@ class CommandFactory {
                     return instance;
             }
         }
-        catch (err) {
-            console.log("Unable to scan directory: " + err);
+        catch (error) {
+            if (error instanceof Error)
+                BotData_1.default.Instance(BotDataManager_1.default).AddErrorLog(error);
+            console.log("Unable to scan directory: " + error);
         }
     }
 }

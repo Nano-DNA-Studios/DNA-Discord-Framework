@@ -13,6 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const fs_1 = __importDefault(require("fs"));
+const BotErrorLog_1 = __importDefault(require("../Logging/BotErrorLog"));
 /**
  * The Default Bot Data Manager, implementing the bareminimum for a Bot Data Manager
  */
@@ -33,6 +34,7 @@ class BotDataManager {
         this.LOG_FILE_PATH = this.DATA_SAVE_PATH + '/log.txt';
         this.TEMP_DATA_SAVE_PATH = this.DATA_SAVE_PATH + `/temp`;
         this.AUTO_LOGIN_FILE = this.DATA_SAVE_PATH + `/autologin.txt`;
+        this.ERROR_LOG_FILE_PATH = this.DATA_SAVE_PATH + `/errorLog.txt`;
     }
     /**
      * Loads the Data from the File or Registers it by creating the Default Data and file
@@ -48,10 +50,16 @@ class BotDataManager {
      * Initializes the Data by creating the Save Path and the File
      */
     InitializeData() {
-        fs_1.default.mkdirSync(this.DATA_SAVE_PATH, { recursive: true });
-        fs_1.default.mkdirSync(this.TEMP_DATA_SAVE_PATH, { recursive: true });
-        fs_1.default.writeFileSync(this.FILE_SAVE_PATH, '');
-        fs_1.default.writeFileSync(this.LOG_FILE_PATH, '');
+        if (!fs_1.default.existsSync(this.DATA_SAVE_PATH))
+            fs_1.default.mkdirSync(this.DATA_SAVE_PATH, { recursive: true });
+        if (!fs_1.default.existsSync(this.TEMP_DATA_SAVE_PATH))
+            fs_1.default.mkdirSync(this.TEMP_DATA_SAVE_PATH, { recursive: true });
+        if (!fs_1.default.existsSync(this.FILE_SAVE_PATH))
+            fs_1.default.writeFileSync(this.FILE_SAVE_PATH, '');
+        if (!fs_1.default.existsSync(this.LOG_FILE_PATH))
+            fs_1.default.writeFileSync(this.LOG_FILE_PATH, '');
+        if (!fs_1.default.existsSync(this.ERROR_LOG_FILE_PATH))
+            fs_1.default.writeFileSync(this.ERROR_LOG_FILE_PATH, '');
     }
     /**
      * Determines if the Data File Exists
@@ -82,8 +90,11 @@ class BotDataManager {
         if (fs_1.default.existsSync(this.DATA_SAVE_PATH)) {
             fs_1.default.writeFileSync(this.FILE_SAVE_PATH, jsonData);
         }
-        else
-            throw new Error(`Data Save Path does not exist ${this.DATA_SAVE_PATH}`);
+        else {
+            let error = new Error(`Data Save Path does not exist ${this.DATA_SAVE_PATH}`);
+            this.AddErrorLog(error);
+            throw error;
+        }
     }
     /**
      * Loads the Data from the File and Populates the Class Properties
@@ -130,12 +141,15 @@ class BotDataManager {
         this.LOG_CHANNEL_ID = logChannelID;
         this.SaveData();
     }
-    /**
-     * Adds a Command Log to the Log File
-     * @param log Log to add to the Log File
-     */
+    /* inheritdoc */
     AddCommandLog(log) {
         fs_1.default.appendFileSync(this.LOG_FILE_PATH, JSON.stringify(log, null, 4));
+    }
+    /* inheritdoc */
+    AddErrorLog(log) {
+        let errorLog = new BotErrorLog_1.default(log);
+        if (fs_1.default.existsSync(this.ERROR_LOG_FILE_PATH))
+            fs_1.default.appendFileSync(this.ERROR_LOG_FILE_PATH, JSON.stringify(errorLog, null, 4));
     }
     /**
      * Sets the Last Messaged Channel ID

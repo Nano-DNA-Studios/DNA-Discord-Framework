@@ -1,4 +1,6 @@
 import FileSearch from "../../../FileSearch";
+import BotData from "../Data/BotData";
+import BotDataManager from "../Data/BotDataManager";
 import Command from "./Command";
 
 /**
@@ -38,8 +40,10 @@ class CommandFactory {
                 if (instance.CommandName === this._commandName)
                     return instance as T;
             }
-        } catch (err) {
-            console.log("Unable to scan directory: " + err);
+        } catch (error) {
+            if (error instanceof Error) 
+                BotData.Instance(BotDataManager).AddErrorLog(error);
+            console.log("Unable to scan directory: " + error);
         }
     }
 }

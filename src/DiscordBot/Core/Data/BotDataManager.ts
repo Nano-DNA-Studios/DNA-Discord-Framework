@@ -1,7 +1,7 @@
 import IBotDataManager from "../Interfaces/IBotDataManager";
 import fs from 'fs';
-
 import BotCommandLog from "../Logging/BotCommandLog";
+import BotErrorLog from "../Logging/BotErrorLog";
 
 /**
  * The Default Bot Data Manager, implementing the bareminimum for a Bot Data Manager
@@ -30,6 +30,8 @@ class BotDataManager implements IBotDataManager {
 
     public LAST_MESSAGE_CHANNEL_ID: string = "";
 
+    public ERROR_LOG_FILE_PATH: string;
+
     /**
      * Initializes the Data Manager
      * @param botDirectory The Directory that the Bot is located in
@@ -40,6 +42,7 @@ class BotDataManager implements IBotDataManager {
         this.LOG_FILE_PATH = this.DATA_SAVE_PATH + '/log.txt';
         this.TEMP_DATA_SAVE_PATH = this.DATA_SAVE_PATH + `/temp`
         this.AUTO_LOGIN_FILE = this.DATA_SAVE_PATH + `/autologin.txt`;
+        this.ERROR_LOG_FILE_PATH = this.DATA_SAVE_PATH + `/errorLog.txt`;
     }
 
     /**
@@ -55,10 +58,20 @@ class BotDataManager implements IBotDataManager {
      * Initializes the Data by creating the Save Path and the File
      */
     public InitializeData(): void {
-        fs.mkdirSync(this.DATA_SAVE_PATH, { recursive: true });
-        fs.mkdirSync(this.TEMP_DATA_SAVE_PATH, { recursive: true });
-        fs.writeFileSync(this.FILE_SAVE_PATH, '');
-        fs.writeFileSync(this.LOG_FILE_PATH, '');
+        if (!fs.existsSync(this.DATA_SAVE_PATH))
+            fs.mkdirSync(this.DATA_SAVE_PATH, { recursive: true });
+
+        if (!fs.existsSync(this.TEMP_DATA_SAVE_PATH))
+            fs.mkdirSync(this.TEMP_DATA_SAVE_PATH, { recursive: true });
+
+        if (!fs.existsSync(this.FILE_SAVE_PATH))
+            fs.writeFileSync(this.FILE_SAVE_PATH, '');
+
+        if (!fs.existsSync(this.LOG_FILE_PATH))
+            fs.writeFileSync(this.LOG_FILE_PATH, '');
+
+        if (!fs.existsSync(this.ERROR_LOG_FILE_PATH))
+            fs.writeFileSync(this.ERROR_LOG_FILE_PATH, '');
     }
 
     /**
@@ -93,8 +106,11 @@ class BotDataManager implements IBotDataManager {
         if (fs.existsSync(this.DATA_SAVE_PATH)) {
             fs.writeFileSync(this.FILE_SAVE_PATH, jsonData);
         }
-        else
-            throw new Error(`Data Save Path does not exist ${this.DATA_SAVE_PATH}`);
+        else {
+            let error = new Error(`Data Save Path does not exist ${this.DATA_SAVE_PATH}`);
+            this.AddErrorLog(error);
+            throw error;
+        }
     }
 
     /**
@@ -136,7 +152,6 @@ class BotDataManager implements IBotDataManager {
      */
     public SetGuildID(guildID: string): void {
         this.GUILD_ID = guildID;
-
         this.SaveData();
     }
 
@@ -146,16 +161,19 @@ class BotDataManager implements IBotDataManager {
      */
     public SetLogChannelID(logChannelID: string) {
         this.LOG_CHANNEL_ID = logChannelID;
-
         this.SaveData();
     }
 
-    /**
-     * Adds a Command Log to the Log File
-     * @param log Log to add to the Log File
-     */
+    /* inheritdoc */
     public AddCommandLog(log: BotCommandLog): void {
         fs.appendFileSync(this.LOG_FILE_PATH, JSON.stringify(log, null, 4));
+    }
+
+    /* inheritdoc */
+    public AddErrorLog(log: Error): void {
+        let errorLog = new BotErrorLog(log);
+        if (fs.existsSync(this.ERROR_LOG_FILE_PATH))
+            fs.appendFileSync(this.ERROR_LOG_FILE_PATH, JSON.stringify(errorLog, null, 4));
     }
 
     /**

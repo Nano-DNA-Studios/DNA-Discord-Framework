@@ -4,6 +4,7 @@ import ICommandOption from "../Interfaces/ICommandOption";
 import ICommand from "../Interfaces/ICommand";
 import IDiscordCommand from "../Interfaces/IDiscordCommand";
 import BotDataManager from "../Data/BotDataManager";
+import BotData from "../Data/BotData";
 
 /**
  * Registers the commands to the Discord Server
@@ -62,6 +63,8 @@ class CommandRegisterer {
 
             console.log('Commands Registered');
         } catch (error) {
+            if (error instanceof Error) 
+                BotData.Instance(BotDataManager).AddErrorLog(error);
             console.log(`Error Occurred: ${error}`);
         }
     }

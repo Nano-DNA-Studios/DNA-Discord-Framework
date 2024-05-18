@@ -8,9 +8,14 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const ssh2_1 = require("ssh2");
 const child_process_1 = require("child_process");
+const BotDataManager_1 = __importDefault(require("../DiscordBot/Core/Data/BotDataManager"));
+const BotData_1 = __importDefault(require("../DiscordBot/Core/Data/BotData"));
 /**
  * Runs Bash Scripts provided from a Bash Command
  */
@@ -63,8 +68,12 @@ class BashScriptRunner {
             const ServerConnection = yield this.ConnectToServer();
             return new Promise((resolve, reject) => {
                 ServerConnection.exec(`${Script}`, (err, stream) => {
-                    if (err)
-                        throw err;
+                    if (err) {
+                        if (err != null)
+                            BotData_1.default.Instance(BotDataManager_1.default).AddErrorLog(err);
+                        else
+                            throw err;
+                    }
                     stream
                         .on("close", (code, signal) => {
                         resolve();
@@ -103,6 +112,8 @@ class BashScriptRunner {
                     });
                 }
                 catch (error) {
+                    if (error instanceof Error)
+                        BotData_1.default.Instance(BotDataManager_1.default).AddErrorLog(error);
                     console.log("Connection settings are not right. Check you connection settings again");
                 }
             }

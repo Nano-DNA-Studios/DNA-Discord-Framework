@@ -22,9 +22,14 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const fs = __importStar(require("fs"));
 const path = __importStar(require("path"));
+const BotData_1 = __importDefault(require("./DiscordBot/Core/Data/BotData"));
+const BotDataManager_1 = __importDefault(require("./DiscordBot/Core/Data/BotDataManager"));
 /**
  * Utility Class for Searching Files
  */
@@ -103,6 +108,8 @@ class FileSearch {
             }
             catch (error) {
                 console.log("Error Occurred: " + error);
+                if (error instanceof Error)
+                    BotData_1.default.Instance(BotDataManager_1.default).AddErrorLog(error);
             }
         });
         return Commands;

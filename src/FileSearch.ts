@@ -2,6 +2,8 @@ import * as fs from "fs";
 import * as path from "path";
 import ICommand from "./DiscordBot/Core/Interfaces/ICommand";
 import Command from "./DiscordBot/Core/Commands/Command";
+import BotData from "./DiscordBot/Core/Data/BotData";
+import BotDataManager from "./DiscordBot/Core/Data/BotDataManager";
 
 /**
  * Utility Class for Searching Files
@@ -100,6 +102,8 @@ class FileSearch {
       } catch
       (error) {
         console.log("Error Occurred: " + error);
+        if (error instanceof Error)
+          BotData.Instance(BotDataManager).AddErrorLog(error);
       }
     });
 
