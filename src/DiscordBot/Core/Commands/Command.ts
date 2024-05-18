@@ -52,7 +52,7 @@ abstract class Command implements ICommand {
         const reply = interaction.reply({ content: this.Response.content, ephemeral: this.IsEphemeralResponse });
         const dataManager = BotData.Instance(BotDataManager);
 
-        dataManager.LAST_MESSAGE_CHANNEL_ID = interaction.channelId;
+        dataManager.SetLastMessageChannelID(interaction.channelId);
 
         reply.then((interactionResponse: InteractionResponse) => {
             this.UserResponse = interactionResponse;

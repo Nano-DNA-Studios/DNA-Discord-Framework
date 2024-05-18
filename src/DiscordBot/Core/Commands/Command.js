@@ -27,7 +27,7 @@ class Command {
         this.Response.content = message + "\n";
         const reply = interaction.reply({ content: this.Response.content, ephemeral: this.IsEphemeralResponse });
         const dataManager = BotData_1.default.Instance(BotDataManager_1.default);
-        dataManager.LAST_MESSAGE_CHANNEL_ID = interaction.channelId;
+        dataManager.SetLastMessageChannelID(interaction.channelId);
         reply.then((interactionResponse) => {
             this.UserResponse = interactionResponse;
             this._responseReceived = true;

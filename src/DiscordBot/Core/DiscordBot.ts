@@ -73,7 +73,11 @@ class DiscordBot<T extends BotDataManager> implements IDiscordBot {
             if (channel instanceof TextChannel)
                 channel.send(`${client.user?.tag} is Shutting Down`)
 
-        } catch (e) { console.log("No Channel Found.") }
+        } catch (e) {
+            if (e instanceof Error)
+                this.DataManager.AddErrorLog(e);
+            console.log("No Channel Found.")
+        }
     }
 
     /* <inheritdoc> */
@@ -111,6 +115,7 @@ class DiscordBot<T extends BotDataManager> implements IDiscordBot {
             await this.RegisterBotToken();
             await this.InitializeBot();
         } else {
+            this.DataManager.InitializeData();
             await this.DataManager.LoadData();
             await this.Login();
         }
@@ -143,8 +148,11 @@ class DiscordBot<T extends BotDataManager> implements IDiscordBot {
                 this.RegisterBotToken();
                 loginCount++;
                 await this.Login(loginCount);
-            } else
-                throw new Error("Too Many Incorrect Login Attempts, Shutting Down.");
+            } else {
+                let error = new Error("Too Many Incorrect Login Attempts, Shutting Down.");
+                this.DataManager.AddErrorLog(error);
+                throw error;
+            }
         }
     }
 

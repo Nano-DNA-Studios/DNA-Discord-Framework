@@ -1,3 +1,5 @@
+import BotCommandLog from "../Logging/BotCommandLog";
+import BotErrorLog from "../Logging/BotErrorLog";
 
 /**
  * Interface for the Bot Data Manager
@@ -54,6 +56,27 @@ interface IBotDataManager {
      */
     LOG_FILE_PATH: string;
 
+    /**
+     * The ID of the Last Message Channel the Bot sent a message to
+     */
+    LAST_MESSAGE_CHANNEL_ID: string;
+
+    /**
+     * The Path to the Error Logs File
+     */
+    ERROR_LOG_FILE_PATH: string;
+
+    /**
+     * Adds an Error Log to the Error Log File
+     * @param log The Error Log to Add
+     */
+    AddErrorLog(log: Error): void;
+
+    /**
+     * Adds a Command Log to the Log File
+     * @param log Log to add to the Log File
+     */
+     AddCommandLog(log: BotCommandLog): void
 }
 
 export default IBotDataManager;

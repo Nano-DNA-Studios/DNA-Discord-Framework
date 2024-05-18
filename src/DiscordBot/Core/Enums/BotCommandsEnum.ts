@@ -5,7 +5,8 @@
 enum BotCommandsEnum {
     SetLogChannel = 'setlogchannel',
     GetLogs = 'getlogs',
-    RunBashCommand = 'runbashcommand'
+    RunBashCommand = 'runbashcommand',
+    GetErrorLogs = 'geterrorlogs',
 }
 
 export default BotCommandsEnum;

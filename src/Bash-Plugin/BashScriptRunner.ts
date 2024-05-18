@@ -1,6 +1,8 @@
 import { Client } from "ssh2";
 import { spawn } from 'child_process';
 import SSHConnectionInfo from "./SSHConnectionInfo";
+import BotDataManager from "../DiscordBot/Core/Data/BotDataManager";
+import BotData from "../DiscordBot/Core/Data/BotData";
 
 /**
  * Runs Bash Scripts provided from a Bash Command
@@ -45,25 +47,25 @@ class BashScriptRunner {
      */
     public RunLocally(Script: string): Promise<void> {
         return new Promise<void>((resolve, reject) => {
-            const process = spawn(Script, { shell: true});
-    
+            const process = spawn(Script, { shell: true });
+
             process.stdout.on('data', (data: string) => {
                 this.StandardOutputLogs += `${data} \n`;
             });
-    
+
             process.stderr.on('data', (data) => {
                 this.StandardErrorLogs += data + "\n";
                 console.error(`stderr: ${data}`);
             });
-    
+
             process.on('close', (code) => {
-                if(code === 0) {
+                if (code === 0) {
                     resolve();
                 } else {
                     reject(new Error(`Process exited with code ${code}`)); // Reject the promise on error
                 }
             });
-    
+
             process.on('error', (error) => {
                 reject(error);
             });
@@ -81,7 +83,12 @@ class BashScriptRunner {
 
         return new Promise<void>((resolve, reject) => {
             ServerConnection.exec(`${Script}`, (err, stream) => {
-                if (err) throw err;
+                if (err) {
+                    if (err != null)
+                        BotData.Instance(BotDataManager).AddErrorLog(err);
+                    else
+                        throw err;
+                }
 
                 stream
                     .on("close", (code: string, signal: string) => {
@@ -121,6 +128,8 @@ class BashScriptRunner {
                         password: this.ConnectionInfo?.Password!
                     });
                 } catch (error) {
+                    if (error instanceof Error) 
+                        BotData.Instance(BotDataManager).AddErrorLog(error);
                     console.log("Connection settings are not right. Check you connection settings again");
                 }
             } else

@@ -35,7 +35,10 @@ class RunBashCommand extends Command {
 
         if (runner.StandardOutputLogs.length > 1900) {
             const filePath = dataManager.TEMP_DATA_SAVE_PATH + `/bashResult.txt`;
-            try { fs.rmSync(filePath); } catch (e) { }
+            try { fs.rmSync(filePath); } catch (e) {
+                if (e instanceof Error)
+                    dataManager.AddErrorLog(e);
+            }
             fs.writeFileSync(filePath, runner.StandardOutputLogs);
             this.AddFileToResponseMessage(filePath);
         } else

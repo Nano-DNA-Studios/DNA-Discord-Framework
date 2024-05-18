@@ -27,6 +27,8 @@ class DefaultCommandHandler {
                     yield command.RunCommand(client, interaction, dataManager);
                 }
                 catch (error) {
+                    if (error instanceof Error)
+                        dataManager.AddErrorLog(error);
                 }
                 const log = new BotCommandLog_1.default(interaction);
                 log.AddLogMessage(command.Response);

@@ -19,6 +19,8 @@ class DefaultCommandHandler implements ICommandHandler {
             try {
                 await command.RunCommand(client, interaction, dataManager);
             } catch (error) {
+                if (error instanceof Error)
+                    dataManager.AddErrorLog(error);
             }
 
             const log: BotCommandLog = new BotCommandLog(interaction);

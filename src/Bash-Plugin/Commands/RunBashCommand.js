@@ -45,7 +45,10 @@ class RunBashCommand extends Command_1.default {
                 try {
                     fs_1.default.rmSync(filePath);
                 }
-                catch (e) { }
+                catch (e) {
+                    if (e instanceof Error)
+                        dataManager.AddErrorLog(e);
+                }
                 fs_1.default.writeFileSync(filePath, runner.StandardOutputLogs);
                 this.AddFileToResponseMessage(filePath);
             }
