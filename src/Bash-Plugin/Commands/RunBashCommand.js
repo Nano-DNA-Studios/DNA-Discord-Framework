@@ -54,7 +54,6 @@ class RunBashCommand extends Command_1.default {
             }
             else
                 this.AddToResponseMessage("Results: \n" + runner.StandardOutputLogs);
-            dataManager.AddErrorLog(new Error(runner.StandardErrorLogs));
         });
         /**
          * The Running Message
