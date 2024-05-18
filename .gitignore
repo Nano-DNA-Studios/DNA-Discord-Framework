@@ -128,5 +128,3 @@ dist
 Resources
 Resources/data.json
 Resources/log.txt
-src\testbot.ts
-src\testbot.js
