@@ -23,11 +23,17 @@ class BotDataManager {
      * @param botDirectory The Directory that the Bot is located in
      */
     constructor() {
+        /* <inheritdoc> */
         this.DISCORD_BOT_TOKEN = "";
+        /* <inheritdoc> */
         this.GUILD_ID = "";
+        /* <inheritdoc> */
         this.GUILD_NAME = "";
+        /* <inheritdoc> */
         this.CLIENT_ID = "";
+        /* <inheritdoc> */
         this.LOG_CHANNEL_ID = "";
+        /* <inheritdoc> */
         this.LAST_MESSAGE_CHANNEL_ID = "";
         this.DATA_SAVE_PATH = process.cwd() + '/Resources';
         this.FILE_SAVE_PATH = this.DATA_SAVE_PATH + '/data.json';

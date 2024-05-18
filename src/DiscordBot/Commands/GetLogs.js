@@ -19,9 +19,13 @@ const Command_1 = __importDefault(require("../Core/Commands/Command"));
 class GetLogs extends Command_1.default {
     constructor() {
         super(...arguments);
+        /* <inheritdoc> */
         this.CommandName = BotCommandsEnum_1.default.GetLogs;
+        /* <inheritdoc> */
         this.CommandDescription = "Returns the Log File";
+        /* <inheritdoc> */
         this.IsEphemeralResponse = true;
+        /* <inheritdoc> */
         this.RunCommand = (client, interaction, dataManager) => __awaiter(this, void 0, void 0, function* () {
             this.InitializeUserResponse(interaction, this.RunningMessage);
             let logChannel = interaction.client.channels.cache.get(`${dataManager.LOG_CHANNEL_ID}`);
