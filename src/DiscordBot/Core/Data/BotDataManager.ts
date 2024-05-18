@@ -8,28 +8,40 @@ import BotErrorLog from "../Logging/BotErrorLog";
  */
 class BotDataManager implements IBotDataManager {
 
+    /* <inheritdoc> */
     public LOG_FILE_PATH: string;
 
+    /* <inheritdoc> */
     public TEMP_DATA_SAVE_PATH: string;
 
+    /* <inheritdoc> */
     public DATA_SAVE_PATH: string;
 
+    /* <inheritdoc> */
     public FILE_SAVE_PATH: string;
 
+    /* <inheritdoc> */
     public AUTO_LOGIN_FILE: string;
 
+    /* <inheritdoc> */
     public DISCORD_BOT_TOKEN: string = "";
 
+    /* <inheritdoc> */
     public GUILD_ID: string = "";
 
+    /* <inheritdoc> */
     public GUILD_NAME: string = "";
 
+    /* <inheritdoc> */
     public CLIENT_ID: string = "";
 
+    /* <inheritdoc> */
     public LOG_CHANNEL_ID: string = "";
 
+    /* <inheritdoc> */
     public LAST_MESSAGE_CHANNEL_ID: string = "";
 
+    /* <inheritdoc> */
     public ERROR_LOG_FILE_PATH: string;
 
     /**

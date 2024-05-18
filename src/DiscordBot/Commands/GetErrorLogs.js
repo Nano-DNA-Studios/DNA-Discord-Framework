@@ -13,12 +13,19 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 const Command_1 = __importDefault(require("../Core/Commands/Command"));
 const BotCommandsEnum_1 = __importDefault(require("../Core/Enums/BotCommandsEnum"));
+/**
+ * Gets the Error Logs the Bot has collected and sends the file to the User through a Private Message
+ */
 class GetErrorLogs extends Command_1.default {
     constructor() {
         super(...arguments);
+        /* <inheritdoc> */
         this.CommandName = BotCommandsEnum_1.default.GetErrorLogs;
+        /* <inheritdoc> */
         this.CommandDescription = "Sends the Error Log File to the User through a Private Message";
+        /* <inheritdoc> */
         this.IsEphemeralResponse = true;
+        /* <inheritdoc> */
         this.RunCommand = (client, interaction, dataManager) => __awaiter(this, void 0, void 0, function* () {
             this.InitializeUserResponse(interaction, this.RunningMessage);
             this.AddToResponseMessage(this.LogMessage);
