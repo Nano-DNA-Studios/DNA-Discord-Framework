@@ -19,7 +19,7 @@ npm install dna-discord-framework
 ```
 
 # Getting Started
-The following will show the basics on how to get started and use the 
+The following will show the basics on how to get a new project started, hosting the bot and running your first command.
 
 ## Setup Project
 
