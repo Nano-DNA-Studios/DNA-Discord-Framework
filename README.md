@@ -1,20 +1,22 @@
-# Discord Bot Kit
- A node module that contains a Framework for building complex Discord Bots with ease and low barrier of entry 
+# DNA-Discord-Framework 
+NPM package with bundled functionality allowing for advanced and quick development of Discord Bots
 
 
- # Installing
- ## Github
- Run the Following command
- ```
- git clone https://github.com/Nano-DNA-Studios/DNA-Discord-Framework.git
- ```
+# Create a New Project with DNA-Discord-Framework 
+Run the Following command to create a new Project. Project name can be in capitals.
+```
+npx create-dna-discord-bot <ProjectName>
+```
 
-## NPM
+To test it out immediatly run. If you haven't set up your Discord Bot follow the Getting Started Section.
+```
+npm run start
+```
+
+# Installing through NPM
 ```
 npm install dna-discord-framework
 ```
-
-
 
 # Getting Started
 The following will show the basics on how to get started and use the 
