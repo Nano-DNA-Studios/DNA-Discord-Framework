@@ -69,6 +69,11 @@ class BashScriptRunner {
             process.on('error', (error) => {
                 reject(error);
             });
+        }).catch((error) => {
+            if (error instanceof Error) {
+                BotData.Instance(BotDataManager).AddErrorLog(error);
+            }
+            console.error("Error while running the script", error);
         });
     }
 

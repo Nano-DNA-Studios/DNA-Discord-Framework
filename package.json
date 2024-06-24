@@ -1,13 +1,13 @@
 {
   "name": "dna-discord-framework",
-  "version": "1.0.62",
+  "version": "1.0.64",
   "description": "A node module that contains a Framework for building complex Discord Bots with ease and low barrier of entry",
   "main": "index.js",
   "scripts": {
     "test": "npm run build && clear && node src/testbot.js",
     "build": "tsc",
     "start": "clear && npm run build && node src/testbot.js",
-    "publishreal": "npm publish",
+    "publishreal": "npm run build && npm publish",
     "publishexperimental": "npm login && npm publish --tag experimental"
   },
   "bin": {
