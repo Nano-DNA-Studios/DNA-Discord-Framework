@@ -17,12 +17,12 @@ const CommandFactory_1 = __importDefault(require("./CommandFactory"));
  * Class Handling Command Execution, and Delegates to Custom Command Handlers
  */
 class CommandHandler {
-    HandleCommand(interaction, client, BotDataManager) {
+    HandleCommand(interaction, client, dataManager) {
         return __awaiter(this, void 0, void 0, function* () {
             let Factory = yield new CommandFactory_1.default(interaction.commandName);
-            let command = yield Factory.CreateCommand();
+            let command = yield Factory.CreateCommand(dataManager);
             if (command)
-                yield command.CommandHandler.HandleCommand(interaction, client, BotDataManager);
+                yield command.CommandHandler.HandleCommand(interaction, client, dataManager);
         });
     }
 }

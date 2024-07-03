@@ -12,7 +12,7 @@ class DefaultCommandHandler implements ICommandHandler {
 
     public async HandleCommand(interaction: ChatInputCommandInteraction<CacheType>, client: Client, dataManager: BotDataManager): Promise<void> {
         let Factory = await new CommandFactory(interaction.commandName);
-        let command = await Factory.CreateCommand<Command>();
+        let command = await Factory.CreateCommand<Command>(dataManager);
 
         if (command) {
 

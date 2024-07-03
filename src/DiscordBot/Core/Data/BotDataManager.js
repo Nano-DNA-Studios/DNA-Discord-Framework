@@ -14,6 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const fs_1 = __importDefault(require("fs"));
 const BotErrorLog_1 = __importDefault(require("../Logging/BotErrorLog"));
+const BotData_1 = __importDefault(require("./BotData"));
 /**
  * The Default Bot Data Manager, implementing the bareminimum for a Bot Data Manager
  */
@@ -35,6 +36,7 @@ class BotDataManager {
         this.LOG_CHANNEL_ID = "";
         /* <inheritdoc> */
         this.LAST_MESSAGE_CHANNEL_ID = "";
+        this.DataManagerType = this.constructor.name;
         this.DATA_SAVE_PATH = process.cwd() + '/Resources';
         this.FILE_SAVE_PATH = this.DATA_SAVE_PATH + '/data.json';
         this.LOG_FILE_PATH = this.DATA_SAVE_PATH + '/log.txt';
@@ -88,9 +90,7 @@ class BotDataManager {
     GetAutoLoginContent() {
         return fs_1.default.readFileSync(this.AUTO_LOGIN_FILE, "utf8");
     }
-    /**
-     * Saves the Data to the File
-     */
+    /* <inheritdoc> */
     SaveData() {
         let jsonData = this.GetJSONFormat();
         if (fs_1.default.existsSync(this.DATA_SAVE_PATH)) {
@@ -128,7 +128,7 @@ class BotDataManager {
     SetClientID(clientID) {
         if (this.CLIENT_ID !== clientID) {
             this.CLIENT_ID = clientID;
-            this.SaveData();
+            BotData_1.default.InstanceByName(this.DataManagerType).SaveData();
         }
     }
     /**
@@ -137,7 +137,7 @@ class BotDataManager {
      */
     SetGuildID(guildID) {
         this.GUILD_ID = guildID;
-        this.SaveData();
+        BotData_1.default.InstanceByName(this.DataManagerType).SaveData();
     }
     /**
      * Sets the Log Channel that the Bot will send logs to
@@ -145,7 +145,7 @@ class BotDataManager {
      */
     SetLogChannelID(logChannelID) {
         this.LOG_CHANNEL_ID = logChannelID;
-        this.SaveData();
+        BotData_1.default.InstanceByName(this.DataManagerType).SaveData();
     }
     /* inheritdoc */
     AddCommandLog(log) {
@@ -163,7 +163,7 @@ class BotDataManager {
      */
     SetLastMessageChannelID(messageChannelID) {
         this.LAST_MESSAGE_CHANNEL_ID = messageChannelID;
-        this.SaveData();
+        BotData_1.default.InstanceByName(this.DataManagerType).SaveData();
     }
 }
 exports.default = BotDataManager;

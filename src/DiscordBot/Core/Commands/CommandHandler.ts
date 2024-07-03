@@ -9,12 +9,12 @@ import ICommandHandler from '../Interfaces/ICommandHandler';
  */
 class CommandHandler implements ICommandHandler {
 
-    public async HandleCommand(interaction: ChatInputCommandInteraction<CacheType>, client: Client, BotDataManager: BotDataManager): Promise<void> {
+    public async HandleCommand(interaction: ChatInputCommandInteraction<CacheType>, client: Client, dataManager: BotDataManager): Promise<void> {
         let Factory = await new CommandFactory(interaction.commandName);
-        let command = await Factory.CreateCommand<Command>();
+        let command = await Factory.CreateCommand<Command>(dataManager);
 
         if (command)
-            await command.CommandHandler.HandleCommand(interaction, client, BotDataManager);
+            await command.CommandHandler.HandleCommand(interaction, client, dataManager);
     }
 }
 

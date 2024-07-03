@@ -19,12 +19,12 @@ interface IBotDataManager {
     /**
      * The Path to the Temporary data Folder
      */
-    TEMP_DATA_SAVE_PATH:string;
+    TEMP_DATA_SAVE_PATH: string;
 
     /**
      * The File Path and File that contains the Discord Bot Token to make it easier to login if you are using Docker or running locally
      */
-    AUTO_LOGIN_FILE:string;
+    AUTO_LOGIN_FILE: string;
 
     /**
      * Discord Bot Token
@@ -67,6 +67,11 @@ interface IBotDataManager {
     ERROR_LOG_FILE_PATH: string;
 
     /**
+     * The Type of Data Manager
+     */
+    DataManagerType: string
+
+    /**
      * Adds an Error Log to the Error Log File
      * @param log The Error Log to Add
      */
@@ -76,7 +81,12 @@ interface IBotDataManager {
      * Adds a Command Log to the Log File
      * @param log Log to add to the Log File
      */
-     AddCommandLog(log: BotCommandLog): void
+    AddCommandLog(log: BotCommandLog): void
+
+    /**
+    * Saves the Data to the File
+    */
+    SaveData(): void
 }
 
 export default IBotDataManager;

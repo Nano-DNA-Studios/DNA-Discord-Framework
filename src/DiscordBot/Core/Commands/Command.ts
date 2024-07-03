@@ -20,6 +20,8 @@ abstract class Command implements ICommand {
     /* <inheritdoc> */
     public abstract CommandDescription: string;
 
+    public DataManager: BotDataManager;
+
     /* <inheritdoc> */
     public abstract RunCommand: (client: Client, interaction: ChatInputCommandInteraction<CacheType>, BotDataManager: BotDataManager) => void;
 
@@ -46,13 +48,16 @@ abstract class Command implements ICommand {
      */
     private _responseReceived: boolean = false;
 
+    constructor(dataManager: BotDataManager) {
+        this.DataManager = dataManager;
+    }
+
     /* <inheritdoc> */
     public InitializeUserResponse(interaction: ChatInputCommandInteraction<CacheType>, message: string): void {
         this.Response.content = message + "\n";
         const reply = interaction.reply({ content: this.Response.content, ephemeral: this.IsEphemeralResponse });
-        const dataManager = BotData.Instance(BotDataManager);
 
-        dataManager.SetLastMessageChannelID(interaction.channelId);
+        this.DataManager.SetLastMessageChannelID(interaction.channelId);
 
         reply.then((interactionResponse: InteractionResponse) => {
             this.UserResponse = interactionResponse;

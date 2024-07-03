@@ -21,7 +21,7 @@ class DefaultCommandHandler {
     HandleCommand(interaction, client, dataManager) {
         return __awaiter(this, void 0, void 0, function* () {
             let Factory = yield new CommandFactory_1.default(interaction.commandName);
-            let command = yield Factory.CreateCommand();
+            let command = yield Factory.CreateCommand(dataManager);
             if (command) {
                 try {
                     yield command.RunCommand(client, interaction, dataManager);

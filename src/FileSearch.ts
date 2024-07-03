@@ -63,13 +63,13 @@ class FileSearch {
    * Gets all the Command Instances from the Provided Directory
    * @returns Array of IT Command Objects
    */
-  public GetAllCommandInstances(): ICommand[] {
+  public GetAllCommandInstances(dataManager: BotDataManager): ICommand[] {
     let Commands: ICommand[] = [];
 
     const CommandClasses = this.GetAllCommands();
 
     CommandClasses.forEach(commandClass => {
-      const commandInstance = new commandClass();
+      const commandInstance = new commandClass(dataManager);
       if (commandInstance.CommandName !== '')
         Commands.push(commandInstance);
 
@@ -82,7 +82,7 @@ class FileSearch {
   * Gets all the Command Classes from the Provided Directory
   * @returns Array of IT Command Objects
   */
-  public GetAllCommands<T extends { new(): Command } & Command>(): T[] {
+  public GetAllCommands<T extends { new(dataManager: BotDataManager): Command } & Command>(): T[] {
     let Commands: T[] = [];
 
     const Files = this.GetAllJSFiles();

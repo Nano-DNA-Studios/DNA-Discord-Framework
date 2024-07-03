@@ -21,7 +21,7 @@ class RunBashCommand extends Command {
 
     /* <inheritdoc> */
     RunCommand = async (client: Client, interaction: ChatInputCommandInteraction<CacheType>, dataManager: BotDataManager) => {
-        this.InitializeUserResponse(interaction, this.RunningMessage);
+        this.InitializeUserResponse(interaction,  this.RunningMessage);
 
         const command = interaction.options.getString("command");
 

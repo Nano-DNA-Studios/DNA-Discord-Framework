@@ -22,6 +22,7 @@ class DiscordBot<T extends BotDataManager> implements IDiscordBot {
     constructor(dataManager: new () => T) {
         this.DataManager = BotData.Instance(dataManager);
 
+
         this.BotInstance = new Client({
             intents: [
                 IntentsBitField.Flags.Guilds,
@@ -84,7 +85,7 @@ class DiscordBot<T extends BotDataManager> implements IDiscordBot {
     public RegisterCommands(): void {
         let registerer = new CommandRegisterer(this.DataManager);
         let fileSearch = new FileSearch();
-        let commands = fileSearch.GetAllCommandInstances();
+        let commands = fileSearch.GetAllCommandInstances(this.DataManager);
         registerer.AddCommands(commands);
         registerer.RegisterCommands();
     }

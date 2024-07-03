@@ -2,6 +2,7 @@ import IBotDataManager from "../Interfaces/IBotDataManager";
 import fs from 'fs';
 import BotCommandLog from "../Logging/BotCommandLog";
 import BotErrorLog from "../Logging/BotErrorLog";
+import BotData from "./BotData";
 
 /**
  * The Default Bot Data Manager, implementing the bareminimum for a Bot Data Manager
@@ -44,11 +45,15 @@ class BotDataManager implements IBotDataManager {
     /* <inheritdoc> */
     public ERROR_LOG_FILE_PATH: string;
 
+    /* <inheritdoc> */
+    public DataManagerType: string;
+
     /**
      * Initializes the Data Manager
      * @param botDirectory The Directory that the Bot is located in
      */
     constructor() {
+        this.DataManagerType = this.constructor.name;
         this.DATA_SAVE_PATH = process.cwd() + '/Resources';
         this.FILE_SAVE_PATH = this.DATA_SAVE_PATH + '/data.json';
         this.LOG_FILE_PATH = this.DATA_SAVE_PATH + '/log.txt';
@@ -110,9 +115,7 @@ class BotDataManager implements IBotDataManager {
         return fs.readFileSync(this.AUTO_LOGIN_FILE, "utf8");
     }
 
-    /**
-     * Saves the Data to the File
-     */
+    /* <inheritdoc> */
     public SaveData(): void {
         let jsonData: string = this.GetJSONFormat();
         if (fs.existsSync(this.DATA_SAVE_PATH)) {
@@ -154,7 +157,7 @@ class BotDataManager implements IBotDataManager {
     public SetClientID(clientID: string): void {
         if (this.CLIENT_ID !== clientID) {
             this.CLIENT_ID = clientID;
-            this.SaveData();
+            BotData.InstanceByName(this.DataManagerType).SaveData();
         }
     }
 
@@ -164,7 +167,7 @@ class BotDataManager implements IBotDataManager {
      */
     public SetGuildID(guildID: string): void {
         this.GUILD_ID = guildID;
-        this.SaveData();
+        BotData.InstanceByName(this.DataManagerType).SaveData();
     }
 
     /**
@@ -173,7 +176,7 @@ class BotDataManager implements IBotDataManager {
      */
     public SetLogChannelID(logChannelID: string) {
         this.LOG_CHANNEL_ID = logChannelID;
-        this.SaveData();
+        BotData.InstanceByName(this.DataManagerType).SaveData();
     }
 
     /* inheritdoc */
@@ -194,7 +197,7 @@ class BotDataManager implements IBotDataManager {
      */
     public SetLastMessageChannelID(messageChannelID: string) {
         this.LAST_MESSAGE_CHANNEL_ID = messageChannelID;
-        this.SaveData();
+        BotData.InstanceByName(this.DataManagerType).SaveData();
     }
 }
 

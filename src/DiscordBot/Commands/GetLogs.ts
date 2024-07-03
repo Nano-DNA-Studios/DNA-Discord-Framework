@@ -19,7 +19,7 @@ class GetLogs extends Command {
 
     /* <inheritdoc> */
     RunCommand = async (client: Client, interaction: ChatInputCommandInteraction<CacheType>, dataManager: BotDataManager) => {
-        this.InitializeUserResponse(interaction, this.RunningMessage);
+        this.InitializeUserResponse(interaction,  this.RunningMessage);
 
         let logChannel = interaction.client.channels.cache.get(`${dataManager.LOG_CHANNEL_ID}`) as TextChannel;
         this.AddToResponseMessage(this.LogMessage)

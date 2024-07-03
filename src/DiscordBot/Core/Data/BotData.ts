@@ -8,7 +8,7 @@ class BotData
     /**
      * Instances of Singleton Classes
      */
-    private static instances: Map<string, any> = new Map();
+    private static instances: Map<string, IBotDataManager> = new Map();
 
     /**
      * Private constructor to prevent direct construction calls with `new`
@@ -29,7 +29,20 @@ class BotData
             BotData.instances.set(className, new Class());
         }
 
-        return BotData.instances.get(className);
+        return BotData.instances.get(className) as T;
+    }
+
+     /**
+     * Returns an Instance of the IBotDataManager
+     * @param this 
+     * @returns 
+     */
+     public static InstanceByName(className: string): IBotDataManager {
+        if (!BotData.instances.has(className)) {
+            throw new Error(`Instance ${className} doesn't exist`);
+        }
+
+        return BotData.instances.get(className) as IBotDataManager;
     }
 }
 

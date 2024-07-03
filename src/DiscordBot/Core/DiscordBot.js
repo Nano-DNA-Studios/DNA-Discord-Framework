@@ -83,7 +83,7 @@ class DiscordBot {
     RegisterCommands() {
         let registerer = new CommandRegisterer_1.default(this.DataManager);
         let fileSearch = new FileSearch_1.default();
-        let commands = fileSearch.GetAllCommandInstances();
+        let commands = fileSearch.GetAllCommandInstances(this.DataManager);
         registerer.AddCommands(commands);
         registerer.RegisterCommands();
     }

@@ -22,6 +22,17 @@ class BotData {
         }
         return BotData.instances.get(className);
     }
+    /**
+    * Returns an Instance of the IBotDataManager
+    * @param this
+    * @returns
+    */
+    static InstanceByName(className) {
+        if (!BotData.instances.has(className)) {
+            throw new Error(`Instance ${className} doesn't exist`);
+        }
+        return BotData.instances.get(className);
+    }
 }
 /**
  * Instances of Singleton Classes

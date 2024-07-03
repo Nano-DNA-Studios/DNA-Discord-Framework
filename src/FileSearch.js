@@ -78,11 +78,11 @@ class FileSearch {
      * Gets all the Command Instances from the Provided Directory
      * @returns Array of IT Command Objects
      */
-    GetAllCommandInstances() {
+    GetAllCommandInstances(dataManager) {
         let Commands = [];
         const CommandClasses = this.GetAllCommands();
         CommandClasses.forEach(commandClass => {
-            const commandInstance = new commandClass();
+            const commandInstance = new commandClass(dataManager);
             if (commandInstance.CommandName !== '')
                 Commands.push(commandInstance);
         });

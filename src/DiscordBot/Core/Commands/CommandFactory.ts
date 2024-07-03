@@ -31,18 +31,18 @@ class CommandFactory {
      * @param CommandType The Class Type of the Command that will be created. Must have a constructor that takes a single parameter of the Command Interface
      * @returns A New Instance of the Command Requested
      */
-    public CreateCommand<T extends Command>(): T | undefined {
+    public CreateCommand<T extends Command>(dataManager: BotDataManager): T | undefined {
         try {
             const Commands = this._fileSearch.GetAllCommands();
             for (const command of Commands) {
-                const instance = new command();
+                const instance = new command(dataManager);
 
                 if (instance.CommandName === this._commandName)
                     return instance as T;
             }
         } catch (error) {
             if (error instanceof Error) 
-                BotData.Instance(BotDataManager).AddErrorLog(error);
+                dataManager.AddErrorLog(error);
             console.log("Unable to scan directory: " + error);
         }
     }
