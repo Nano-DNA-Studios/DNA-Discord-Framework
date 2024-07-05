@@ -24,7 +24,15 @@ export {default as BotCommandsEnum} from "./src/DiscordBot/Core/Enums/BotCommand
 export {default as GetLogs} from "./src/DiscordBot/Commands/GetLogs";
 export {default as SetLogChannel} from "./src/DiscordBot/Commands/SetLogChannel";
 export {default as BotResponse} from "./src/DiscordBot/Core/Response/BotResponse";
-export {default as SSHConnectionInfo} from "./src/Bash-Plugin/SSHConnectionInfo";
-export {default as BashScriptRunner} from "./src/Bash-Plugin/BashScriptRunner";
 export {default as GetErrorLogs} from "./src/DiscordBot/Commands/GetErrorLogs";
 export {default as BotErrorLog} from "./src/DiscordBot/Core/Logging/BotErrorLog";
+
+//Bash Plugin
+export {default as SSHConnectionInfo} from "./src/Plugins/Bash-Plugin/SSHConnectionInfo";
+export {default as BashScriptRunner} from "./src/Plugins/Bash-Plugin/BashScriptRunner";
+
+//RESTFUL Plugin
+export {default as RESTFULRequest} from "./src/Plugins/RESTFUL-Plugin/RESTFULRequest";
+export {default as RESTFULResponse} from "./src/Plugins/RESTFUL-Plugin/RESTFULResponse";
+export {default as IRESTFULRequest} from "./src/Plugins/RESTFUL-Plugin/IRESTFULRequest";
+export {default as RESTFULResponseStatusEnum} from "./src/Plugins/RESTFUL-Plugin/RESTFULResponseStatusEnum";

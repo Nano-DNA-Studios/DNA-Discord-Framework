@@ -11,9 +11,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-const BotCommandsEnum_1 = __importDefault(require("../../DiscordBot/Core/Enums/BotCommandsEnum"));
-const Command_1 = __importDefault(require("../../DiscordBot/Core/Commands/Command"));
-const OptionTypes_1 = __importDefault(require("../../DiscordBot/Core/Enums/OptionTypes"));
+const Command_1 = __importDefault(require("../../../DiscordBot/Core/Commands/Command"));
+const OptionTypes_1 = __importDefault(require("../../../DiscordBot/Core/Enums/OptionTypes"));
+const BotCommandsEnum_1 = __importDefault(require("../../../DiscordBot/Core/Enums/BotCommandsEnum"));
 const BashScriptRunner_1 = __importDefault(require("../BashScriptRunner"));
 const fs_1 = __importDefault(require("fs"));
 /**

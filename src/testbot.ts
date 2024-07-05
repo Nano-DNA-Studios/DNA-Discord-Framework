@@ -1,4 +1,4 @@
-import BashScriptRunner from "./Bash-Plugin/BashScriptRunner";
+// import BashScriptRunner from "./Bash-Plugin/BashScriptRunner";
 
 // const BotDataManager = require("./DiscordBot/Core/Data/BotDataManager");
 
