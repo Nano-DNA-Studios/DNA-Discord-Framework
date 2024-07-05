@@ -14,8 +14,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const ssh2_1 = require("ssh2");
 const child_process_1 = require("child_process");
-const BotDataManager_1 = __importDefault(require("../DiscordBot/Core/Data/BotDataManager"));
-const BotData_1 = __importDefault(require("../DiscordBot/Core/Data/BotData"));
+const BotDataManager_1 = __importDefault(require("../../DiscordBot/Core/Data/BotDataManager"));
+const BotData_1 = __importDefault(require("../../DiscordBot/Core/Data/BotData"));
 /**
  * Runs Bash Scripts provided from a Bash Command
  */

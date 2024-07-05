@@ -1,8 +1,8 @@
-import BotCommandsEnum from "../../DiscordBot/Core/Enums/BotCommandsEnum";
+import BotDataManager from "../../../DiscordBot/Core/Data/BotDataManager";
+import Command from "../../../DiscordBot/Core/Commands/Command";
+import OptionTypesEnum from "../../../DiscordBot/Core/Enums/OptionTypes";
+import BotCommandsEnum from "../../../DiscordBot/Core/Enums/BotCommandsEnum";
 import { CacheType, ChatInputCommandInteraction, Client } from "discord.js";
-import BotDataManager from "../../DiscordBot/Core/Data/BotDataManager";
-import Command from "../../DiscordBot/Core/Commands/Command";
-import OptionTypesEnum from "../../DiscordBot/Core/Enums/OptionTypes";
 import BashScriptRunner from "../BashScriptRunner";
 import fs from "fs";
 

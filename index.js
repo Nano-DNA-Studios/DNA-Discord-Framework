@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.BotErrorLog = exports.GetErrorLogs = exports.BashScriptRunner = exports.SSHConnectionInfo = exports.BotResponse = exports.SetLogChannel = exports.GetLogs = exports.BotCommandsEnum = exports.FileSearch = exports.EmptyCustomCommandHandler = exports.DiscordBot = exports.DefaultCommandHandler = exports.CommandRegisterer = exports.OptionTypesEnum = exports.CommandFactory = exports.BotData = exports.BotCommandLog = exports.CommandHandler = exports.Command = exports.BotDataManager = void 0;
+exports.RESTFULResponseStatusEnum = exports.RESTFULRequest = exports.BashScriptRunner = exports.SSHConnectionInfo = exports.BotErrorLog = exports.GetErrorLogs = exports.BotResponse = exports.SetLogChannel = exports.GetLogs = exports.BotCommandsEnum = exports.FileSearch = exports.EmptyCustomCommandHandler = exports.DiscordBot = exports.DefaultCommandHandler = exports.CommandRegisterer = exports.OptionTypesEnum = exports.CommandFactory = exports.BotData = exports.BotCommandLog = exports.CommandHandler = exports.Command = exports.BotDataManager = void 0;
 //Exports
 var BotDataManager_1 = require("./src/DiscordBot/Core/Data/BotDataManager");
 Object.defineProperty(exports, "BotDataManager", { enumerable: true, get: function () { return __importDefault(BotDataManager_1).default; } });
@@ -37,11 +37,17 @@ var SetLogChannel_1 = require("./src/DiscordBot/Commands/SetLogChannel");
 Object.defineProperty(exports, "SetLogChannel", { enumerable: true, get: function () { return __importDefault(SetLogChannel_1).default; } });
 var BotResponse_1 = require("./src/DiscordBot/Core/Response/BotResponse");
 Object.defineProperty(exports, "BotResponse", { enumerable: true, get: function () { return __importDefault(BotResponse_1).default; } });
-var SSHConnectionInfo_1 = require("./src/Bash-Plugin/SSHConnectionInfo");
-Object.defineProperty(exports, "SSHConnectionInfo", { enumerable: true, get: function () { return __importDefault(SSHConnectionInfo_1).default; } });
-var BashScriptRunner_1 = require("./src/Bash-Plugin/BashScriptRunner");
-Object.defineProperty(exports, "BashScriptRunner", { enumerable: true, get: function () { return __importDefault(BashScriptRunner_1).default; } });
 var GetErrorLogs_1 = require("./src/DiscordBot/Commands/GetErrorLogs");
 Object.defineProperty(exports, "GetErrorLogs", { enumerable: true, get: function () { return __importDefault(GetErrorLogs_1).default; } });
 var BotErrorLog_1 = require("./src/DiscordBot/Core/Logging/BotErrorLog");
 Object.defineProperty(exports, "BotErrorLog", { enumerable: true, get: function () { return __importDefault(BotErrorLog_1).default; } });
+//Bash Plugin
+var SSHConnectionInfo_1 = require("./src/Plugins/Bash-Plugin/SSHConnectionInfo");
+Object.defineProperty(exports, "SSHConnectionInfo", { enumerable: true, get: function () { return __importDefault(SSHConnectionInfo_1).default; } });
+var BashScriptRunner_1 = require("./src/Plugins/Bash-Plugin/BashScriptRunner");
+Object.defineProperty(exports, "BashScriptRunner", { enumerable: true, get: function () { return __importDefault(BashScriptRunner_1).default; } });
+//RESTFUL Plugin
+var RESTFULRequest_1 = require("./src/Plugins/RESTFUL-Plugin/RESTFULRequest");
+Object.defineProperty(exports, "RESTFULRequest", { enumerable: true, get: function () { return __importDefault(RESTFULRequest_1).default; } });
+var RESTFULResponseStatusEnum_1 = require("./src/Plugins/RESTFUL-Plugin/RESTFULResponseStatusEnum");
+Object.defineProperty(exports, "RESTFULResponseStatusEnum", { enumerable: true, get: function () { return __importDefault(RESTFULResponseStatusEnum_1).default; } });

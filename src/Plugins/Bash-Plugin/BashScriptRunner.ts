@@ -1,8 +1,8 @@
 import { Client } from "ssh2";
 import { spawn } from 'child_process';
 import SSHConnectionInfo from "./SSHConnectionInfo";
-import BotDataManager from "../DiscordBot/Core/Data/BotDataManager";
-import BotData from "../DiscordBot/Core/Data/BotData";
+import BotDataManager from "../../DiscordBot/Core/Data/BotDataManager";
+import BotData from "../../DiscordBot/Core/Data/BotData";
 
 /**
  * Runs Bash Scripts provided from a Bash Command
