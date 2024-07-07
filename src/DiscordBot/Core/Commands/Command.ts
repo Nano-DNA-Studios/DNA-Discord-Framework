@@ -1,7 +1,7 @@
 import ICommand from "../Interfaces/ICommand";
 import ICommandOption from "../Interfaces/ICommandOption";
 import BotDataManager from "../Data/BotDataManager";
-import { CacheType, ChatInputCommandInteraction, Client, InteractionResponse } from 'discord.js';
+import { CacheType, ChatInputCommandInteraction, Client, InteractionResponse, Attachment, AttachmentBuilder } from 'discord.js';
 import ICommandHandler from "../Interfaces/ICommandHandler";
 import DefaultCommandHandler from "../Defaults/DefaultCommandHandler";
 import BotResponse from "../Response/BotResponse";
@@ -68,6 +68,15 @@ abstract class Command implements ICommand {
     /* <inheritdoc> */
     public AddToResponseMessage(content: string): void {
         this.Response.content += content + "\n";
+        this.UpdateResponse();
+    }
+
+    public AddTextFileToResponseMessage(content: string, fileName: string): void {
+        const buffer = Buffer.from(content, 'utf-8');
+        const file = new AttachmentBuilder(buffer, { name: `${fileName}.txt` });
+
+        this.Response.files?.push(file);
+
         this.UpdateResponse();
     }
 

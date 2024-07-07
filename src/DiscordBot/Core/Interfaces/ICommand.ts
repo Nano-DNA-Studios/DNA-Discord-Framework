@@ -63,6 +63,13 @@ interface ICommand extends IDiscordCommand {
    * @param filePath The Path to the File Being added
    */
   AddFileToResponseMessage (filePath: string) : void;
+
+  /**
+   * Adds a Text File to the Bots Response
+   * @param content The String Content of the Text File
+   * @param fileName The Name of the Text File (No Extension)
+   */
+  AddTextFileToResponseMessage(content: string, fileName: string): void
 }
 
 export default ICommand;
