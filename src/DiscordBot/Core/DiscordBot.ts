@@ -22,7 +22,6 @@ class DiscordBot<T extends BotDataManager> implements IDiscordBot {
     constructor(dataManager: new () => T) {
         this.DataManager = BotData.Instance(dataManager);
 
-
         this.BotInstance = new Client({
             intents: [
                 IntentsBitField.Flags.Guilds,
