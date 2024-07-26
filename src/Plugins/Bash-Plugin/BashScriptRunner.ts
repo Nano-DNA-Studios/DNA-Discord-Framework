@@ -45,9 +45,9 @@ class BashScriptRunner {
      * @param Script Bash Script to Run
      * @returns A Promise void
      */
-    public RunLocally(Script: string): Promise<void> {
+    public RunLocally(Script: string, WorkingDirectory: string = ""): Promise<void> {
         return new Promise<void>((resolve, reject) => {
-            const process = spawn(Script, { shell: true });
+            const process = spawn(Script, { shell: true, cwd: WorkingDirectory });
 
             process.stdout.on('data', (data: string) => {
                 this.StandardOutputLogs += `${data} \n`;
