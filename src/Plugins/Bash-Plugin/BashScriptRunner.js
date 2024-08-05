@@ -50,7 +50,7 @@ class BashScriptRunner {
                     resolve();
                 }
                 else {
-                    reject(new Error(`Process exited with code ${code}`)); // Reject the promise on error
+                    reject(new Error(`Process exited with code ${code} while running : ${Script}`)); // Reject the promise on error
                 }
             });
             process.on('error', (error) => {

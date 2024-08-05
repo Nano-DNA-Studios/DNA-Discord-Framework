@@ -1,6 +1,6 @@
 {
   "name": "dna-discord-framework",
-  "version": "1.0.87",
+  "version": "1.0.88",
   "description": "A node module that contains a Framework for building complex Discord Bots with ease and low barrier of entry",
   "main": "index.js",
   "scripts": {
@@ -11,7 +11,7 @@
     "publishexperimental": "npm login && npm publish --tag experimental"
   },
   "bin": {
-    "new-command": "./scripts/NewCommand.js"
+    "new-command": "scripts/NewCommand.js"
   },
   "keywords": [
     "Discord",
