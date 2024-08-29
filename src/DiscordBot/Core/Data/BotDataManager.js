@@ -102,6 +102,9 @@ class BotDataManager {
             throw error;
         }
     }
+    IsPlainObject(obj) {
+        return obj !== null && typeof obj === 'object' && !Array.isArray(obj) && !(obj instanceof Date) && !(obj instanceof Buffer);
+    }
     /**
      * Loads the Data from the File and Populates the Class Properties
      */
@@ -110,8 +113,14 @@ class BotDataManager {
         let data = JSON.parse(dataJSON);
         // Dynamically assign values from JSON to class properties
         for (const key in data) {
-            if (data.hasOwnProperty(key) && this.hasOwnProperty(key))
-                this[key] = data[key];
+            if (data.hasOwnProperty(key) && this.hasOwnProperty(key)) {
+                if (this.IsPlainObject(data[key])) {
+                    this[key] = JSON.parse(JSON.stringify(data[key]));
+                }
+                else {
+                    this[key] = data[key];
+                }
+            }
         }
     }
     /**
