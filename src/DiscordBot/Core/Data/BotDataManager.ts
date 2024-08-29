@@ -128,6 +128,11 @@ class BotDataManager implements IBotDataManager {
         }
     }
 
+    /**
+     * Checks if the Loaded Object is a JSON Object
+     * @param obj The Object to Check
+     * @returns True if the Object is a JSON Object, False if it is not
+     */
     private IsPlainObject(obj: any): boolean {
         return obj !== null && typeof obj === 'object' && !Array.isArray(obj) && !(obj instanceof Date) && !(obj instanceof Buffer);
     }
@@ -149,9 +154,7 @@ class BotDataManager implements IBotDataManager {
                 {
                     (this as any)[key] = data[key];
                 }
-                
             }
-               
         }
     }
 

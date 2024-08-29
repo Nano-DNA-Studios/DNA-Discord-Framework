@@ -102,6 +102,11 @@ class BotDataManager {
             throw error;
         }
     }
+    /**
+     * Checks if the Loaded Object is a JSON Object
+     * @param obj The Object to Check
+     * @returns True if the Object is a JSON Object, False if it is not
+     */
     IsPlainObject(obj) {
         return obj !== null && typeof obj === 'object' && !Array.isArray(obj) && !(obj instanceof Date) && !(obj instanceof Buffer);
     }
