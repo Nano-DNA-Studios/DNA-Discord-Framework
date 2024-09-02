@@ -48,6 +48,9 @@ class BotDataManager implements IBotDataManager {
     /* <inheritdoc> */
     public DataManagerType: string;
 
+    /* <inheritdoc> */
+    public BOT_COMMAND_BLOCKED: boolean = false;
+
     /**
      * Initializes the Data Manager
      * @param botDirectory The Directory that the Bot is located in
@@ -68,7 +71,15 @@ class BotDataManager implements IBotDataManager {
     public async LoadData() {
         if (this.SaveFileExists()) {
             await this.LoadDataFromFile();
+            this.DefaultInitializeData();
         }
+    }
+
+    /**
+     * Initializes the Data with Default Values even after loading from the Save File
+     */
+    private DefaultInitializeData(): void {
+        this.BOT_COMMAND_BLOCKED = false;
     }
 
     /**
@@ -146,14 +157,11 @@ class BotDataManager implements IBotDataManager {
 
         // Dynamically assign values from JSON to class properties
         for (const key in data) {
-            if (data.hasOwnProperty(key) && this.hasOwnProperty(key))
-            {
-                if (this.IsPlainObject(data[key])) {
+            if (data.hasOwnProperty(key) && this.hasOwnProperty(key)) {
+                if (this.IsPlainObject(data[key]))
                     (this as any)[key] = JSON.parse(JSON.stringify(data[key]));
-                } else
-                {
+                else
                     (this as any)[key] = data[key];
-                }
             }
         }
     }
@@ -214,6 +222,28 @@ class BotDataManager implements IBotDataManager {
     public SetLastMessageChannelID(messageChannelID: string) {
         this.LAST_MESSAGE_CHANNEL_ID = messageChannelID;
         BotData.InstanceByName(this.DataManagerType).SaveData();
+    }
+
+    /**
+     * Turns on the Bot Command Block State, this will block other Commands from Running until the State is turned off
+     */
+    public BotCommandBlock(): void {
+        this.BOT_COMMAND_BLOCKED = true;
+    }
+
+    /**
+     * Turns off the Bot Command Block State, this will allow other Commands to Run
+     */
+    public BotCommandUnblock(): void {
+        this.BOT_COMMAND_BLOCKED = false;
+    }
+
+    /**
+     * Returns the State of the Bot Command Block
+     * @returns True if the Bot Command is Blocked, False if it is not
+     */
+    public IsBotCommandBlocked(): boolean {
+        return this.BOT_COMMAND_BLOCKED;
     }
 }
 

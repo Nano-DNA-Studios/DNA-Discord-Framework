@@ -72,6 +72,11 @@ interface IBotDataManager {
     DataManagerType: string
 
     /**
+     * State determining if a Command that blocks other Commands is currently running
+     */
+    BOT_COMMAND_BLOCKED: boolean;
+
+    /**
      * Adds an Error Log to the Error Log File
      * @param log The Error Log to Add
      */

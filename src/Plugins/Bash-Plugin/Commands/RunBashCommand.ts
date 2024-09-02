@@ -20,8 +20,11 @@ class RunBashCommand extends Command {
     IsEphemeralResponse = true;
 
     /* <inheritdoc> */
+    IsCommandBlocking: boolean = true;
+
+    /* <inheritdoc> */
     RunCommand = async (client: Client, interaction: ChatInputCommandInteraction<CacheType>, dataManager: BotDataManager) => {
-        this.InitializeUserResponse(interaction,  this.RunningMessage);
+        this.InitializeUserResponse(interaction, this.RunningMessage);
 
         const command = interaction.options.getString("command");
 

@@ -5,7 +5,7 @@ import Command from './Command';
 import ICommandHandler from '../Interfaces/ICommandHandler';
 
 /**
- * Class Handling Command Execution, and Delegates to Custom Command Handlers
+ * Class Handling Command Execution, and Delegates to Custom Command Handlers (used for the Bot Data to Create the Custom Command handler for a specific Command)
  */
 class CommandHandler implements ICommandHandler {
 

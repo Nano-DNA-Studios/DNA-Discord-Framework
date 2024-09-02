@@ -36,6 +36,8 @@ class BotDataManager {
         this.LOG_CHANNEL_ID = "";
         /* <inheritdoc> */
         this.LAST_MESSAGE_CHANNEL_ID = "";
+        /* <inheritdoc> */
+        this.BOT_COMMAND_BLOCKED = false;
         this.DataManagerType = this.constructor.name;
         this.DATA_SAVE_PATH = process.cwd() + '/Resources';
         this.FILE_SAVE_PATH = this.DATA_SAVE_PATH + '/data.json';
@@ -51,8 +53,15 @@ class BotDataManager {
         return __awaiter(this, void 0, void 0, function* () {
             if (this.SaveFileExists()) {
                 yield this.LoadDataFromFile();
+                this.DefaultInitializeData();
             }
         });
+    }
+    /**
+     * Initializes the Data with Default Values even after loading from the Save File
+     */
+    DefaultInitializeData() {
+        this.BOT_COMMAND_BLOCKED = false;
     }
     /**
      * Initializes the Data by creating the Save Path and the File
@@ -119,12 +128,10 @@ class BotDataManager {
         // Dynamically assign values from JSON to class properties
         for (const key in data) {
             if (data.hasOwnProperty(key) && this.hasOwnProperty(key)) {
-                if (this.IsPlainObject(data[key])) {
+                if (this.IsPlainObject(data[key]))
                     this[key] = JSON.parse(JSON.stringify(data[key]));
-                }
-                else {
+                else
                     this[key] = data[key];
-                }
             }
         }
     }
@@ -178,6 +185,25 @@ class BotDataManager {
     SetLastMessageChannelID(messageChannelID) {
         this.LAST_MESSAGE_CHANNEL_ID = messageChannelID;
         BotData_1.default.InstanceByName(this.DataManagerType).SaveData();
+    }
+    /**
+     * Turns on the Bot Command Block State, this will block other Commands from Running until the State is turned off
+     */
+    BotCommandBlock() {
+        this.BOT_COMMAND_BLOCKED = true;
+    }
+    /**
+     * Turns off the Bot Command Block State, this will allow other Commands to Run
+     */
+    BotCommandUnblock() {
+        this.BOT_COMMAND_BLOCKED = false;
+    }
+    /**
+     * Returns the State of the Bot Command Block
+     * @returns True if the Bot Command is Blocked, False if it is not
+     */
+    IsBotCommandBlocked() {
+        return this.BOT_COMMAND_BLOCKED;
     }
 }
 exports.default = BotDataManager;

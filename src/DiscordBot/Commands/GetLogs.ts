@@ -18,6 +18,9 @@ class GetLogs extends Command {
     IsEphemeralResponse = true;
 
     /* <inheritdoc> */
+    IsCommandBlocking: boolean = false;
+
+    /* <inheritdoc> */
     RunCommand = async (client: Client, interaction: ChatInputCommandInteraction<CacheType>, dataManager: BotDataManager) => {
         this.InitializeUserResponse(interaction,  this.RunningMessage);
 

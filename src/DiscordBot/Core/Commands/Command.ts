@@ -29,6 +29,9 @@ abstract class Command implements ICommand {
     public abstract IsEphemeralResponse: boolean;
 
     /* <inheritdoc> */
+    public abstract IsCommandBlocking: boolean;
+
+    /* <inheritdoc> */
     public FailMessages?: string[];
 
     /* <inheritdoc> */

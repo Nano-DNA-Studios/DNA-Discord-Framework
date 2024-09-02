@@ -23,13 +23,22 @@ class DefaultCommandHandler {
             let Factory = yield new CommandFactory_1.default(interaction.commandName);
             let command = yield Factory.CreateCommand(dataManager);
             if (command) {
+                if (dataManager.IsBotCommandBlocked()) {
+                    command.IsEphemeralResponse = true;
+                    command.InitializeUserResponse(interaction, "Bot is busy, try the command again later.");
+                    return;
+                }
+                if (command.IsCommandBlocking)
+                    dataManager.BotCommandBlock();
                 try {
                     yield command.RunCommand(client, interaction, dataManager);
                 }
                 catch (error) {
+                    dataManager.BotCommandUnblock();
                     if (error instanceof Error)
                         dataManager.AddErrorLog(error);
                 }
+                dataManager.BotCommandUnblock();
                 const log = new BotCommandLog_1.default(interaction);
                 log.AddLogMessage(command.Response);
                 dataManager.AddCommandLog(log);

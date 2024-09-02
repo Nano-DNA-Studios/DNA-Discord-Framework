@@ -26,6 +26,8 @@ class GetErrorLogs extends Command_1.default {
         /* <inheritdoc> */
         this.IsEphemeralResponse = true;
         /* <inheritdoc> */
+        this.IsCommandBlocking = false;
+        /* <inheritdoc> */
         this.RunCommand = (client, interaction, dataManager) => __awaiter(this, void 0, void 0, function* () {
             this.InitializeUserResponse(interaction, this.RunningMessage);
             this.AddToResponseMessage(this.LogMessage);

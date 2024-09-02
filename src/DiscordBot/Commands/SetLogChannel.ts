@@ -11,6 +11,7 @@ class SetLogChannel extends Command {
     CommandName = BotCommandsEnum.SetLogChannel;
     CommandDescription = "Sets the Discord Text Channel to send Bot and Server Logs to";
     IsEphemeralResponse: boolean = true;
+    IsCommandBlocking: boolean = false;
     RunCommand = (client: Client, interaction: ChatInputCommandInteraction<CacheType>, dataManager: BotDataManager) => {
         this.InitializeUserResponse(interaction, this.RunningMessage);
 

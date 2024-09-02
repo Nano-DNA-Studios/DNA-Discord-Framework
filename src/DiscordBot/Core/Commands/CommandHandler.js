@@ -14,7 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const CommandFactory_1 = __importDefault(require("./CommandFactory"));
 /**
- * Class Handling Command Execution, and Delegates to Custom Command Handlers
+ * Class Handling Command Execution, and Delegates to Custom Command Handlers (used for the Bot Data to Create the Custom Command handler for a specific Command)
  */
 class CommandHandler {
     HandleCommand(interaction, client, dataManager) {

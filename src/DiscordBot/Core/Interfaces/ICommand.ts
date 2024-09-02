@@ -23,6 +23,11 @@ interface ICommand extends IDiscordCommand {
   FailMessages?: string[];
 
   /**
+   * Determines if the Command will Block other Commands from running while it is running
+   */
+  IsCommandBlocking : boolean;
+
+  /**
    * Boolean Flag determining if the Response to the User will be Ephemeral or Not
    */
   IsEphemeralResponse: boolean;
