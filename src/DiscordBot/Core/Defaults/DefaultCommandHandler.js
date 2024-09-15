@@ -25,11 +25,9 @@ class DefaultCommandHandler {
             let Factory = yield new CommandFactory_1.default(commandData.CommandInteraction.commandName);
             let command = yield Factory.CreateCommand(commandData);
             if (command) {
-                command.SetCommandData(commandData);
                 if (commandData.DataManager.IsBotCommandBlocked()) {
                     command.IsEphemeralResponse = true;
                     command.AddToMessage("Bot is busy, try the command again later.");
-                    //command.InitializeUserResponse(interaction, "Bot is busy, try the command again later.");
                     return;
                 }
                 if (command.IsCommandBlocking)

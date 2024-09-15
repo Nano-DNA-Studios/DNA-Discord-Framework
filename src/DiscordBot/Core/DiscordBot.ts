@@ -85,8 +85,7 @@ class DiscordBot<T extends BotDataManager> implements IDiscordBot {
     public RegisterCommands(): void {
         let registerer = new CommandRegisterer(this.DataManager);
         let fileSearch = new FileSearch();
-        console.log(`Datamanager: ${this.DataManager}`);
-        let commands = fileSearch.GetAllCommandInstances(new CommandData(this.DataManager, this.BotInstance, undefined));
+        let commands = fileSearch.GetAllCommandInstances(this.DataManager);
         registerer.AddCommands(commands);
         registerer.RegisterCommands();
     }

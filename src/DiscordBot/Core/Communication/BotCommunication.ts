@@ -6,8 +6,8 @@ import fs from "fs";
 abstract class BotCommunication implements MessageCreateOptions, MessageEditOptions {
 
     /**
-        * The Maximum Number of Minutes that the Response is valid for
-        */
+     * The Maximum Number of Minutes that the Response is valid for
+     */
     public static MAX_RESPONSE_MINS: number = 15;
 
     /**
@@ -35,6 +35,8 @@ abstract class BotCommunication implements MessageCreateOptions, MessageEditOpti
      */
     protected _MessageInitialized: boolean = false;
 
+    protected _MessageReceived: boolean = false;
+
     /**
      * The Communication object that is sent to the User
      */
@@ -43,15 +45,31 @@ abstract class BotCommunication implements MessageCreateOptions, MessageEditOpti
     //Add a get link function
 
     /**
+     * Gets the Link of the Communication Instance
+     * @returns The Link of the Communication Instance
+     */
+    public GetLink(): string {
+        if (this.CommunicationInstance === undefined)
+            return "No Link Available";
+
+        if (this.CommunicationInstance instanceof InteractionResponse)
+            return `https://discord.com/channels/${this.CommunicationInstance.interaction.guildId}/${this.CommunicationInstance.interaction.channelId}/${this.CommunicationInstance.id}`;
+
+        if (this.CommunicationInstance instanceof Message)
+            return `https://discord.com/channels/${this.CommunicationInstance.guildId}/${this.CommunicationInstance.channelId}/${this.CommunicationInstance.id}`;
+
+        return "No Link Available";
+    }
+
+    /**
      * Adds Content to the Message as a new Line
      * @param content The String Content to add to the Message
      */
     public AddMessage(content: string, delayUpdate: boolean = false): void {
-
         this.content += content + "\n";
 
         if (!delayUpdate)
-            this.Update();
+            this.UpdateCommunication();
     }
 
     /**
@@ -68,7 +86,7 @@ abstract class BotCommunication implements MessageCreateOptions, MessageEditOpti
             this.files?.push(filePath);
 
         if (!delayUpdate)
-            this.Update();
+            this.UpdateCommunication();
     }
 
     /**
@@ -83,39 +101,27 @@ abstract class BotCommunication implements MessageCreateOptions, MessageEditOpti
         this.files?.push(file);
 
         if (!delayUpdate)
-            this.Update();
+            this.UpdateCommunication();
     }
 
     /**
      * Updates the Communication Instance with the new Message Content and Files
      */
-    public abstract UpdateCommunication(): Promise<void>;
+    public abstract UpdateCommunication(): void;
 
     /**
-     * Updates the Communication Instance with the new Message Content and Files
+     * Waiting Loop for the Message to be Received
+     * @param count The Number of Times the Loop has Run through iterations
      */
-    private Update(): void {
-        let updated = false;
+    protected UpdateMessageLoop (count: number = 0): void {
+        if (count > 50)
+            return console.log("Message has Taken too long, it's been over 15 minutes");
 
-        this.UpdateCommunication().then(() => {
-            updated = true;
-        })
-
-        const UpdateLoop = (count: number = 0) => {
-            if (updated)
-                return;
-
-            if (count > 1000)
-                return console.log("Failed to Update Communication Instance");
-
-            setTimeout(() => {
-                UpdateLoop(count + 1);
-            }, 100);
-        }
-
-        UpdateLoop();
+        if (this._MessageReceived)
+            this.CommunicationInstance?.edit(this);
+        else
+            setTimeout(() => { this.UpdateMessageLoop(count + 1); }, 100);
     }
-
 }
 
 export default BotCommunication;

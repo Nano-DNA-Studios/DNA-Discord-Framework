@@ -1,13 +1,4 @@
 "use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -32,15 +23,28 @@ class BotMessage extends BotCommunication_1.default {
     }
     /* <inheritdoc> */
     UpdateCommunication() {
-        return __awaiter(this, void 0, void 0, function* () {
-            var _a;
-            if (this.CommunicationInstance === undefined || this._newMessageWanted) {
-                this.CommunicationInstance = yield this.MessageChannel.send(this);
-                this._newMessageWanted = false;
-            }
-            else
-                (_a = this.CommunicationInstance) === null || _a === void 0 ? void 0 : _a.edit(this);
-        });
+        if (this._newMessageWanted || this._MessageInitialized == false) {
+            this._newMessageWanted = false;
+            this._MessageInitialized = true;
+            this.MessageChannel.send(this).then((message) => {
+                this.CommunicationInstance = message;
+                this._MessageReceived = true;
+            });
+            return;
+        }
+        //const UpdateMessage = (count: number = 0) => {
+        //
+        //    if (count > 50)
+        //        return console.log("Message has Taken too long, it's been over 15 minutes");
+        //
+        //    if (this._MessageReceived)
+        //        this.CommunicationInstance?.edit(this);
+        //    else
+        //        setTimeout(() => { UpdateMessage(count + 1); }, 100);
+        //}
+        //
+        //UpdateMessage();
+        this.UpdateMessageLoop();
     }
 }
 exports.default = BotMessage;

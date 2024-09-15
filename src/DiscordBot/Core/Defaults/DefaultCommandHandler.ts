@@ -19,12 +19,9 @@ class DefaultCommandHandler implements ICommandHandler {
 
         if (command) {
 
-            command.SetCommandData(commandData);
-
             if (commandData.DataManager.IsBotCommandBlocked()) {
                 command.IsEphemeralResponse = true;
                 command.AddToMessage("Bot is busy, try the command again later.");
-                //command.InitializeUserResponse(interaction, "Bot is busy, try the command again later.");
                 return;
             }
 

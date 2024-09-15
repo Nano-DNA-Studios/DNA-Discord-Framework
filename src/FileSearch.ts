@@ -4,8 +4,6 @@ import ICommand from "./DiscordBot/Core/Interfaces/ICommand";
 import Command from "./DiscordBot/Core/Commands/Command";
 import BotData from "./DiscordBot/Core/Data/BotData";
 import BotDataManager from "./DiscordBot/Core/Data/BotDataManager";
-import { CacheType, ChatInputCommandInteraction, Client } from "discord.js";
-import CommandData from "./DiscordBot/Core/Data/CommandData";
 
 /**
  * Utility Class for Searching Files
@@ -65,13 +63,13 @@ class FileSearch {
    * Gets all the Command Instances from the Provided Directory
    * @returns Array of IT Command Objects
    */
-  public GetAllCommandInstances(commandData: CommandData): ICommand[] {
+  public GetAllCommandInstances(dataManager : BotDataManager): ICommand[] {
     let Commands: ICommand[] = [];
 
-    const CommandClasses = this.GetAllCommands(commandData);
+    const CommandClasses = this.GetAllCommands();
 
     CommandClasses.forEach(commandClass => {
-      const commandInstance = new commandClass(commandData);
+      const commandInstance = new commandClass(dataManager);
       if (commandInstance.CommandName !== '')
         Commands.push(commandInstance);
 
@@ -84,7 +82,7 @@ class FileSearch {
   * Gets all the Command Classes from the Provided Directory
   * @returns Array of IT Command Objects
   */
-  public GetAllCommands<T extends { new(commandData: CommandData): Command } & Command>(commandData: CommandData): T[] {
+  public GetAllCommands<T extends { new(dataManager : BotDataManager): Command } & Command>(): T[] {
     let Commands: T[] = [];
 
     const Files = this.GetAllJSFiles();
@@ -95,12 +93,14 @@ class FileSearch {
       try {
         const classType = module;
         try {
-          const moduleInstance = new classType(commandData) as T;
+          const moduleInstance = new classType() as T;
 
           if ('CommandName' in moduleInstance)
             Commands.push(module);
 
-        } catch (error) { console.log("Error Occurred: " + error); }
+        } catch (error) { 
+          //console.log("Error Occurred: " + error); 
+          }
       } catch
       (error) {
         console.log("Error Occurred: " + error);

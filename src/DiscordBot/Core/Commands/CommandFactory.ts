@@ -1,7 +1,4 @@
-import { CacheType, ChatInputCommandInteraction, Client } from "discord.js";
 import FileSearch from "../../../FileSearch";
-import BotData from "../Data/BotData";
-import BotDataManager from "../Data/BotDataManager";
 import Command from "./Command";
 import CommandData from "../Data/CommandData";
 
@@ -33,11 +30,13 @@ class CommandFactory {
      * @param CommandType The Class Type of the Command that will be created. Must have a constructor that takes a single parameter of the Command Interface
      * @returns A New Instance of the Command Requested
      */
-    public CreateCommand<T extends Command>(commandData: CommandData): T | undefined {
+    public CreateCommand<T extends Command>(commandData : CommandData): T | undefined {
         try {
-            const Commands = this._fileSearch.GetAllCommands(commandData);
+            const Commands = this._fileSearch.GetAllCommands();
             for (const command of Commands) {
-                const instance = new command(commandData);
+                const instance = new command(commandData.DataManager);
+
+                instance.SetCommandData(commandData);
 
                 if (instance.CommandName === this._commandName)
                     return instance as T;

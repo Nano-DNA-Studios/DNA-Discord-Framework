@@ -1,6 +1,5 @@
 import ILogMessage from '../Interfaces/ILogMessage';
 import { CacheType, ChatInputCommandInteraction } from 'discord.js';
-import BotResponse from '../Communication/BotResponse';
 import BotCommunication from '../Communication/BotCommunication';
 
 /**
@@ -35,7 +34,6 @@ class BotCommandLog implements ILogMessage {
     public AddLogMessage(message: BotCommunication) {
         if (message.content)
             this.LogMessage = message.content;
-
     }
 }
 

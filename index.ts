@@ -29,6 +29,7 @@ export {default as BotMessage} from "./src/DiscordBot/Core/Communication/BotMess
 export {default as BotResponse} from "./src/DiscordBot/Core/Communication/BotResponse";
 export {default as BotCommunication} from "./src/DiscordBot/Core/Communication/BotCommunication";
 export {default as CommandData} from "./src/DiscordBot/Core/Data/CommandData";
+export {default as DefaultBotCommunication} from "./src/DiscordBot/Core/Communication/DefaultBotCommunication";
 
 
 //Bash Plugin

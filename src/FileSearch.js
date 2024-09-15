@@ -78,12 +78,11 @@ class FileSearch {
      * Gets all the Command Instances from the Provided Directory
      * @returns Array of IT Command Objects
      */
-    GetAllCommandInstances(commandData) {
+    GetAllCommandInstances(dataManager) {
         let Commands = [];
-        const CommandClasses = this.GetAllCommands(commandData);
-        //console.log("Command Classes: " + CommandClasses);
+        const CommandClasses = this.GetAllCommands();
         CommandClasses.forEach(commandClass => {
-            const commandInstance = new commandClass(commandData);
+            const commandInstance = new commandClass(dataManager);
             if (commandInstance.CommandName !== '')
                 Commands.push(commandInstance);
         });
@@ -93,23 +92,20 @@ class FileSearch {
     * Gets all the Command Classes from the Provided Directory
     * @returns Array of IT Command Objects
     */
-    GetAllCommands(commandData) {
+    GetAllCommands() {
         let Commands = [];
         const Files = this.GetAllJSFiles();
-        //console.log("Files: " + Files);
         Files.forEach(file => {
             const module = require(file);
             try {
                 const classType = module;
-                //console.log("Class Type: " + classType);
                 try {
-                    const moduleInstance = new classType(commandData);
-                    //console.log("Module Instance: " + moduleInstance);
+                    const moduleInstance = new classType();
                     if ('CommandName' in moduleInstance)
                         Commands.push(module);
                 }
                 catch (error) {
-                    console.log("Error Occurred: " + error);
+                    //console.log("Error Occurred: " + error); 
                 }
             }
             catch (error) {

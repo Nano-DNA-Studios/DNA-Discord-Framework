@@ -1,5 +1,4 @@
-import {  CacheType, ChatInputCommandInteraction} from "discord.js";
-
+import { CacheType, ChatInputCommandInteraction } from "discord.js";
 import BotCommunication from "./BotCommunication";
 
 /**
@@ -12,30 +11,41 @@ class BotResponse extends BotCommunication {
      */
     public CommandInteraction: ChatInputCommandInteraction<CacheType>;
 
-    constructor (commandInteraction: ChatInputCommandInteraction<CacheType>, isEphemeral: boolean = true) 
-    {
+    constructor(commandInteraction: ChatInputCommandInteraction<CacheType>, isEphemeral: boolean = true) {
         super();
         this.CommandInteraction = commandInteraction;
         this.ephemeral = isEphemeral;
     }
 
     /* <inheritdoc> */
-    public async UpdateCommunication(): Promise<void> {
-
-        console.log(`UTC date : ${this.CreatedDate.getTime()}`);
-        console.log(`Date now : ${Date.now()}`);
-        
-
+    public UpdateCommunication(): void {
         let diff = (Date.now() - this.CreatedDate.getTime()) / 1000;
-        console.log(`Diff : ${diff}`);
 
         if (diff > BotCommunication.MAX_RESPONSE_MINS)
             return console.log("Response has Taken too long, it's been over 15 minutes");
 
-        if (this.CommunicationInstance === undefined)
-            this.CommunicationInstance = await this.CommandInteraction.reply(this);
-        else
-            this.CommunicationInstance?.edit(this);
+        if (this._MessageInitialized == false) {
+            this._MessageInitialized = true;
+            this.CommandInteraction.reply(this).then((message) => {
+                this.CommunicationInstance = message;
+                this._MessageReceived = true;
+            });
+
+            return;
+        }
+
+        this.UpdateMessageLoop();
+
+       // const attemptToAdd = () => {
+//
+       //     if (this._MessageReceived)
+       //         this.CommunicationInstance?.edit(this);
+       //     else
+       //         setTimeout(attemptToAdd, 100);
+       // }
+//
+       // attemptToAdd();
+
     }
 }
 

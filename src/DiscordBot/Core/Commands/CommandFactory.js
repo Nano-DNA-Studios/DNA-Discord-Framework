@@ -23,9 +23,10 @@ class CommandFactory {
      */
     CreateCommand(commandData) {
         try {
-            const Commands = this._fileSearch.GetAllCommands(commandData);
+            const Commands = this._fileSearch.GetAllCommands();
             for (const command of Commands) {
-                const instance = new command(commandData);
+                const instance = new command(commandData.DataManager);
+                instance.SetCommandData(commandData);
                 if (instance.CommandName === this._commandName)
                     return instance;
             }

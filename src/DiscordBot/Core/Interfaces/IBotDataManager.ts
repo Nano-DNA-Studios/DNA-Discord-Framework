@@ -1,5 +1,4 @@
 import BotCommandLog from "../Logging/BotCommandLog";
-import BotErrorLog from "../Logging/BotErrorLog";
 
 /**
  * Interface for the Bot Data Manager

@@ -1,4 +1,7 @@
 
+/**
+ * Interface Representing A Choice that can be selected for a Command Option
+ */
 interface ICommandOptionChoice
 {
     /**

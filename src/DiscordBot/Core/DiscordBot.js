@@ -84,8 +84,7 @@ class DiscordBot {
     RegisterCommands() {
         let registerer = new CommandRegisterer_1.default(this.DataManager);
         let fileSearch = new FileSearch_1.default();
-        console.log(`Datamanager: ${this.DataManager}`);
-        let commands = fileSearch.GetAllCommandInstances(new CommandData_1.default(this.DataManager, this.BotInstance, undefined));
+        let commands = fileSearch.GetAllCommandInstances(this.DataManager);
         registerer.AddCommands(commands);
         registerer.RegisterCommands();
     }

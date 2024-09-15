@@ -1,4 +1,3 @@
-import BotCommunication from "../Communication/BotCommunication";
 
 /**
  * Interface for the Log class

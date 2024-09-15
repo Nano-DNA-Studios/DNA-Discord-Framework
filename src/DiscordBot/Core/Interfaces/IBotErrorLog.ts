@@ -23,7 +23,6 @@ interface IBotErrorLog {
      * The Date the Exception was thrown
      */
     ExceptionDate: Date;
-
 }
 
 export default IBotErrorLog;

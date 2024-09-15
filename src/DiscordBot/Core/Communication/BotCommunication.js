@@ -27,8 +27,22 @@ class BotCommunication {
          * Boolean Flag to determine if the Message has been received/initialized and can be updated
          */
         this._MessageInitialized = false;
+        this._MessageReceived = false;
     }
     //Add a get link function
+    /**
+     * Gets the Link of the Communication Instance
+     * @returns The Link of the Communication Instance
+     */
+    GetLink() {
+        if (this.CommunicationInstance === undefined)
+            return "No Link Available";
+        if (this.CommunicationInstance instanceof discord_js_1.InteractionResponse)
+            return `https://discord.com/channels/${this.CommunicationInstance.interaction.guildId}/${this.CommunicationInstance.interaction.channelId}/${this.CommunicationInstance.id}`;
+        if (this.CommunicationInstance instanceof discord_js_1.Message)
+            return `https://discord.com/channels/${this.CommunicationInstance.guildId}/${this.CommunicationInstance.channelId}/${this.CommunicationInstance.id}`;
+        return "No Link Available";
+    }
     /**
      * Adds Content to the Message as a new Line
      * @param content The String Content to add to the Message
@@ -36,7 +50,7 @@ class BotCommunication {
     AddMessage(content, delayUpdate = false) {
         this.content += content + "\n";
         if (!delayUpdate)
-            this.Update();
+            this.UpdateCommunication();
     }
     /**
      * Adds a File to the Message
@@ -51,7 +65,7 @@ class BotCommunication {
         if (!((_a = this.files) === null || _a === void 0 ? void 0 : _a.some(file => file === filePath)))
             (_b = this.files) === null || _b === void 0 ? void 0 : _b.push(filePath);
         if (!delayUpdate)
-            this.Update();
+            this.UpdateCommunication();
     }
     /**
      * Adds a Message as a Text File to the Messages
@@ -64,30 +78,24 @@ class BotCommunication {
         const file = new discord_js_1.AttachmentBuilder(buffer, { name: `${fileName}.txt` });
         (_a = this.files) === null || _a === void 0 ? void 0 : _a.push(file);
         if (!delayUpdate)
-            this.Update();
+            this.UpdateCommunication();
     }
     /**
-     * Updates the Communication Instance with the new Message Content and Files
+     * Waiting Loop for the Message to be Received
+     * @param count The Number of Times the Loop has Run through iterations
      */
-    Update() {
-        let updated = false;
-        this.UpdateCommunication().then(() => {
-            updated = true;
-        });
-        const UpdateLoop = (count = 0) => {
-            if (updated)
-                return;
-            if (count > 1000)
-                return console.log("Failed to Update Communication Instance");
-            setTimeout(() => {
-                UpdateLoop(count + 1);
-            }, 100);
-        };
-        UpdateLoop();
+    UpdateMessageLoop(count = 0) {
+        var _a;
+        if (count > 50)
+            return console.log("Message has Taken too long, it's been over 15 minutes");
+        if (this._MessageReceived)
+            (_a = this.CommunicationInstance) === null || _a === void 0 ? void 0 : _a.edit(this);
+        else
+            setTimeout(() => { this.UpdateMessageLoop(count + 1); }, 100);
     }
 }
 /**
-    * The Maximum Number of Minutes that the Response is valid for
-    */
+ * The Maximum Number of Minutes that the Response is valid for
+ */
 BotCommunication.MAX_RESPONSE_MINS = 15;
 exports.default = BotCommunication;

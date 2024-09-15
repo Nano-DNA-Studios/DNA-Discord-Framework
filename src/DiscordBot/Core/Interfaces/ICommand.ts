@@ -2,7 +2,8 @@ import IDiscordCommand from "./IDiscordCommand";
 import BotDataManager from "../Data/BotDataManager";
 import { CacheType, ChatInputCommandInteraction, Client, InteractionResponse } from 'discord.js';
 import ICommandHandler from "./ICommandHandler";
-import BotResponse from "../Communication/BotResponse";
+import BotCommunication from "../Communication/BotCommunication";
+import CommandData from "../Data/CommandData";
 
 /**
  * Describes the structure of a command for a Discord Bot
@@ -43,7 +44,7 @@ interface ICommand extends IDiscordCommand {
   /**
    * The Response sent back to the User who called the Command
    */
-  Response: BotResponse | undefined;
+  Response: BotCommunication;
 
   /**
    * The Interaction Response Reply Instance that was sent to the User who called the Command
@@ -51,35 +52,31 @@ interface ICommand extends IDiscordCommand {
   UserResponse: InteractionResponse | undefined;
 
   /**
-   * Initializes and Sends the Response to the User who called the Command, can be Ephermeral or not based on {@link IsEphemeralResponse}
-   * @param interaction The interaction instance caused by the Command
-   * @param message The First message to send to the User
+   * Sets the Command Data for the Command
+   * @param commandData Command Data to set
    */
-  //InitializeUserResponse(interaction: ChatInputCommandInteraction<CacheType>, message: string): void;
+  SetCommandData(commandData: CommandData) : void;
 
   /**
-   * Adds a String Message in the next line to the Reply created from {@link InitializeUserResponse}
-   * @param content The String Content of the Message to add to the Response Sent to the User from {@link InitializeUserResponse}
+   * Adds a String to the Reply the Bot Sends for a Command
+   * @param content The Content to add to the Message
+   * @param delayUpdate Whether to delay the update of the Message
    */
-  //AddToResponseMessage(content: string): void;
-
-  /**
-   * Adds a File to the Bots Reply created from {@link InitializeUserResponse}
-   * @param filePath The Path to the File Being added
-   */
-  //AddFileToResponseMessage(filePath: string): void;
-
-  /**
-   * Adds a Text File to the Bots Response
-   * @param content The String Content of the Text File
-   * @param fileName The Name of the Text File (No Extension)
-   */
-  //AddTextFileToResponseMessage(content: string, fileName: string): void;
-
   AddToMessage(content: string, delayUpdate: boolean): void;
 
+  /**
+   * Adds a File to the Reply the Bot Sends for a Command
+   * @param filePath The Path to the File to add to the Message
+   * @param delayUpdate Whether to delay the update of the Message
+   */
   AddFileToMessage(filePath: string, delayUpdate: boolean): void;
 
+  /**
+   * Adds a Message as a Text File to the Reply the Bot Sends for a Command
+   * @param content The Content of the Text File
+   * @param fileName The Name of the Text File
+   * @param delayUpdate Whether to delay the update of the Message
+   */
   AddTextFileToMessage(content: string, fileName: string, delayUpdate: boolean): void;
 }
 

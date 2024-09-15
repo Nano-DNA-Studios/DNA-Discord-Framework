@@ -37,14 +37,12 @@ class RunBashCommand extends Command_1.default {
             const command = interaction.options.getString("command");
             let runner = new BashScriptRunner_1.default();
             if (command) {
-                //this.AddToResponseMessage(this.LogMessage)
                 this.AddToMessage(this.LogMessage);
                 yield runner.RunLocally(command);
             }
             else {
                 this.AddToMessage("Command has not been provided");
             }
-            //this.AddToResponseMessage("Command has not been provided");
             if (runner.StandardOutputLogs.length > 1900) {
                 const filePath = dataManager.TEMP_DATA_SAVE_PATH + `/bashResult.txt`;
                 try {
@@ -55,11 +53,9 @@ class RunBashCommand extends Command_1.default {
                         dataManager.AddErrorLog(e);
                 }
                 fs_1.default.writeFileSync(filePath, runner.StandardOutputLogs);
-                //this.AddFileToResponseMessage(filePath);
                 this.AddFileToMessage(filePath);
             }
             else
-                //this.AddToResponseMessage("Results: \n" + runner.StandardOutputLogs);
                 this.AddToMessage("Results: \n" + runner.StandardOutputLogs);
         });
         /**

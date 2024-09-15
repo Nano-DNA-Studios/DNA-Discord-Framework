@@ -5,39 +5,35 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const DefaultCommandHandler_1 = __importDefault(require("../Defaults/DefaultCommandHandler"));
 const BotResponse_1 = __importDefault(require("../Communication/BotResponse"));
+const DefaultBotCommunication_1 = __importDefault(require("../Communication/DefaultBotCommunication"));
 //Split this into a Configure and Execute part?
 /**
  * Represents a Command for a Discord Bot
  */
 class Command {
-    constructor(commandData) {
+    constructor(dataManager) {
         /* <inheritdoc> */
         this.CommandHandler = DefaultCommandHandler_1.default.Instance();
         /* <inheritdoc> */
-        this.Response = undefined;
-        /**
-         * Boolean Flag to indicate when the Response Instance sent to the User has been received and the Promise has been accomplished
-         */
-        this._responseReceived = false;
-        this.DataManager = commandData.DataManager;
-        //this.SetCommandData(commandData);
+        this.Response = new DefaultBotCommunication_1.default();
+        this.DataManager = dataManager;
     }
+    /* <inheritdoc> */
     SetCommandData(commandData) {
-        console.log(`Setting Command Data : ${this.IsEphemeralResponse}`);
         if (commandData.CommandInteraction)
             this.Response = new BotResponse_1.default(commandData.CommandInteraction, this.IsEphemeralResponse);
     }
+    /* <inheritdoc> */
     AddToMessage(content, delayUpdate = false) {
-        var _a;
-        (_a = this.Response) === null || _a === void 0 ? void 0 : _a.AddMessage(content, delayUpdate);
+        this.Response.AddMessage(content, delayUpdate);
     }
+    /* <inheritdoc> */
     AddFileToMessage(filePath, delayUpdate = false) {
-        var _a;
-        (_a = this.Response) === null || _a === void 0 ? void 0 : _a.AddFile(filePath, delayUpdate);
+        this.Response.AddFile(filePath, delayUpdate);
     }
+    /* <inheritdoc> */
     AddTextFileToMessage(content, fileName, delayUpdate = false) {
-        var _a;
-        (_a = this.Response) === null || _a === void 0 ? void 0 : _a.AddTextFile(content, fileName, delayUpdate);
+        this.Response.AddTextFile(content, fileName, delayUpdate);
     }
 }
 exports.default = Command;

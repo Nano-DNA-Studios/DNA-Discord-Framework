@@ -1,5 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+/**
+ * The types of options that can be used in a command
+ */
 var OptionTypesEnum;
 (function (OptionTypesEnum) {
     OptionTypesEnum[OptionTypesEnum["SubCommand"] = 1] = "SubCommand";
