@@ -17,12 +17,14 @@ const CommandFactory_1 = __importDefault(require("./CommandFactory"));
  * Class Handling Command Execution, and Delegates to Custom Command Handlers (used for the Bot Data to Create the Custom Command handler for a specific Command)
  */
 class CommandHandler {
-    HandleCommand(interaction, client, dataManager) {
+    HandleCommand(commandData) {
         return __awaiter(this, void 0, void 0, function* () {
-            let Factory = yield new CommandFactory_1.default(interaction.commandName);
-            let command = yield Factory.CreateCommand(dataManager);
+            if (!commandData.CommandInteraction)
+                return console.log("Command Interaction is undefined");
+            let Factory = yield new CommandFactory_1.default(commandData.CommandInteraction.commandName);
+            let command = yield Factory.CreateCommand(commandData);
             if (command)
-                yield command.CommandHandler.HandleCommand(interaction, client, dataManager);
+                yield command.CommandHandler.HandleCommand(commandData);
         });
     }
 }

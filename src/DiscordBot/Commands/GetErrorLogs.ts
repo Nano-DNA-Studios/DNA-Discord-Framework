@@ -21,10 +21,13 @@ class GetErrorLogs extends Command {
 
     /* <inheritdoc> */
     RunCommand = async (client: Client, interaction: ChatInputCommandInteraction<CacheType>, dataManager: BotDataManager) => {
-        this.InitializeUserResponse(interaction, this.RunningMessage);
-        this.AddToResponseMessage(this.LogMessage)
+       // this.InitializeUserResponse(interaction, this.RunningMessage);
+        //this.AddToResponseMessage(this.LogMessage)
+        this.AddToMessage(this.RunningMessage);
+        this.AddToMessage(this.LogMessage);
         interaction.user.send({ content: "Here are the Error Log Files", files: [`${dataManager.ERROR_LOG_FILE_PATH}`] })
-        this.AddToResponseMessage(this.SuccessMessage);
+        this.AddToMessage(this.SuccessMessage);
+       // this.AddToResponseMessage(this.SuccessMessage);
     };
 
     RunningMessage = `Running ${this.CommandName} :arrows_clockwise:`;

@@ -29,10 +29,13 @@ class GetErrorLogs extends Command_1.default {
         this.IsCommandBlocking = false;
         /* <inheritdoc> */
         this.RunCommand = (client, interaction, dataManager) => __awaiter(this, void 0, void 0, function* () {
-            this.InitializeUserResponse(interaction, this.RunningMessage);
-            this.AddToResponseMessage(this.LogMessage);
+            // this.InitializeUserResponse(interaction, this.RunningMessage);
+            //this.AddToResponseMessage(this.LogMessage)
+            this.AddToMessage(this.RunningMessage);
+            this.AddToMessage(this.LogMessage);
             interaction.user.send({ content: "Here are the Error Log Files", files: [`${dataManager.ERROR_LOG_FILE_PATH}`] });
-            this.AddToResponseMessage(this.SuccessMessage);
+            this.AddToMessage(this.SuccessMessage);
+            // this.AddToResponseMessage(this.SuccessMessage);
         });
         this.RunningMessage = `Running ${this.CommandName} :arrows_clockwise:`;
         this.LogMessage = "Sending Error Log File :arrows_clockwise:";

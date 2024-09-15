@@ -1,42 +1,49 @@
 import ICommandHandler from "../Interfaces/ICommandHandler";
-import { CacheType, ChatInputCommandInteraction, Client } from 'discord.js';
 import CommandFactory from '../Commands/CommandFactory';
-import BotDataManager from "../Data/BotDataManager";
 import Command from "../Commands/Command";
 import BotCommandLog from "../Logging/BotCommandLog";
+import CommandData from "../Data/CommandData";
 
 /**
  * Default Command Handler used for empty and regular Discord Bot Commands
  */
 class DefaultCommandHandler implements ICommandHandler {
 
-    public async HandleCommand(interaction: ChatInputCommandInteraction<CacheType>, client: Client, dataManager: BotDataManager): Promise<void> {
-        let Factory = await new CommandFactory(interaction.commandName);
-        let command = await Factory.CreateCommand<Command>(dataManager);
+    public async HandleCommand(commandData: CommandData): Promise<void> {
+
+        if (!commandData.CommandInteraction)
+            return console.log("Command Interaction is undefined");
+
+        let Factory = await new CommandFactory(commandData.CommandInteraction.commandName);
+        let command = await Factory.CreateCommand<Command>(commandData);
 
         if (command) {
 
-            if (dataManager.IsBotCommandBlocked()) {
+            command.SetCommandData(commandData);
+
+            if (commandData.DataManager.IsBotCommandBlocked()) {
                 command.IsEphemeralResponse = true;
-                command.InitializeUserResponse(interaction, "Bot is busy, try the command again later.");
+                command.AddToMessage("Bot is busy, try the command again later.");
+                //command.InitializeUserResponse(interaction, "Bot is busy, try the command again later.");
                 return;
             }
 
             if (command.IsCommandBlocking)
-                dataManager.BotCommandBlock();
+                commandData.DataManager.BotCommandBlock();
 
             try {
-                await command.RunCommand(client, interaction, dataManager);
+                await command.RunCommand(commandData.BotClient, commandData.CommandInteraction, commandData.DataManager);
             } catch (error) {
-                dataManager.BotCommandUnblock();
+                commandData.DataManager.BotCommandUnblock();
                 if (error instanceof Error)
-                    dataManager.AddErrorLog(error);
+                    commandData.DataManager.AddErrorLog(error);
             }
 
-            dataManager.BotCommandUnblock();
-            const log: BotCommandLog = new BotCommandLog(interaction);
-            log.AddLogMessage(command.Response);
-            dataManager.AddCommandLog(log);
+            commandData.DataManager.BotCommandUnblock();
+            const log: BotCommandLog = new BotCommandLog(commandData.CommandInteraction);
+            if (command.Response)
+                log.AddLogMessage(command.Response);
+            commandData.DataManager.AddCommandLog(log);
         }
     }
 

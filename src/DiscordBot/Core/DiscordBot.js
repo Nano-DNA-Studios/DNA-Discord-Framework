@@ -18,6 +18,7 @@ const BotData_1 = __importDefault(require("./Data/BotData"));
 const discord_js_1 = require("discord.js");
 const FileSearch_1 = __importDefault(require("../../FileSearch"));
 const readline_sync_1 = __importDefault(require("readline-sync"));
+const CommandData_1 = __importDefault(require("./Data/CommandData"));
 /**
  * Represents an instance of a Discord Bot, has default functionality for a Discord Bot but can be extended and add custom functionality with minimal effort
  */
@@ -41,7 +42,7 @@ class DiscordBot {
             if (!interaction.isChatInputCommand())
                 return;
             console.log(interaction.commandName);
-            new CommandHandler_1.default().HandleCommand(interaction, this.BotInstance, this.DataManager);
+            new CommandHandler_1.default().HandleCommand(new CommandData_1.default(this.DataManager, this.BotInstance, interaction));
         }));
     }
     /**
@@ -83,7 +84,8 @@ class DiscordBot {
     RegisterCommands() {
         let registerer = new CommandRegisterer_1.default(this.DataManager);
         let fileSearch = new FileSearch_1.default();
-        let commands = fileSearch.GetAllCommandInstances(this.DataManager);
+        console.log(`Datamanager: ${this.DataManager}`);
+        let commands = fileSearch.GetAllCommandInstances(new CommandData_1.default(this.DataManager, this.BotInstance, undefined));
         registerer.AddCommands(commands);
         registerer.RegisterCommands();
     }

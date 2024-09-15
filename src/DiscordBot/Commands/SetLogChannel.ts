@@ -13,25 +13,31 @@ class SetLogChannel extends Command {
     IsEphemeralResponse: boolean = true;
     IsCommandBlocking: boolean = false;
     RunCommand = (client: Client, interaction: ChatInputCommandInteraction<CacheType>, dataManager: BotDataManager) => {
-        this.InitializeUserResponse(interaction, this.RunningMessage);
+        //this.InitializeUserResponse(interaction, this.RunningMessage);
+        this.AddToMessage(this.RunningMessage);
 
         const logChannel = interaction.options.getChannel('logchannel');
-        this.AddToResponseMessage(this.LogMessage)
+        //this.AddToResponseMessage(this.LogMessage)
+        this.AddToMessage(this.LogMessage);
+
 
         if (logChannel && logChannel instanceof TextChannel) {
             if (logChannel) {
                 dataManager.SetLogChannelID(logChannel.id);
-                this.AddToResponseMessage(this.SuccessMessage)
+                //this.AddToResponseMessage(this.SuccessMessage)
+                this.AddToMessage(this.SuccessMessage);
             }
             else {
-                this.AddToResponseMessage(this.ErrorMessage + "(Log Channel ID provided does not match to a Text Channel)")
+                //this.AddToResponseMessage(this.ErrorMessage + "(Log Channel ID provided does not match to a Text Channel)")
+                this.AddToMessage(this.ErrorMessage + "(Log Channel ID provided does not match to a Text Channel)")
                 let error = new Error("Log Channel ID provided does not match to a Text Channel");
                 dataManager.AddErrorLog(error);
                 throw error;
             }
         }
         else {
-            this.AddToResponseMessage(this.ErrorMessage + "(Log Channel provided is not a Text Channel)")
+            //this.AddToResponseMessage(this.ErrorMessage + "(Log Channel provided is not a Text Channel)")
+            this.AddToMessage(this.ErrorMessage + "(Log Channel provided is not a Text Channel)")
             let error = new Error("Log Channel ID provided does not match to a Text Channel");
             dataManager.AddErrorLog(error);
             throw error;

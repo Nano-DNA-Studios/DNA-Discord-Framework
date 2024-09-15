@@ -4,8 +4,9 @@ import BotDataManager from "../Data/BotDataManager";
 import { CacheType, ChatInputCommandInteraction, Client, InteractionResponse, Attachment, AttachmentBuilder } from 'discord.js';
 import ICommandHandler from "../Interfaces/ICommandHandler";
 import DefaultCommandHandler from "../Defaults/DefaultCommandHandler";
-import BotResponse from "../Response/BotResponse";
+import BotResponse from "../Communication/BotResponse";
 import BotData from "../Data/BotData";
+import CommandData from "../Data/CommandData";
 
 //Split this into a Configure and Execute part?
 
@@ -41,7 +42,7 @@ abstract class Command implements ICommand {
     public CommandHandler: ICommandHandler = DefaultCommandHandler.Instance();
 
     /* <inheritdoc> */
-    public Response: BotResponse = new BotResponse();
+    public Response: BotResponse | undefined = undefined;
 
     /* <inheritdoc> */
     public UserResponse: InteractionResponse | undefined;
@@ -51,62 +52,92 @@ abstract class Command implements ICommand {
      */
     private _responseReceived: boolean = false;
 
-    constructor(dataManager: BotDataManager) {
-        this.DataManager = dataManager;
+    constructor(commandData: CommandData) {
+        this.DataManager = commandData.DataManager;
+
+        //this.SetCommandData(commandData);
     }
 
-    /* <inheritdoc> */
-    public InitializeUserResponse(interaction: ChatInputCommandInteraction<CacheType>, message: string): void {
-        this.Response.content = message + "\n";
-        const reply = interaction.reply({ content: this.Response.content, ephemeral: this.IsEphemeralResponse });
+    public SetCommandData(commandData: CommandData) {
 
-        this.DataManager.SetLastMessageChannelID(interaction.channelId);
-
-        reply.then((interactionResponse: InteractionResponse) => {
-            this.UserResponse = interactionResponse;
-            this._responseReceived = true;
-        });
+        console.log(`Setting Command Data : ${this.IsEphemeralResponse}`);
+        if (commandData.CommandInteraction)
+            this.Response = new BotResponse(commandData.CommandInteraction, this.IsEphemeralResponse);
     }
 
-    /* <inheritdoc> */
-    public AddToResponseMessage(content: string): void {
-        this.Response.content += content + "\n";
-        this.UpdateResponse();
+    public AddToMessage(content: string, delayUpdate: boolean = false): void {
+        this.Response?.AddMessage(content, delayUpdate);
     }
 
-    public AddTextFileToResponseMessage(content: string, fileName: string): void {
-        const buffer = Buffer.from(content, 'utf-8');
-        const file = new AttachmentBuilder(buffer, { name: `${fileName}.txt` });
-
-        this.Response.files?.push(file);
-
-        this.UpdateResponse();
+    public AddFileToMessage(filePath: string, delayUpdate: boolean = false): void {
+        this.Response?.AddFile(filePath, delayUpdate);
     }
 
-    /* <inheritdoc> */
-    public AddFileToResponseMessage(filePath: string): void {
-
-        if (!this.Response.files?.some(file => file === filePath)) {
-            this.Response.files?.push(filePath);
-        }
-
-        this.UpdateResponse();
+    public AddTextFileToMessage(content: string, fileName: string, delayUpdate: boolean = false): void {
+        this.Response?.AddTextFile(content, fileName, delayUpdate);
     }
 
-    /**
-     * Updates the Bot Response sent to the User created from {@link InitializeUserResponse}
-     */
-    private UpdateResponse(): void {
-
-        const attemptToAdd = () => {
-            if (this._responseReceived)
-                this.UserResponse?.edit(this.Response);
-            else
-                setTimeout(attemptToAdd, 100);
-        };
-
-        attemptToAdd();
-    }
+    ///* <inheritdoc> */
+    //public InitializeUserResponse(interaction: ChatInputCommandInteraction<CacheType>, message: string): void {
+    //
+    //    if (!this.Response)
+    //        this.Response = new BotResponse(interaction);
+    //
+    //    this.Response.content = message + "\n";
+    //    const reply = interaction.reply({ content: this.Response.content, ephemeral: this.IsEphemeralResponse });
+    //
+    //    this.DataManager.SetLastMessageChannelID(interaction.channelId);
+    //
+    //    reply.then((interactionResponse: InteractionResponse) => {
+    //        this.UserResponse = interactionResponse;
+    //        this._responseReceived = true;
+    //    });
+    //}
+    //
+    ///* <inheritdoc> */
+    //public AddToResponseMessage(content: string): void {
+    //    this.Response.content += content + "\n";
+    //    this.UpdateResponse();
+    //}
+    //
+    //public AddTextFileToResponseMessage(content: string, fileName: string): void {
+    //    const buffer = Buffer.from(content, 'utf-8');
+    //    const file = new AttachmentBuilder(buffer, { name: `${fileName}.txt` });
+    //
+    //    this.Response.files?.push(file);
+    //
+    //    this.UpdateResponse();
+    //}
+    //
+    ///* <inheritdoc> */
+    //public AddFileToResponseMessage(filePath: string): void {
+    //
+    //    if (!this.Response.files?.some(file => file === filePath)) {
+    //        this.Response.files?.push(filePath);
+    //    }
+    //
+    //    this.UpdateResponse();
+    //}
+    //
+    ///**
+    // * Updates the Bot Response sent to the User created from {@link InitializeUserResponse}
+    // */
+    //private UpdateResponse(): void {
+    //
+    //    const attemptToAdd = () => {
+    //        if ((new Date(this.Response.CreatedDate.getUTCDate() - Date.now())).getMinutes() > BotResponse.MAX_RESPONSE_MINS) {
+    //            console.log("Response has Taken too long, it's been over 15 minutes");
+    //            return;
+    //        }
+    //
+    //        if (this._responseReceived)
+    //            this.UserResponse?.edit(this.Response);
+    //        else
+    //            setTimeout(attemptToAdd, 100);
+    //    };
+    //
+    //    attemptToAdd();
+    //}
 }
 
 export default Command;

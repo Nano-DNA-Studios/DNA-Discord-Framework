@@ -205,14 +205,24 @@ class BotDataManager implements IBotDataManager {
 
     /* inheritdoc */
     public AddCommandLog(log: BotCommandLog): void {
-        fs.appendFileSync(this.LOG_FILE_PATH, JSON.stringify(log, null, 4));
+        try 
+        {
+            fs.appendFileSync(this.LOG_FILE_PATH, JSON.stringify(log, null, 4));
+        } catch (error) {
+            console.log(`Error Logging (${log}): ${error} @ ${(error as Error).stack}`);
+        }
     }
 
     /* inheritdoc */
     public AddErrorLog(log: Error): void {
         let errorLog = new BotErrorLog(log);
-        if (fs.existsSync(this.ERROR_LOG_FILE_PATH))
-            fs.appendFileSync(this.ERROR_LOG_FILE_PATH, JSON.stringify(errorLog, null, 4));
+        try 
+        {
+            if (fs.existsSync(this.ERROR_LOG_FILE_PATH))
+                fs.appendFileSync(this.ERROR_LOG_FILE_PATH, JSON.stringify(errorLog, null, 4));
+        } catch (error) {
+            console.log(`Error Logging Error: ${error}`);
+        }
     }
 
     /**

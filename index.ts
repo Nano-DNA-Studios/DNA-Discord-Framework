@@ -23,9 +23,13 @@ export {default as ILogMessage} from "./src/DiscordBot/Core/Interfaces/ILogMessa
 export {default as BotCommandsEnum} from "./src/DiscordBot/Core/Enums/BotCommandsEnum";
 export {default as GetLogs} from "./src/DiscordBot/Commands/GetLogs";
 export {default as SetLogChannel} from "./src/DiscordBot/Commands/SetLogChannel";
-export {default as BotResponse} from "./src/DiscordBot/Core/Response/BotResponse";
 export {default as GetErrorLogs} from "./src/DiscordBot/Commands/GetErrorLogs";
 export {default as BotErrorLog} from "./src/DiscordBot/Core/Logging/BotErrorLog";
+export {default as BotMessage} from "./src/DiscordBot/Core/Communication/BotMessage";
+export {default as BotResponse} from "./src/DiscordBot/Core/Communication/BotResponse";
+export {default as BotCommunication} from "./src/DiscordBot/Core/Communication/BotCommunication";
+export {default as CommandData} from "./src/DiscordBot/Core/Data/CommandData";
+
 
 //Bash Plugin
 export {default as SSHConnectionInfo} from "./src/Plugins/Bash-Plugin/SSHConnectionInfo";

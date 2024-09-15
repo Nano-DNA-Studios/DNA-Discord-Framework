@@ -1,6 +1,7 @@
 import ILogMessage from '../Interfaces/ILogMessage';
 import { CacheType, ChatInputCommandInteraction } from 'discord.js';
-import BotResponse from '../Response/BotResponse';
+import BotResponse from '../Communication/BotResponse';
+import BotCommunication from '../Communication/BotCommunication';
 
 /**
  * Class representing an instance of a Discord Bot Log
@@ -11,7 +12,7 @@ class BotCommandLog implements ILogMessage {
     public User: string;
 
     /* <inheritdoc */
-    public LogMessage: BotResponse;
+    public LogMessage: string;
 
     /* <inheritdoc */
     public LogCommand: string;
@@ -23,7 +24,7 @@ class BotCommandLog implements ILogMessage {
     constructor(interaction: ChatInputCommandInteraction<CacheType>) {
         this.User = interaction.user.username;
         this.LogCommand = interaction.commandName;
-        this.LogMessage = new BotResponse();
+        this.LogMessage = "";
         this.LogDate = new Date();
     }
 
@@ -31,8 +32,10 @@ class BotCommandLog implements ILogMessage {
      * Adds an additional message to the Log Instance
      * @param message Message to add to the Log
      */
-    public AddLogMessage(message: BotResponse) {
-        this.LogMessage = message;
+    public AddLogMessage(message: BotCommunication) {
+        if (message.content)
+            this.LogMessage = message.content;
+
     }
 }
 

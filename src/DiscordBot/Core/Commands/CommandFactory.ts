@@ -1,7 +1,9 @@
+import { CacheType, ChatInputCommandInteraction, Client } from "discord.js";
 import FileSearch from "../../../FileSearch";
 import BotData from "../Data/BotData";
 import BotDataManager from "../Data/BotDataManager";
 import Command from "./Command";
+import CommandData from "../Data/CommandData";
 
 /**
  * Command Factory for creating new Instances of a Command based off the Command Name provided
@@ -31,18 +33,18 @@ class CommandFactory {
      * @param CommandType The Class Type of the Command that will be created. Must have a constructor that takes a single parameter of the Command Interface
      * @returns A New Instance of the Command Requested
      */
-    public CreateCommand<T extends Command>(dataManager: BotDataManager): T | undefined {
+    public CreateCommand<T extends Command>(commandData: CommandData): T | undefined {
         try {
-            const Commands = this._fileSearch.GetAllCommands();
+            const Commands = this._fileSearch.GetAllCommands(commandData);
             for (const command of Commands) {
-                const instance = new command(dataManager);
+                const instance = new command(commandData);
 
                 if (instance.CommandName === this._commandName)
                     return instance as T;
             }
         } catch (error) {
             if (error instanceof Error) 
-                dataManager.AddErrorLog(error);
+                commandData.DataManager.AddErrorLog(error);
             console.log("Unable to scan directory: " + error);
         }
     }

@@ -32,16 +32,19 @@ class RunBashCommand extends Command_1.default {
         this.IsCommandBlocking = true;
         /* <inheritdoc> */
         this.RunCommand = (client, interaction, dataManager) => __awaiter(this, void 0, void 0, function* () {
-            this.InitializeUserResponse(interaction, this.RunningMessage);
+            //this.InitializeUserResponse(interaction, this.RunningMessage);
+            this.AddToMessage(this.RunningMessage);
             const command = interaction.options.getString("command");
             let runner = new BashScriptRunner_1.default();
             if (command) {
-                this.AddToResponseMessage(this.LogMessage);
+                //this.AddToResponseMessage(this.LogMessage)
+                this.AddToMessage(this.LogMessage);
                 yield runner.RunLocally(command);
             }
             else {
-                this.AddToResponseMessage("Command has not been provided");
+                this.AddToMessage("Command has not been provided");
             }
+            //this.AddToResponseMessage("Command has not been provided");
             if (runner.StandardOutputLogs.length > 1900) {
                 const filePath = dataManager.TEMP_DATA_SAVE_PATH + `/bashResult.txt`;
                 try {
@@ -52,10 +55,12 @@ class RunBashCommand extends Command_1.default {
                         dataManager.AddErrorLog(e);
                 }
                 fs_1.default.writeFileSync(filePath, runner.StandardOutputLogs);
-                this.AddFileToResponseMessage(filePath);
+                //this.AddFileToResponseMessage(filePath);
+                this.AddFileToMessage(filePath);
             }
             else
-                this.AddToResponseMessage("Results: \n" + runner.StandardOutputLogs);
+                //this.AddToResponseMessage("Results: \n" + runner.StandardOutputLogs);
+                this.AddToMessage("Results: \n" + runner.StandardOutputLogs);
         });
         /**
          * The Running Message

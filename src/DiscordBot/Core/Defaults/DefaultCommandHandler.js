@@ -18,30 +18,35 @@ const BotCommandLog_1 = __importDefault(require("../Logging/BotCommandLog"));
  * Default Command Handler used for empty and regular Discord Bot Commands
  */
 class DefaultCommandHandler {
-    HandleCommand(interaction, client, dataManager) {
+    HandleCommand(commandData) {
         return __awaiter(this, void 0, void 0, function* () {
-            let Factory = yield new CommandFactory_1.default(interaction.commandName);
-            let command = yield Factory.CreateCommand(dataManager);
+            if (!commandData.CommandInteraction)
+                return console.log("Command Interaction is undefined");
+            let Factory = yield new CommandFactory_1.default(commandData.CommandInteraction.commandName);
+            let command = yield Factory.CreateCommand(commandData);
             if (command) {
-                if (dataManager.IsBotCommandBlocked()) {
+                command.SetCommandData(commandData);
+                if (commandData.DataManager.IsBotCommandBlocked()) {
                     command.IsEphemeralResponse = true;
-                    command.InitializeUserResponse(interaction, "Bot is busy, try the command again later.");
+                    command.AddToMessage("Bot is busy, try the command again later.");
+                    //command.InitializeUserResponse(interaction, "Bot is busy, try the command again later.");
                     return;
                 }
                 if (command.IsCommandBlocking)
-                    dataManager.BotCommandBlock();
+                    commandData.DataManager.BotCommandBlock();
                 try {
-                    yield command.RunCommand(client, interaction, dataManager);
+                    yield command.RunCommand(commandData.BotClient, commandData.CommandInteraction, commandData.DataManager);
                 }
                 catch (error) {
-                    dataManager.BotCommandUnblock();
+                    commandData.DataManager.BotCommandUnblock();
                     if (error instanceof Error)
-                        dataManager.AddErrorLog(error);
+                        commandData.DataManager.AddErrorLog(error);
                 }
-                dataManager.BotCommandUnblock();
-                const log = new BotCommandLog_1.default(interaction);
-                log.AddLogMessage(command.Response);
-                dataManager.AddCommandLog(log);
+                commandData.DataManager.BotCommandUnblock();
+                const log = new BotCommandLog_1.default(commandData.CommandInteraction);
+                if (command.Response)
+                    log.AddLogMessage(command.Response);
+                commandData.DataManager.AddCommandLog(log);
             }
         });
     }

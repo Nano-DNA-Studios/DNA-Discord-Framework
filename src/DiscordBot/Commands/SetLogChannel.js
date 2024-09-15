@@ -17,23 +17,28 @@ class SetLogChannel extends Command_1.default {
         this.IsEphemeralResponse = true;
         this.IsCommandBlocking = false;
         this.RunCommand = (client, interaction, dataManager) => {
-            this.InitializeUserResponse(interaction, this.RunningMessage);
+            //this.InitializeUserResponse(interaction, this.RunningMessage);
+            this.AddToMessage(this.RunningMessage);
             const logChannel = interaction.options.getChannel('logchannel');
-            this.AddToResponseMessage(this.LogMessage);
+            //this.AddToResponseMessage(this.LogMessage)
+            this.AddToMessage(this.LogMessage);
             if (logChannel && logChannel instanceof discord_js_1.TextChannel) {
                 if (logChannel) {
                     dataManager.SetLogChannelID(logChannel.id);
-                    this.AddToResponseMessage(this.SuccessMessage);
+                    //this.AddToResponseMessage(this.SuccessMessage)
+                    this.AddToMessage(this.SuccessMessage);
                 }
                 else {
-                    this.AddToResponseMessage(this.ErrorMessage + "(Log Channel ID provided does not match to a Text Channel)");
+                    //this.AddToResponseMessage(this.ErrorMessage + "(Log Channel ID provided does not match to a Text Channel)")
+                    this.AddToMessage(this.ErrorMessage + "(Log Channel ID provided does not match to a Text Channel)");
                     let error = new Error("Log Channel ID provided does not match to a Text Channel");
                     dataManager.AddErrorLog(error);
                     throw error;
                 }
             }
             else {
-                this.AddToResponseMessage(this.ErrorMessage + "(Log Channel provided is not a Text Channel)");
+                //this.AddToResponseMessage(this.ErrorMessage + "(Log Channel provided is not a Text Channel)")
+                this.AddToMessage(this.ErrorMessage + "(Log Channel provided is not a Text Channel)");
                 let error = new Error("Log Channel ID provided does not match to a Text Channel");
                 dataManager.AddErrorLog(error);
                 throw error;

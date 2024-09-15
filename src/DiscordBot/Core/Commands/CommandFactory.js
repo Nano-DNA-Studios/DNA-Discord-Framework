@@ -21,18 +21,18 @@ class CommandFactory {
      * @param CommandType The Class Type of the Command that will be created. Must have a constructor that takes a single parameter of the Command Interface
      * @returns A New Instance of the Command Requested
      */
-    CreateCommand(dataManager) {
+    CreateCommand(commandData) {
         try {
-            const Commands = this._fileSearch.GetAllCommands();
+            const Commands = this._fileSearch.GetAllCommands(commandData);
             for (const command of Commands) {
-                const instance = new command(dataManager);
+                const instance = new command(commandData);
                 if (instance.CommandName === this._commandName)
                     return instance;
             }
         }
         catch (error) {
             if (error instanceof Error)
-                dataManager.AddErrorLog(error);
+                commandData.DataManager.AddErrorLog(error);
             console.log("Unable to scan directory: " + error);
         }
     }

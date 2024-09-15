@@ -24,17 +24,21 @@ class RunBashCommand extends Command {
 
     /* <inheritdoc> */
     RunCommand = async (client: Client, interaction: ChatInputCommandInteraction<CacheType>, dataManager: BotDataManager) => {
-        this.InitializeUserResponse(interaction, this.RunningMessage);
+        //this.InitializeUserResponse(interaction, this.RunningMessage);
+        this.AddToMessage(this.RunningMessage);
 
         const command = interaction.options.getString("command");
 
         let runner = new BashScriptRunner();
 
         if (command) {
-            this.AddToResponseMessage(this.LogMessage)
+            //this.AddToResponseMessage(this.LogMessage)
+            this.AddToMessage(this.LogMessage);
             await runner.RunLocally(command);
         }
-        else { this.AddToResponseMessage("Command has not been provided"); }
+
+        else { this.AddToMessage("Command has not been provided"); }
+//this.AddToResponseMessage("Command has not been provided");
 
         if (runner.StandardOutputLogs.length > 1900) {
             const filePath = dataManager.TEMP_DATA_SAVE_PATH + `/bashResult.txt`;
@@ -43,9 +47,11 @@ class RunBashCommand extends Command {
                     dataManager.AddErrorLog(e);
             }
             fs.writeFileSync(filePath, runner.StandardOutputLogs);
-            this.AddFileToResponseMessage(filePath);
+            //this.AddFileToResponseMessage(filePath);
+            this.AddFileToMessage(filePath);
         } else
-            this.AddToResponseMessage("Results: \n" + runner.StandardOutputLogs);
+            //this.AddToResponseMessage("Results: \n" + runner.StandardOutputLogs);
+            this.AddToMessage("Results: \n" + runner.StandardOutputLogs);
     };
 
     /**

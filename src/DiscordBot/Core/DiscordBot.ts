@@ -6,6 +6,7 @@ import FileSearch from "../../FileSearch";
 import BotDataManager from "./Data/BotDataManager";
 import IDiscordBot from "./Interfaces/IDiscordBot";
 import readlineSync from 'readline-sync';
+import CommandData from "./Data/CommandData";
 
 /**
  * Represents an instance of a Discord Bot, has default functionality for a Discord Bot but can be extended and add custom functionality with minimal effort
@@ -40,7 +41,7 @@ class DiscordBot<T extends BotDataManager> implements IDiscordBot {
         this.BotInstance.on("interactionCreate", async (interaction) => {
             if (!interaction.isChatInputCommand()) return;
             console.log(interaction.commandName);
-            new CommandHandler().HandleCommand(interaction, this.BotInstance, this.DataManager);
+            new CommandHandler().HandleCommand(new CommandData(this.DataManager, this.BotInstance, interaction));
         });
     }
 
@@ -84,7 +85,8 @@ class DiscordBot<T extends BotDataManager> implements IDiscordBot {
     public RegisterCommands(): void {
         let registerer = new CommandRegisterer(this.DataManager);
         let fileSearch = new FileSearch();
-        let commands = fileSearch.GetAllCommandInstances(this.DataManager);
+        console.log(`Datamanager: ${this.DataManager}`);
+        let commands = fileSearch.GetAllCommandInstances(new CommandData(this.DataManager, this.BotInstance, undefined));
         registerer.AddCommands(commands);
         registerer.RegisterCommands();
     }

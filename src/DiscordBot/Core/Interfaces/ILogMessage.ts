@@ -1,4 +1,4 @@
-import BotResponse from "../Response/BotResponse";
+import BotCommunication from "../Communication/BotCommunication";
 
 /**
  * Interface for the Log class
@@ -13,7 +13,7 @@ interface ILogMessage {
     /**
      * Message of the Log
      */
-    LogMessage : BotResponse;
+    LogMessage : string;
 
     /**
      * Date of the Log

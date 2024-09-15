@@ -170,13 +170,23 @@ class BotDataManager {
     }
     /* inheritdoc */
     AddCommandLog(log) {
-        fs_1.default.appendFileSync(this.LOG_FILE_PATH, JSON.stringify(log, null, 4));
+        try {
+            fs_1.default.appendFileSync(this.LOG_FILE_PATH, JSON.stringify(log, null, 4));
+        }
+        catch (error) {
+            console.log(`Error Logging (${log}): ${error} @ ${error.stack}`);
+        }
     }
     /* inheritdoc */
     AddErrorLog(log) {
         let errorLog = new BotErrorLog_1.default(log);
-        if (fs_1.default.existsSync(this.ERROR_LOG_FILE_PATH))
-            fs_1.default.appendFileSync(this.ERROR_LOG_FILE_PATH, JSON.stringify(errorLog, null, 4));
+        try {
+            if (fs_1.default.existsSync(this.ERROR_LOG_FILE_PATH))
+                fs_1.default.appendFileSync(this.ERROR_LOG_FILE_PATH, JSON.stringify(errorLog, null, 4));
+        }
+        catch (error) {
+            console.log(`Error Logging Error: ${error}`);
+        }
     }
     /**
      * Sets the Last Messaged Channel ID

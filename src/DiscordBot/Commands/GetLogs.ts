@@ -22,17 +22,21 @@ class GetLogs extends Command {
 
     /* <inheritdoc> */
     RunCommand = async (client: Client, interaction: ChatInputCommandInteraction<CacheType>, dataManager: BotDataManager) => {
-        this.InitializeUserResponse(interaction,  this.RunningMessage);
+        //this.InitializeUserResponse(interaction,  this.RunningMessage);
+        this.AddToMessage(this.RunningMessage);
 
         let logChannel = interaction.client.channels.cache.get(`${dataManager.LOG_CHANNEL_ID}`) as TextChannel;
-        this.AddToResponseMessage(this.LogMessage)
+        //this.AddToResponseMessage(this.LogMessage)
+        this.AddToMessage(this.LogMessage);
 
         if (logChannel) {
             interaction.user.send({ content: "Here are the Log Files", files: [`${dataManager.LOG_FILE_PATH}`] })
-            this.AddToResponseMessage(this.SuccessMessage);
+            //this.AddToResponseMessage(this.SuccessMessage);
+            this.AddToMessage(this.SuccessMessage);
         }
         else {
-            this.AddToResponseMessage(this.ErrorMessage + "(Log Channel ID provided does not match to a Text Channel)");
+            //this.AddToResponseMessage(this.ErrorMessage + "(Log Channel ID provided does not match to a Text Channel)");
+            this.AddToMessage(this.ErrorMessage + "(Log Channel ID provided does not match to a Text Channel)");
             let error = new Error("Log Channel ID provided does not match to a Text Channel");
             dataManager.AddErrorLog(error);
             throw error;

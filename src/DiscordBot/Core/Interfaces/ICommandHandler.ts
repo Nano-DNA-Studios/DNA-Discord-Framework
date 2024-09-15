@@ -1,5 +1,4 @@
-import { CacheType, ChatInputCommandInteraction, Client } from 'discord.js';
-import BotDataManager from '../Data/BotDataManager';
+import CommandData from '../Data/CommandData';
 
 /**
  * Interface describing the structure for a Command Handler
@@ -12,7 +11,7 @@ interface ICommandHandler{
      * @param client Discord Bot Client
      * @param BotDataManager Data Manager
      */
-    HandleCommand(interaction: ChatInputCommandInteraction<CacheType>, client: Client, BotDataManager: BotDataManager): Promise<void>
+    HandleCommand(commandData: CommandData): Promise<void>
 }
 
 export default ICommandHandler;
