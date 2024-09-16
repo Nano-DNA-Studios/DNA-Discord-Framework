@@ -32,18 +32,6 @@ class BotMessage extends BotCommunication_1.default {
             });
             return;
         }
-        //const UpdateMessage = (count: number = 0) => {
-        //
-        //    if (count > 50)
-        //        return console.log("Message has Taken too long, it's been over 15 minutes");
-        //
-        //    if (this._MessageReceived)
-        //        this.CommunicationInstance?.edit(this);
-        //    else
-        //        setTimeout(() => { UpdateMessage(count + 1); }, 100);
-        //}
-        //
-        //UpdateMessage();
         this.UpdateMessageLoop();
     }
 }

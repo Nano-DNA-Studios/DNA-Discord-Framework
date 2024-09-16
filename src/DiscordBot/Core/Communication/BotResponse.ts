@@ -19,7 +19,7 @@ class BotResponse extends BotCommunication {
 
     /* <inheritdoc> */
     public UpdateCommunication(): void {
-        let diff = (Date.now() - this.CreatedDate.getTime()) / 1000;
+        let diff = (Date.now() - this.CreatedDate) / 1000;
 
         if (diff > BotCommunication.MAX_RESPONSE_MINS)
             return console.log("Response has Taken too long, it's been over 15 minutes");
@@ -35,17 +35,6 @@ class BotResponse extends BotCommunication {
         }
 
         this.UpdateMessageLoop();
-
-       // const attemptToAdd = () => {
-//
-       //     if (this._MessageReceived)
-       //         this.CommunicationInstance?.edit(this);
-       //     else
-       //         setTimeout(attemptToAdd, 100);
-       // }
-//
-       // attemptToAdd();
-
     }
 }
 

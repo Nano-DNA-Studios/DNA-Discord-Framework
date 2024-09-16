@@ -11,9 +11,14 @@ abstract class BotCommunication implements MessageCreateOptions, MessageEditOpti
     public static MAX_RESPONSE_MINS: number = 15;
 
     /**
+     * The Maximum Number of Edit Attempts for the Response
+     */
+    public static MAX_EDIT_ATTEMPTS: number = 50;
+
+    /**
      * The Date the Response was created
      */
-    public CreatedDate: Date = new Date();
+    public CreatedDate: number = Date.now();
 
     /**
      * The Message Content of the Response 
@@ -35,6 +40,9 @@ abstract class BotCommunication implements MessageCreateOptions, MessageEditOpti
      */
     protected _MessageInitialized: boolean = false;
 
+    /**
+     * Boolean Flag to determine if the Message has been received and Displayed to the User
+     */
     protected _MessageReceived: boolean = false;
 
     /**
@@ -49,6 +57,8 @@ abstract class BotCommunication implements MessageCreateOptions, MessageEditOpti
      * @returns The Link of the Communication Instance
      */
     public GetLink(): string {
+        this.UpdateCommunication();
+
         if (this.CommunicationInstance === undefined)
             return "No Link Available";
 
@@ -114,8 +124,8 @@ abstract class BotCommunication implements MessageCreateOptions, MessageEditOpti
      * @param count The Number of Times the Loop has Run through iterations
      */
     protected UpdateMessageLoop (count: number = 0): void {
-        if (count > 50)
-            return console.log("Message has Taken too long, it's been over 15 minutes");
+        if (count > BotCommunication.MAX_EDIT_ATTEMPTS)
+            return console.log("Message has Taken too long to edit");
 
         if (this._MessageReceived)
             this.CommunicationInstance?.edit(this);

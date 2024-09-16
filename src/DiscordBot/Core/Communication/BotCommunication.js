@@ -10,7 +10,7 @@ class BotCommunication {
         /**
          * The Date the Response was created
          */
-        this.CreatedDate = new Date();
+        this.CreatedDate = Date.now();
         /**
          * The Message Content of the Response
          */
@@ -27,6 +27,9 @@ class BotCommunication {
          * Boolean Flag to determine if the Message has been received/initialized and can be updated
          */
         this._MessageInitialized = false;
+        /**
+         * Boolean Flag to determine if the Message has been received and Displayed to the User
+         */
         this._MessageReceived = false;
     }
     //Add a get link function
@@ -35,6 +38,7 @@ class BotCommunication {
      * @returns The Link of the Communication Instance
      */
     GetLink() {
+        this.UpdateCommunication();
         if (this.CommunicationInstance === undefined)
             return "No Link Available";
         if (this.CommunicationInstance instanceof discord_js_1.InteractionResponse)
@@ -86,8 +90,8 @@ class BotCommunication {
      */
     UpdateMessageLoop(count = 0) {
         var _a;
-        if (count > 50)
-            return console.log("Message has Taken too long, it's been over 15 minutes");
+        if (count > BotCommunication.MAX_EDIT_ATTEMPTS)
+            return console.log("Message has Taken too long to edit");
         if (this._MessageReceived)
             (_a = this.CommunicationInstance) === null || _a === void 0 ? void 0 : _a.edit(this);
         else
@@ -98,4 +102,8 @@ class BotCommunication {
  * The Maximum Number of Minutes that the Response is valid for
  */
 BotCommunication.MAX_RESPONSE_MINS = 15;
+/**
+ * The Maximum Number of Edit Attempts for the Response
+ */
+BotCommunication.MAX_EDIT_ATTEMPTS = 50;
 exports.default = BotCommunication;
