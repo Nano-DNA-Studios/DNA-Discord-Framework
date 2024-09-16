@@ -35,7 +35,7 @@ class BashScriptRunner {
      * @param Script Bash Script to Run
      * @returns A Promise void
      */
-    RunLocally(Script, WorkingDirectory = "") {
+    RunLocally(Script, rethrow = false, WorkingDirectory = "") {
         return new Promise((resolve, reject) => {
             const process = (0, child_process_1.spawn)(Script, { shell: true, cwd: WorkingDirectory });
             process.stdout.on('data', (data) => {
@@ -61,6 +61,8 @@ class BashScriptRunner {
                 BotData_1.default.Instance(BotDataManager_1.default).AddErrorLog(error);
             }
             console.error("Error while running the script", error);
+            if (rethrow)
+                throw error;
         });
     }
     /**

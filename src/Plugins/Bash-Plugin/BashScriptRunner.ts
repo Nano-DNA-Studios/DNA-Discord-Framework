@@ -45,7 +45,7 @@ class BashScriptRunner {
      * @param Script Bash Script to Run
      * @returns A Promise void
      */
-    public RunLocally(Script: string, WorkingDirectory: string = ""): Promise<void> {
+    public RunLocally(Script: string, rethrow: boolean = false, WorkingDirectory: string = ""): Promise<void> {
         return new Promise<void>((resolve, reject) => {
             const process = spawn(Script, { shell: true, cwd: WorkingDirectory });
 
@@ -74,6 +74,9 @@ class BashScriptRunner {
                 BotData.Instance(BotDataManager).AddErrorLog(error);
             }
             console.error("Error while running the script", error);
+
+            if (rethrow)
+                throw error;
         });
     }
 
@@ -133,7 +136,7 @@ class BashScriptRunner {
                         password: this.ConnectionInfo?.Password!
                     });
                 } catch (error) {
-                    if (error instanceof Error) 
+                    if (error instanceof Error)
                         BotData.Instance(BotDataManager).AddErrorLog(error);
                     console.log("Connection settings are not right. Check you connection settings again");
                 }
