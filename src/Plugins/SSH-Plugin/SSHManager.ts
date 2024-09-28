@@ -27,12 +27,12 @@ class SSHManager
         }
 
         if (!(user && destinationPath && hostName)) {
-            const command = `scp ${recursive}-P port serverUser@hostName:${sourcePath} /Path/on/local/device`;
+            const command = `scp ${recursive}-P port serverUser@hostName:\"${sourcePath}\" \"/Path/on/local/device\"`;
             return "```" + command + "```"
         }
 
         if (port == 0)
-            command = `scp ${recursive}${user}@${hostName}:${sourcePath} ${destinationPath}`;
+            command = `scp ${recursive}${user}@${hostName}:\"${sourcePath}\" \"${destinationPath}\"`;
         else
             command = `scp ${recursive}-P ${port} ${user}@${hostName}:\"${sourcePath}\" \"${destinationPath}\"`;
 
