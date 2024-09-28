@@ -41,3 +41,15 @@ export {default as RESTFULRequest} from "./src/Plugins/RESTFUL-Plugin/RESTFULReq
 export {default as RESTFULResponse} from "./src/Plugins/RESTFUL-Plugin/RESTFULResponse";
 export {default as IRESTFULRequest} from "./src/Plugins/RESTFUL-Plugin/IRESTFULRequest";
 export {default as RESTFULResponseStatusEnum} from "./src/Plugins/RESTFUL-Plugin/RESTFULResponseStatusEnum";
+
+//SSH Plugin
+export {default as SSHManager} from "./src/Plugins/SSH-Plugin/SSHManager";
+export {default as SyncInfo} from "./src/Plugins/SSH-Plugin/SyncInfo";
+export {default as SSHInfo} from "./src/Plugins/SSH-Plugin/SSHInfo";
+
+//Jobs Plugin
+export {default as IJob} from "./src/Plugins/Jobs-Plugin/IJob";
+export {default as IJobManager} from "./src/Plugins/Jobs-Plugin/IJobManager";
+export {default as Job} from "./src/Plugins/Jobs-Plugin/Job";
+export {default as JobManager} from "./src/Plugins/Jobs-Plugin/JobManager";
+export {default as SizeFormat} from "./src/Plugins/Jobs-Plugin/SizeFormat";

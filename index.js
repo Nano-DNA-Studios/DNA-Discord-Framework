@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.RESTFULResponseStatusEnum = exports.RESTFULRequest = exports.BashScriptRunner = exports.SSHConnectionInfo = exports.DefaultBotCommunication = exports.CommandData = exports.BotCommunication = exports.BotResponse = exports.BotMessage = exports.BotErrorLog = exports.GetErrorLogs = exports.SetLogChannel = exports.GetLogs = exports.BotCommandsEnum = exports.FileSearch = exports.EmptyCustomCommandHandler = exports.DiscordBot = exports.DefaultCommandHandler = exports.CommandRegisterer = exports.OptionTypesEnum = exports.CommandFactory = exports.BotData = exports.BotCommandLog = exports.CommandHandler = exports.Command = exports.BotDataManager = void 0;
+exports.SizeFormat = exports.JobManager = exports.Job = exports.SSHInfo = exports.SyncInfo = exports.SSHManager = exports.RESTFULResponseStatusEnum = exports.RESTFULRequest = exports.BashScriptRunner = exports.SSHConnectionInfo = exports.DefaultBotCommunication = exports.CommandData = exports.BotCommunication = exports.BotResponse = exports.BotMessage = exports.BotErrorLog = exports.GetErrorLogs = exports.SetLogChannel = exports.GetLogs = exports.BotCommandsEnum = exports.FileSearch = exports.EmptyCustomCommandHandler = exports.DiscordBot = exports.DefaultCommandHandler = exports.CommandRegisterer = exports.OptionTypesEnum = exports.CommandFactory = exports.BotData = exports.BotCommandLog = exports.CommandHandler = exports.Command = exports.BotDataManager = void 0;
 //Exports
 var BotDataManager_1 = require("./src/DiscordBot/Core/Data/BotDataManager");
 Object.defineProperty(exports, "BotDataManager", { enumerable: true, get: function () { return __importDefault(BotDataManager_1).default; } });
@@ -59,3 +59,16 @@ var RESTFULRequest_1 = require("./src/Plugins/RESTFUL-Plugin/RESTFULRequest");
 Object.defineProperty(exports, "RESTFULRequest", { enumerable: true, get: function () { return __importDefault(RESTFULRequest_1).default; } });
 var RESTFULResponseStatusEnum_1 = require("./src/Plugins/RESTFUL-Plugin/RESTFULResponseStatusEnum");
 Object.defineProperty(exports, "RESTFULResponseStatusEnum", { enumerable: true, get: function () { return __importDefault(RESTFULResponseStatusEnum_1).default; } });
+//SSH Plugin
+var SSHManager_1 = require("./src/Plugins/SSH-Plugin/SSHManager");
+Object.defineProperty(exports, "SSHManager", { enumerable: true, get: function () { return __importDefault(SSHManager_1).default; } });
+var SyncInfo_1 = require("./src/Plugins/SSH-Plugin/SyncInfo");
+Object.defineProperty(exports, "SyncInfo", { enumerable: true, get: function () { return __importDefault(SyncInfo_1).default; } });
+var SSHInfo_1 = require("./src/Plugins/SSH-Plugin/SSHInfo");
+Object.defineProperty(exports, "SSHInfo", { enumerable: true, get: function () { return __importDefault(SSHInfo_1).default; } });
+var Job_1 = require("./src/Plugins/Jobs-Plugin/Job");
+Object.defineProperty(exports, "Job", { enumerable: true, get: function () { return __importDefault(Job_1).default; } });
+var JobManager_1 = require("./src/Plugins/Jobs-Plugin/JobManager");
+Object.defineProperty(exports, "JobManager", { enumerable: true, get: function () { return __importDefault(JobManager_1).default; } });
+var SizeFormat_1 = require("./src/Plugins/Jobs-Plugin/SizeFormat");
+Object.defineProperty(exports, "SizeFormat", { enumerable: true, get: function () { return __importDefault(SizeFormat_1).default; } });
