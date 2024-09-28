@@ -1,10 +1,12 @@
 import axios from "axios";
 import IJob from "./IJob";
 import fs from "fs";
-import { Attachment } from "discord.js";
+import { Attachment, User } from "discord.js";
 import JobManager from "./JobManager";
 import SizeFormat from "./SizeFormat";
 import BotCommunication from "../../DiscordBot/Core/Communication/BotCommunication";
+import BotDataManager from "../../DiscordBot/Core/Data/BotDataManager";
+import BashScriptRunner from "../Bash-Plugin/BashScriptRunner";
 
 abstract class Job implements IJob {
 
@@ -32,8 +34,11 @@ abstract class Job implements IJob {
     /* <inheritdoc> */
     public JobSuccess: boolean;
 
+    public ArchiveFile: string;
+
     constructor(jobName: string, jobAuthor: string) {
         this.JobName = jobName;
+        this.ArchiveFile = `${this.JobName}Archive.tar.gz`;
         this.JobAuthor = jobAuthor;
         this.JobFinished = false;
         this.JobSuccess = true;
@@ -179,6 +184,30 @@ abstract class Job implements IJob {
         }
         else
             message.AddFile(filePath);
+    }
+
+    /**
+     * Creates the Compressed Archive File
+     */
+    public async ArchiveJob(dataManager: BotDataManager) {
+        let runner = new BashScriptRunner();
+        await runner.RunLocally(`tar -zcvf  ${this.ArchiveDirectory}/${this.ArchiveFile} -C  ${this.JobManager.JobLibraryDirectory} ${this.JobName}`).catch(e => {
+            e.name += `: Archive Job (${this.JobName})`;
+            dataManager.AddErrorLog(e);
+        });
+    }
+
+    /**
+     * Pings the User that the Job has been Completed
+     * @param message The Message related to the Job
+     * @param jobsUser The User to send the Ping to
+     * @param success Whether the Job was Successful or not
+     */
+    public async PingUser(message: BotCommunication, jobsUser: User): Promise<void> {
+        if (this.JobSuccess)
+            await jobsUser.send(`${jobsUser} Server has completed the Orca Calculation ${this.JobName} :white_check_mark: \n It can be found here : ${message.GetLink()}`);
+        else
+            await jobsUser.send(`${jobsUser} Server has encoutered a problem with the Orca Calculation ${this.JobName} :warning:\nThe Job has been Terminated, check the Output File for Errors. \nIt can be found here : ${message.GetLink()}`);
     }
 }
 

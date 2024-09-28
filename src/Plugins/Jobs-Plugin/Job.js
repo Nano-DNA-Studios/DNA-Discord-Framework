@@ -15,9 +15,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const axios_1 = __importDefault(require("axios"));
 const fs_1 = __importDefault(require("fs"));
 const SizeFormat_1 = __importDefault(require("./SizeFormat"));
+const BashScriptRunner_1 = __importDefault(require("../Bash-Plugin/BashScriptRunner"));
 class Job {
     constructor(jobName, jobAuthor) {
         this.JobName = jobName;
+        this.ArchiveFile = `${this.JobName}Archive.tar.gz`;
         this.JobAuthor = jobAuthor;
         this.JobFinished = false;
         this.JobSuccess = true;
@@ -138,6 +140,32 @@ class Job {
             }
             else
                 message.AddFile(filePath);
+        });
+    }
+    /**
+     * Creates the Compressed Archive File
+     */
+    ArchiveJob(dataManager) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let runner = new BashScriptRunner_1.default();
+            yield runner.RunLocally(`tar -zcvf  ${this.ArchiveDirectory}/${this.ArchiveFile} -C  ${this.JobManager.JobLibraryDirectory} ${this.JobName}`).catch(e => {
+                e.name += `: Archive Job (${this.JobName})`;
+                dataManager.AddErrorLog(e);
+            });
+        });
+    }
+    /**
+     * Pings the User that the Job has been Completed
+     * @param message The Message related to the Job
+     * @param jobsUser The User to send the Ping to
+     * @param success Whether the Job was Successful or not
+     */
+    PingUser(message, jobsUser) {
+        return __awaiter(this, void 0, void 0, function* () {
+            if (this.JobSuccess)
+                yield jobsUser.send(`${jobsUser} Server has completed the Orca Calculation ${this.JobName} :white_check_mark: \n It can be found here : ${message.GetLink()}`);
+            else
+                yield jobsUser.send(`${jobsUser} Server has encoutered a problem with the Orca Calculation ${this.JobName} :warning:\nThe Job has been Terminated, check the Output File for Errors. \nIt can be found here : ${message.GetLink()}`);
         });
     }
 }
