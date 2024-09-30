@@ -168,6 +168,16 @@ class Job {
                 yield jobsUser.send(`${jobsUser} Server has encoutered a problem with the Orca Calculation ${this.JobName} :warning:\nThe Job has been Terminated, check the Output File for Errors. \nIt can be found here : ${message.GetLink()}`);
         });
     }
+    Setup(attachments) {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield this.RemoveDirectories();
+            yield this.CreateDirectories();
+            yield this.DownloadFiles(attachments);
+        });
+    }
+    SendArchive(message, tooLargeMessage) {
+        this.SendFile(message, `${this.ArchiveDirectory}/${this.ArchiveFile}`, tooLargeMessage);
+    }
 }
 /* <inheritdoc> */
 Job.JobSubdirectory = "Job";

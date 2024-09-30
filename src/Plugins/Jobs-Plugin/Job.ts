@@ -209,6 +209,16 @@ abstract class Job implements IJob {
         else
             await jobsUser.send(`${jobsUser} Server has encoutered a problem with the Orca Calculation ${this.JobName} :warning:\nThe Job has been Terminated, check the Output File for Errors. \nIt can be found here : ${message.GetLink()}`);
     }
+
+    public async Setup (attachments: (Attachment | null)[]) : Promise<void> {
+        await this.RemoveDirectories();
+        await this.CreateDirectories();
+        await this.DownloadFiles(attachments);
+    }
+
+    public SendArchive(message: BotCommunication, tooLargeMessage: string) {
+        this.SendFile(message, `${this.ArchiveDirectory}/${this.ArchiveFile}`, tooLargeMessage);
+    }
 }
 
 export default Job;

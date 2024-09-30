@@ -108,7 +108,8 @@ abstract class BotCommunication implements MessageCreateOptions, MessageEditOpti
         const buffer = Buffer.from(content, 'utf-8');
         const file = new AttachmentBuilder(buffer, { name: `${fileName}.txt` });
 
-        this.files?.push(file);
+        if (!this.files?.some(file => file === file))
+            this.files?.push(file);
 
         if (!delayUpdate)
             this.UpdateCommunication();

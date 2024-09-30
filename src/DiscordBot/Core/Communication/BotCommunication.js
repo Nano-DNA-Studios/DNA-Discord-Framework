@@ -77,10 +77,11 @@ class BotCommunication {
      * @param fileName The File Name of the Text File to be uploaded
      */
     AddTextFile(content, fileName, delayUpdate = false) {
-        var _a;
+        var _a, _b;
         const buffer = Buffer.from(content, 'utf-8');
         const file = new discord_js_1.AttachmentBuilder(buffer, { name: `${fileName}.txt` });
-        (_a = this.files) === null || _a === void 0 ? void 0 : _a.push(file);
+        if (!((_a = this.files) === null || _a === void 0 ? void 0 : _a.some(file => file === file)))
+            (_b = this.files) === null || _b === void 0 ? void 0 : _b.push(file);
         if (!delayUpdate)
             this.UpdateCommunication();
     }
