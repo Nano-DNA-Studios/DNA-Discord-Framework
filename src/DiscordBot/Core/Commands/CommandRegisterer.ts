@@ -19,7 +19,7 @@ class CommandRegisterer {
      */
     constructor(dataManager: BotDataManager) {
         this._dataManager = dataManager;
-        this.rest = new REST({ version: "10" }).setToken(`${this._dataManager.DISCORD_BOT_TOKEN}`);
+        this.rest = new REST({ version: "10", timeout: 60000 }).setToken(`${this._dataManager.DISCORD_BOT_TOKEN}`);
     }
 
     /**
@@ -59,7 +59,11 @@ class CommandRegisterer {
                 {
                     body: body
                 }
-            );
+            ).catch((error) => {
+                if (error instanceof Error)
+                    BotData.Instance(BotDataManager).AddErrorLog(error);
+                console.log(`Error Occurred: ${error}`);
+            });
 
             console.log('Commands Registered');
         } catch (error) {

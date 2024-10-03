@@ -63,7 +63,7 @@ class BotCommunication {
     AddFile(filePath, delayUpdate = false) {
         var _a, _b;
         if (!fs_1.default.existsSync(filePath)) {
-            console.log("File does not exist");
+            console.log(`File does not exist : ${filePath}`);
             return;
         }
         if (!((_a = this.files) === null || _a === void 0 ? void 0 : _a.some(file => file === filePath)))

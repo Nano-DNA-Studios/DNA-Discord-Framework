@@ -88,7 +88,7 @@ abstract class BotCommunication implements MessageCreateOptions, MessageEditOpti
      */
     public AddFile(filePath: string, delayUpdate: boolean = false): void {
         if (!fs.existsSync(filePath)) {
-            console.log("File does not exist");
+            console.log(`File does not exist : ${filePath}`);
             return;
         }
 

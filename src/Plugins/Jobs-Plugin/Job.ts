@@ -7,6 +7,7 @@ import SizeFormat from "./SizeFormat";
 import BotCommunication from "../../DiscordBot/Core/Communication/BotCommunication";
 import BotDataManager from "../../DiscordBot/Core/Data/BotDataManager";
 import BashScriptRunner from "../Bash-Plugin/BashScriptRunner";
+import { promises } from "dns";
 
 abstract class Job implements IJob {
 
@@ -167,7 +168,7 @@ abstract class Job implements IJob {
             return false;
     }
 
-    public async SendFile(message: BotCommunication, filePath: string, largeFileMessage: string, maxFileSizeMB: number = 24): Promise<void> {
+    public async SendFile(message: BotCommunication, filePath: string, largeFileMessage: string, maxFileSizeMB: number = 9.5): Promise<void> {
         if (!fs.existsSync(filePath))
             return
 
@@ -189,9 +190,10 @@ abstract class Job implements IJob {
     /**
      * Creates the Compressed Archive File
      */
-    public async ArchiveJob(dataManager: BotDataManager) {
+    public async ArchiveJob(dataManager: BotDataManager): Promise<void> {
         let runner = new BashScriptRunner();
         await runner.RunLocally(`tar -zcvf  ${this.ArchiveDirectory}/${this.ArchiveFile} -C  ${this.JobManager.JobLibraryDirectory} ${this.JobName}`).catch(e => {
+            console.log(`Failed to Archive Job: ${this.JobName}`);
             e.name += `: Archive Job (${this.JobName})`;
             dataManager.AddErrorLog(e);
         });
@@ -216,8 +218,8 @@ abstract class Job implements IJob {
         await this.DownloadFiles(attachments);
     }
 
-    public SendArchive(message: BotCommunication, tooLargeMessage: string) {
-        this.SendFile(message, `${this.ArchiveDirectory}/${this.ArchiveFile}`, tooLargeMessage);
+    public async SendArchive(message: BotCommunication, tooLargeMessage: string): Promise<void> {
+        await this.SendFile(message, `${this.ArchiveDirectory}/${this.ArchiveFile}`, tooLargeMessage);
     }
 }
 

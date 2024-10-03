@@ -26,7 +26,7 @@ class CommandRegisterer {
     constructor(dataManager) {
         this.Commands = [];
         this._dataManager = dataManager;
-        this.rest = new rest_1.REST({ version: "10" }).setToken(`${this._dataManager.DISCORD_BOT_TOKEN}`);
+        this.rest = new rest_1.REST({ version: "10", timeout: 60000 }).setToken(`${this._dataManager.DISCORD_BOT_TOKEN}`);
     }
     /**
      * Maps the Commands to be Added to Discord Commands and Adds to the List of Commands to be Registered and
@@ -59,6 +59,10 @@ class CommandRegisterer {
                 console.log(`Registering Following Commands: [${body.map(command => command.name).join(', ')}]`);
                 yield this.rest.put(v9_1.Routes.applicationGuildCommands(this._dataManager.CLIENT_ID, this._dataManager.GUILD_ID), {
                     body: body
+                }).catch((error) => {
+                    if (error instanceof Error)
+                        BotData_1.default.Instance(BotDataManager_1.default).AddErrorLog(error);
+                    console.log(`Error Occurred: ${error}`);
                 });
                 console.log('Commands Registered');
             }

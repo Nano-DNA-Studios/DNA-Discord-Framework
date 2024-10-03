@@ -125,7 +125,7 @@ class Job {
             return false;
     }
     SendFile(message_1, filePath_1, largeFileMessage_1) {
-        return __awaiter(this, arguments, void 0, function* (message, filePath, largeFileMessage, maxFileSizeMB = 24) {
+        return __awaiter(this, arguments, void 0, function* (message, filePath, largeFileMessage, maxFileSizeMB = 9.5) {
             var _a, _b, _c;
             if (!fs_1.default.existsSync(filePath))
                 return;
@@ -149,6 +149,7 @@ class Job {
         return __awaiter(this, void 0, void 0, function* () {
             let runner = new BashScriptRunner_1.default();
             yield runner.RunLocally(`tar -zcvf  ${this.ArchiveDirectory}/${this.ArchiveFile} -C  ${this.JobManager.JobLibraryDirectory} ${this.JobName}`).catch(e => {
+                console.log(`Failed to Archive Job: ${this.JobName}`);
                 e.name += `: Archive Job (${this.JobName})`;
                 dataManager.AddErrorLog(e);
             });
@@ -176,7 +177,9 @@ class Job {
         });
     }
     SendArchive(message, tooLargeMessage) {
-        this.SendFile(message, `${this.ArchiveDirectory}/${this.ArchiveFile}`, tooLargeMessage);
+        return __awaiter(this, void 0, void 0, function* () {
+            yield this.SendFile(message, `${this.ArchiveDirectory}/${this.ArchiveFile}`, tooLargeMessage);
+        });
     }
 }
 /* <inheritdoc> */
