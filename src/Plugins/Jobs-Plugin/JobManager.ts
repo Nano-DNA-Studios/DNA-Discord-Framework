@@ -8,20 +8,17 @@ abstract class JobManager {
     /* <inheritdoc> */
     abstract JobGlobalDirectory: string;
 
+    /* <inheritdoc> */
     public abstract JobCategory: string;
 
+    /* <inheritdoc> */
     public abstract HostArchiveDirectory: string;
 
+    /* <inheritdoc> */
     public abstract HostJobDirectory: string;
 
     constructor() {
-        //this.SetDirectories();
     }
-
-    //SetDirectories() {
-    //    this.JobLibraryDirectory = `${this.JobGlobalDirectory}/${this.JobCategory}/${Job.JobSubdirectory}`;
-    //    this.ArchiveLibraryDirectory = `${this.JobGlobalDirectory}/${this.JobCategory}/${Job.ArchiveSubdirectory}`;
-    //}
 
     /* <inheritdoc> */
     get JobLibraryDirectory(): string {
@@ -50,13 +47,6 @@ abstract class JobManager {
         return true;
     }
 
-    /**
-   * Creates the SCP Copy Command for the User to Copy and use in their Terminal
-   * @param fileName The Name of the File to Copy
-   * @returns The SCP Copy Command to Download the File
-   */
-    //abstract GetCopyCommand(job: Job): string;
-
     GetArchiveSyncCommand(syncInfo: SyncInfo, destinationPath: string): string {
         return SSHManager.GetSCPCommand(syncInfo, this.HostArchiveDirectory, destinationPath, true);
     }
@@ -70,16 +60,6 @@ abstract class JobManager {
         const path = this.HostJobDirectory + "/" + jobName;
         return SSHManager.GetSCPCommand(syncInfo, path, destinationPath, true);
     }
-
-    //abstract GetHostArchiveCopyCommand(syncInfo: SyncInfo, jobName: string, destinationPath: string): string;
-
-    //abstract GetHostJobCopyCommand(syncInfo: SyncInfo, jobName: string, destinationPath: string): string;
-
-    //abstract GetHostArchiveCopyCommand(scpInfo: SCPInfo, jobName : string): string;
-
-    //abstract GetHostJobCopyCommand(scpInfo: SCPInfo, jobName : string): string;
-
-
 
 }
 

@@ -7,7 +7,6 @@ import SizeFormat from "./SizeFormat";
 import BotCommunication from "../../DiscordBot/Core/Communication/BotCommunication";
 import BotDataManager from "../../DiscordBot/Core/Data/BotDataManager";
 import BashScriptRunner from "../Bash-Plugin/BashScriptRunner";
-import { promises } from "dns";
 
 abstract class Job implements IJob {
 

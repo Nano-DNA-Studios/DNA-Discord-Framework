@@ -2,7 +2,6 @@ import { Attachment } from "discord.js";
 import JobManager from "./JobManager";
 import SizeFormat from "./SizeFormat";
 
-
 /**
  * Insterface that Describes a Job
  */

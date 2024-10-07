@@ -7,12 +7,7 @@ const SSHManager_1 = __importDefault(require("../SSH-Plugin/SSHManager"));
 const Job_1 = __importDefault(require("./Job"));
 class JobManager {
     constructor() {
-        //this.SetDirectories();
     }
-    //SetDirectories() {
-    //    this.JobLibraryDirectory = `${this.JobGlobalDirectory}/${this.JobCategory}/${Job.JobSubdirectory}`;
-    //    this.ArchiveLibraryDirectory = `${this.JobGlobalDirectory}/${this.JobCategory}/${Job.ArchiveSubdirectory}`;
-    //}
     /* <inheritdoc> */
     get JobLibraryDirectory() {
         if (!this.ValidPathValues())
@@ -33,12 +28,6 @@ class JobManager {
             throw new Error("Job Category is not Set, Set the value of JobCategory in the Class");
         return true;
     }
-    /**
-   * Creates the SCP Copy Command for the User to Copy and use in their Terminal
-   * @param fileName The Name of the File to Copy
-   * @returns The SCP Copy Command to Download the File
-   */
-    //abstract GetCopyCommand(job: Job): string;
     GetArchiveSyncCommand(syncInfo, destinationPath) {
         return SSHManager_1.default.GetSCPCommand(syncInfo, this.HostArchiveDirectory, destinationPath, true);
     }
