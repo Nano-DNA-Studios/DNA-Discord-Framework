@@ -7,6 +7,7 @@ import SizeFormat from "./SizeFormat";
 import BotCommunication from "../../DiscordBot/Core/Communication/BotCommunication";
 import BotDataManager from "../../DiscordBot/Core/Data/BotDataManager";
 import BashScriptRunner from "../Bash-Plugin/BashScriptRunner";
+import BotData from "../../DiscordBot/Core/Data/BotData";
 
 abstract class Job implements IJob {
 
@@ -206,9 +207,9 @@ abstract class Job implements IJob {
      */
     public async PingUser(message: BotCommunication, jobsUser: User): Promise<void> {
         if (this.JobSuccess)
-            await jobsUser.send(`${jobsUser} Server has completed the Orca Calculation ${this.JobName} :white_check_mark: \n It can be found here : ${message.GetLink()}`);
+            await jobsUser.send(`${jobsUser} Bot has completed the ${this.JobManager.JobCategory} Job : ${this.JobName} :white_check_mark: \nIt can be found here : ${message.GetLink()}`);
         else
-            await jobsUser.send(`${jobsUser} Server has encoutered a problem with the Orca Calculation ${this.JobName} :warning:\nThe Job has been Terminated, check the Output File for Errors. \nIt can be found here : ${message.GetLink()}`);
+            await jobsUser.send(`${jobsUser} Bot has encoutered a problem with the ${this.JobManager.JobCategory} Job : ${this.JobName} :warning:\nThe Job has been Terminated, check the Files for Errors.`);
     }
 
     public async Setup (attachments: (Attachment | null)[]) : Promise<void> {

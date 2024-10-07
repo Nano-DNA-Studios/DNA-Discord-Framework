@@ -164,9 +164,9 @@ class Job {
     PingUser(message, jobsUser) {
         return __awaiter(this, void 0, void 0, function* () {
             if (this.JobSuccess)
-                yield jobsUser.send(`${jobsUser} Server has completed the Orca Calculation ${this.JobName} :white_check_mark: \n It can be found here : ${message.GetLink()}`);
+                yield jobsUser.send(`${jobsUser} Bot has completed the ${this.JobManager.JobCategory} Job : ${this.JobName} :white_check_mark: \nIt can be found here : ${message.GetLink()}`);
             else
-                yield jobsUser.send(`${jobsUser} Server has encoutered a problem with the Orca Calculation ${this.JobName} :warning:\nThe Job has been Terminated, check the Output File for Errors. \nIt can be found here : ${message.GetLink()}`);
+                yield jobsUser.send(`${jobsUser} Bot has encoutered a problem with the ${this.JobManager.JobCategory} Job : ${this.JobName} :warning:\nThe Job has been Terminated, check the Files for Errors.`);
         });
     }
     Setup(attachments) {
