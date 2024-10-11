@@ -1,12 +1,14 @@
 import CommandHandler from "./Commands/CommandHandler";
 import CommandRegisterer from "./Commands/CommandRegisterer";
 import BotData from "./Data/BotData";
-import { Client, IntentsBitField, TextChannel } from "discord.js";
+import { AttachmentBuilder, Client, IntentsBitField, TextChannel } from "discord.js";
 import FileSearch from "../../FileSearch";
 import BotDataManager from "./Data/BotDataManager";
 import IDiscordBot from "./Interfaces/IDiscordBot";
 import readlineSync from 'readline-sync';
 import CommandData from "./Data/CommandData";
+import BotCommunication from "./Communication/BotCommunication";
+import BotMessage from "./Communication/BotMessage";
 
 /**
  * Represents an instance of a Discord Bot, has default functionality for a Discord Bot but can be extended and add custom functionality with minimal effort
@@ -38,6 +40,18 @@ class DiscordBot<T extends BotDataManager> implements IDiscordBot {
 
         this.HandleShutDown();
 
+        //Handle New Message Commands
+        this.BotInstance.on("messageCreate", async (message) => {
+            if (message.author.bot) return;
+
+            if (message.content.includes(`${this.BotInstance.user}`))
+            {
+                let comms = new BotMessage(message.channel as TextChannel);
+                comms.AddFile(`${__dirname}/Pinged.gif`);
+            }
+        });
+
+        //Handle a / Command Interaction
         this.BotInstance.on("interactionCreate", async (interaction) => {
             if (!interaction.isChatInputCommand()) return;
             console.log(interaction.commandName);

@@ -19,6 +19,7 @@ const discord_js_1 = require("discord.js");
 const FileSearch_1 = __importDefault(require("../../FileSearch"));
 const readline_sync_1 = __importDefault(require("readline-sync"));
 const CommandData_1 = __importDefault(require("./Data/CommandData"));
+const BotMessage_1 = __importDefault(require("./Communication/BotMessage"));
 /**
  * Represents an instance of a Discord Bot, has default functionality for a Discord Bot but can be extended and add custom functionality with minimal effort
  */
@@ -38,6 +39,16 @@ class DiscordBot {
             console.log(`Bot is ready ${c.user.tag} on ${this.DataManager.GUILD_NAME}`);
         });
         this.HandleShutDown();
+        //Handle New Message Commands
+        this.BotInstance.on("messageCreate", (message) => __awaiter(this, void 0, void 0, function* () {
+            if (message.author.bot)
+                return;
+            if (message.content.includes(`${this.BotInstance.user}`)) {
+                let comms = new BotMessage_1.default(message.channel);
+                comms.AddFile(`${__dirname}/Pinged.gif`);
+            }
+        }));
+        //Handle a / Command Interaction
         this.BotInstance.on("interactionCreate", (interaction) => __awaiter(this, void 0, void 0, function* () {
             if (!interaction.isChatInputCommand())
                 return;
