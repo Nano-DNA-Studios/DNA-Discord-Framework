@@ -15,7 +15,7 @@ class BotResponse extends BotCommunication_1.default {
     }
     /* <inheritdoc> */
     UpdateCommunication() {
-        let diff = (Date.now() - this.CreatedDate) / 1000;
+        let diff = (Date.now() - this.CreatedDate) / (1000 * 60);
         if (diff > BotCommunication_1.default.MAX_RESPONSE_MINS)
             return console.log("Response has Taken too long, it's been over 15 minutes");
         if (this._MessageInitialized == false) {
