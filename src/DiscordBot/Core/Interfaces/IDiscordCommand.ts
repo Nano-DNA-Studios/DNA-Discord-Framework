@@ -5,12 +5,12 @@ import ICommandOption from "./ICommandOption";
  */
 interface IDiscordCommand {
      /**
-     * The name of the Command, must be Lowercase and Unique
+     *  Unique Lower Case Name Identifying the command, Sets the name to Call the Command in Discord (`/name`)
      */
      CommandName: string;
 
      /**
-      * The description of the Command
+      * Describes what the Command Does or how it functions, Shows the description when hovering over the Command or in the Help Window in Discord
       */
      CommandDescription: string;
 
