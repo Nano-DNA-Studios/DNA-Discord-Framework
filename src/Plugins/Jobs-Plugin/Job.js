@@ -131,7 +131,7 @@ class Job {
             return false;
     }
     SendFile(message_1, filePath_1, largeFileMessage_1) {
-        return __awaiter(this, arguments, void 0, function* (message, filePath, largeFileMessage, maxFileSizeMB = 9.5) {
+        return __awaiter(this, arguments, void 0, function* (message, filePath, largeFileMessage, maxFileSizeMB = Job.MAX_FILE_SIZE_MB) {
             var _a, _b, _c;
             if (!fs_1.default.existsSync(filePath))
                 return;
@@ -188,6 +188,10 @@ class Job {
         });
     }
 }
+/**
+ * Max File Size to Upload to Discord
+ */
+Job.MAX_FILE_SIZE_MB = 7.5;
 /* <inheritdoc> */
 Job.JobSubdirectory = "Job";
 /* <inheritdoc> */

@@ -10,6 +10,11 @@ import BashScriptRunner from "../Bash-Plugin/BashScriptRunner";
 
 abstract class Job implements IJob {
 
+    /**
+     * Max File Size to Upload to Discord
+     */
+    public static MAX_FILE_SIZE_MB: number = 7.5;
+
     /* <inheritdoc> */
     public abstract JobManager: JobManager;
 
@@ -172,7 +177,7 @@ abstract class Job implements IJob {
             return false;
     }
 
-    public async SendFile(message: BotCommunication, filePath: string, largeFileMessage: string, maxFileSizeMB: number = 9.5): Promise<void> {
+    public async SendFile(message: BotCommunication, filePath: string, largeFileMessage: string, maxFileSizeMB: number = Job.MAX_FILE_SIZE_MB): Promise<void> {
         if (!fs.existsSync(filePath))
             return
 
